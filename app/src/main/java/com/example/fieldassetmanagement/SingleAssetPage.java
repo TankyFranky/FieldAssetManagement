@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     // All Spinner option declarations
     private String[] fruitOptions;
 
+    Button nextSave, prevSave;
     TextView longitude, latitude, fruit;
 
     @Override
@@ -69,6 +71,25 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
             Toast.makeText(this, "I/O Exception: " + fileName, Toast.LENGTH_LONG).show();
 
         }
+        // Next and Prev Buttons
+        nextSave = (Button) findViewById(R.id.nextAsset);
+        prevSave = (Button) findViewById(R.id.prevAsset);
+
+        // Next and Prev Button listeners
+        nextSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextAssetView();
+            }
+        });
+
+        prevSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prevAssetView();
+            }
+        });
+
         // Entry Headers
         longitude = (TextView) findViewById(R.id.displayLongitude);
         latitude = (TextView) findViewById(R.id.displayLatitude);
@@ -112,18 +133,33 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
+    //Next Asset View: Save current entries then load next if not at end of file
+    private void nextAssetView() {
+        // save current GUI items to curCSV
+        // save curCSV overtop of old CSV
+        if(row >= curCSV.size()){
+            // EOF reached, do not increase row count
+            Toast.makeText(this, "Last Asset Reached "+ ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
+        }
+        else{
+            // EOF not yet reached, increse row count, update GUI for next Asset
+            row++;
+            // Update GUI
+        }
+    }
 
+    // Support functions: No direct association to current state of GUI
     private List<String[]> loadCSVfromURI(Uri file) throws FileNotFoundException, IOException {
 
         Scanner csvFileScanner = new Scanner(new BufferedReader(new InputStreamReader(getContentResolver().openInputStream(file))));
 
         List<String[]> csvROW = new ArrayList<>();
-        int row = 0;
+        int tempRow = 0;
         while(csvFileScanner.hasNextLine()){
             String line = csvFileScanner.nextLine(); // Get single line from reader
             String[] splitLine = line.split(",");
-            csvROW.add(row, splitLine);
-            row++;
+            csvROW.add(tempRow, splitLine);
+            tempRow++;
         }
         return csvROW;
     }

@@ -35,8 +35,24 @@
 
     <Spinner
         android:id="@+id/fruitEntry"
-        android:layout_width="fill_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="5dp"/>
+    <Button
+        android:id="@+id/nextAsset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Next Asset"
+        android:layout_marginTop="15dp"/>
+    <Button
+        android:id="@+id/prevAsset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Previous Asset"
+        android:layout_marginTop="15dp"/>
+
 
 </LinearLayout>

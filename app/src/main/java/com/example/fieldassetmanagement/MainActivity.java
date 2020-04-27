@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // TODO add display of last asset edited Asset based on entered file
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
