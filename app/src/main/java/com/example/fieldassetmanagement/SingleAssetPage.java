@@ -112,11 +112,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Attach adapter to spinner
         fruitSpinner.setAdapter(sizeAdapter);
-        // Set Spinner selection to current value in curCSV data
-        fruitSpinner.setSelection(Arrays.asList(fruitOptions).indexOf(curCSV.get(row)[0]));
-        fruit.setText(curCSV.get(0)[0]);
-
-
+        
+        pushGUIEntries();
+        // Set all TextViews
+        fruit.setText(curCSV.get(row)[0]);
         longitude.setText(csvURI.toString());
         latitude.setText(fileName);
 
@@ -136,7 +135,9 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     //Next Asset View: Save current entries then load next if not at end of file
     private void nextAssetView() {
         // save current GUI items to curCSV
+        pullGUIEntries();
         // save curCSV overtop of old CSV
+        saveGUIEntries();
         if(row >= curCSV.size()){
             // EOF reached, do not increase row count
             Toast.makeText(this, "Last Asset Reached "+ ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
@@ -144,8 +145,26 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         else{
             // EOF not yet reached, increse row count, update GUI for next Asset
             row++;
-            // Update GUI
+            // Load GUI items based on row
+            pushGUIEntries();
         }
+    }
+
+    private void pullGUIEntries() {
+        String[] curRow = curCSV.get(row); // Get the current content found in current row
+
+        // Pull data from Spinners and load it into StringArray at right location
+        curRow[0] = fruitSpinner.getSelectedItem().toString();
+
+        curCSV.set(row, curRow); // Save modified row back to curCSV
+    }
+
+    private void saveGUIEntries() {
+        
+    }
+
+    private void pushGUIEntries() {
+        fruitSpinner.setSelection(Arrays.asList(fruitOptions).indexOf(curCSV.get(row)[0]));
     }
 
     // Support functions: No direct association to current state of GUI
