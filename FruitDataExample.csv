@@ -1,0 +1,13 @@
+Fruit,Size,Color,Season,Ripe,Shape,Dog Friendly,Latitude,Longitude
+Apple,small,red,summer,yes,sphere,no,17,1
+Grapefruit,medium,orange,summer,no,tube,yes,20,25
+Pear,large,green,fall,no,cube,yes,36,34
+Grapefruit,extra-small,brown,winter,yes,sphere,no,50,45
+Apple,extra-large,red,spring,no,cube,yes,59,65
+Grapefruit,small,red,spring,no,cube,no,60,72
+Grapefruit,large,green,winter,yes,tube,yes,87,77
+Pear,medium,black,winter,no,sphere,no,90,93
+Peach,medium,black,fall,yes,tube,no,117,117
+Orange,large,orange,summer,yes,sphere,yes,121,143
+Apple,extra-small,green,spring,no,cube,no,164,146
+Apple,extra-large,brown,fall,yes,tube,yes,170,170
