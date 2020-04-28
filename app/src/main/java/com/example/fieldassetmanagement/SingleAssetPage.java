@@ -19,8 +19,10 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -101,8 +103,6 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
 
         fruitSpinner.setOnItemSelectedListener(this);
 
-        row = 5;
-
         // Spinner Options
         fruitOptions = getSpinnerOptions(curCSV, 0);
 
@@ -116,11 +116,13 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         
         pushGUIEntries();
         // Set all TextViews
-        fruit.setText(curCSV.get(row)[0]);
+        fruit.setText(curCSV.get(0)[0]);
         longitude.setText(csvURI.toString());
         latitude.setText(fileName);
 
     }
+
+
 
     // Spinner Listeners
     @Override
@@ -137,17 +139,38 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     private void nextAssetView() {
         // save current GUI items to curCSV
         pullGUIEntries();
-        // save curCSV overtop of old CSV
+        // save curCSV over top of old CSV
         saveGUIEntries();
         // save current row to SharedPreferences
         saveRowPreferences();
-        if(row >= curCSV.size()){
+
+        if(row >= curCSV.size()-1){
             // EOF reached, do not increase row count
             Toast.makeText(this, "Last Asset Reached "+ ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
         }
         else{
             // EOF not yet reached, increase row count, update GUI for next Asset
             row++;
+            // Load GUI items based on row
+            pushGUIEntries();
+        }
+    }
+
+    private void prevAssetView() {
+        // save current GUI items to curCSV
+        pullGUIEntries();
+        // save curCSV over top of old CSV
+        saveGUIEntries();
+        // save current row to SharedPreferences
+        saveRowPreferences();
+
+        if(row <= 1){
+            // EOF reached, do not increase row count
+            Toast.makeText(this, "First Asset Reached "+ ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
+        }
+        else{
+            // EOF not yet reached, increase row count, update GUI for next Asset
+            row--;
             // Load GUI items based on row
             pushGUIEntries();
         }
@@ -164,7 +187,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     }
 
     private void saveGUIEntries() {
-        String saveCSV = formatForCSV();
+        String saveCSV = formatForCSV(); // The String that will be saved
 
         //TODO entries must also be saved when the program is shutdown, that way, the next button does not need to be pressed before close (no save necessary)
     }
@@ -220,9 +243,11 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     }
 
     private void saveRowPreferences(){
+        //TODO This has to be called on app close
         SharedPreferences rowPreference = getSharedPreferences(ROW_PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor rowEditor = rowPreference.edit();
         String saveName = fileName;
         rowEditor.putInt(saveName,row);
+        rowEditor.apply();
     }
 }
