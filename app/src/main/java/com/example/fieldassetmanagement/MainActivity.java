@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+//TODO build in a button to export the csv to email/different file transfer places
+
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_SAP_URI = "com.example.fieldassetmanagement.EXTRA_SAP_URI";
     public static final String EXTRA_SAP_ROW = "com.example.fieldassetmanagement.EXTRA_SAP_ROW";
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         row = loadRowPreference(singleAssetURI);
         Intent singleAssetIntent = new Intent(this, SingleAssetPage.class);
         singleAssetIntent.putExtra(EXTRA_SAP_URI, stringURI);
-        singleAssetIntent.putExtra(EXTRA_SAP_ROW, row); //TODO get shared preference
+        singleAssetIntent.putExtra(EXTRA_SAP_ROW, row);
         singleAssetIntent.putExtra(EXTRA_SAP_FILENAME, getFileName(singleAssetURI));
         startActivity(singleAssetIntent);
     }

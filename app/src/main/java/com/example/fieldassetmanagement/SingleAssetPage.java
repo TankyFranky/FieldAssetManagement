@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     private int row;
 
     // Shared Preference Constants
-    public static final String ROW_PREFERENCES = "rowPres";
+    public static final String ROW_PREFERENCES = "rowPrev";
 
     // All Spinner declarations
     private Spinner fruitSpinner;
@@ -138,12 +139,14 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         pullGUIEntries();
         // save curCSV overtop of old CSV
         saveGUIEntries();
+        // save current row to SharedPreferences
+        saveRowPreferences();
         if(row >= curCSV.size()){
             // EOF reached, do not increase row count
             Toast.makeText(this, "Last Asset Reached "+ ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
         }
         else{
-            // EOF not yet reached, increse row count, update GUI for next Asset
+            // EOF not yet reached, increase row count, update GUI for next Asset
             row++;
             // Load GUI items based on row
             pushGUIEntries();
@@ -151,6 +154,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     }
 
     private void pullGUIEntries() {
+        //TODO should activate with saveGUIEntries on App shutdown, read below TODO for details
         String[] curRow = curCSV.get(row); // Get the current content found in current row
 
         // Pull data from Spinners and load it into StringArray at right location
@@ -160,7 +164,9 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     }
 
     private void saveGUIEntries() {
-        
+        String saveCSV = formatForCSV();
+
+        //TODO entries must also be saved when the program is shutdown, that way, the next button does not need to be pressed before close (no save necessary)
     }
 
     private void pushGUIEntries() {
@@ -183,6 +189,21 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         return csvROW;
     }
 
+    private String formatForCSV() {
+        final String delimeter = "\n";
+        StringBuilder formatCSVdata = new StringBuilder();
+        String saveCSVrow;
+        for(String[] thisRow: curCSV){
+            saveCSVrow = String.join(",",thisRow);
+            saveCSVrow = saveCSVrow + delimeter;
+            formatCSVdata.append(saveCSVrow);
+        }
+
+        String saveCSV = formatCSVdata.toString();
+
+        return saveCSV;
+    }
+
     private String[] getSpinnerOptions(List<String[]> master, int column){
         String[] allOptions = new String[master.size()-1]; // -1 to not include first descriptive row
         //TODO add option for when an empty csv (without previous options) is loaded.
@@ -201,7 +222,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     private void saveRowPreferences(){
         SharedPreferences rowPreference = getSharedPreferences(ROW_PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor rowEditor = rowPreference.edit();
-        final String saveName = fileName;
+        String saveName = fileName;
         rowEditor.putInt(saveName,row);
     }
 }
