@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 
 public class SingleAssetPage extends AppCompatActivity implements OnItemSelectedListener{
 
+    //TODO make the app non-rotatable
     private String fileName;
     private List<String[]> curCSV;
     private Uri csvURI;
