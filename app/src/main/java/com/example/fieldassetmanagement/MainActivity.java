@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     Button openCSV;
     TextView csvFileName, uriText;
 
+    //TODO check if file selected is blank
+    //TODO allow export of file to other formats
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

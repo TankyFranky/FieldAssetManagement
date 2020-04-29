@@ -2,6 +2,7 @@ package com.example.fieldassetmanagement;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
 import android.content.SharedPreferences;
 import android.graphics.Path;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -188,7 +189,21 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
 
     private void saveGUIEntries() {
         String saveCSV = formatForCSV(); // The String that will be saved
+        OutputStream overWritter = null;
+        ContentResolver saveResolver = this.getContentResolver();
+        try {
+            overWritter = saveResolver.openOutputStream(csvURI);
+            if (overWritter != null) {
+                overWritter.write(saveCSV.getBytes());
+                overWritter.close();
+                Toast.makeText(this, "Save Successful", Toast.LENGTH_LONG).show();
 
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Save Failure", Toast.LENGTH_LONG).show();
+
+        }
         //TODO entries must also be saved when the program is shutdown, that way, the next button does not need to be pressed before close (no save necessary)
     }
 
@@ -209,6 +224,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
             csvROW.add(tempRow, splitLine);
             tempRow++;
         }
+        csvFileScanner.close();
         return csvROW;
     }
 
