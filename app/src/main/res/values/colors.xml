@@ -3,4 +3,10 @@
     <color name="colorPrimary">#ebb702</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="CompanyColorAlpha">#ebb702</color>
+    <color name="CompanyColorBeta">#FFE179</color>
+    <color name="CompanyColorCharlie">#FFDF71</color>
+    <color name="CompanyColorDelta">#FFF4CF</color>
+    <color name="disable">#DCDCDC</color>
+
 </resources>
