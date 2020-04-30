@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.SharedPreferences;
-import android.graphics.Path;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,16 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -58,9 +53,9 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         setContentView(R.layout.activity_single_asset_page);
 
         Intent openIntent = getIntent();
-        String EXTRA_SAP_URI = openIntent.getStringExtra(MainActivity.EXTRA_SAP_URI);
-        int EXTRA_SAP_ROW = openIntent.getIntExtra(MainActivity.EXTRA_SAP_ROW, 1);
-        String EXTRA_SAP_FILENAME = openIntent.getStringExtra(MainActivity.EXTRA_SAP_FILENAME);
+        String EXTRA_SAP_URI = openIntent.getStringExtra(LandingPage.EXTRA_SAP_URI);
+        int EXTRA_SAP_ROW = openIntent.getIntExtra(LandingPage.EXTRA_SAP_ROW, 1);
+        String EXTRA_SAP_FILENAME = openIntent.getStringExtra(LandingPage.EXTRA_SAP_FILENAME);
         csvURI=Uri.parse(EXTRA_SAP_URI);    // Convert EXTRA_SAP_URI data back to a URI
         fileName = EXTRA_SAP_FILENAME; // Get Short-form fileName from MainActivity
         row = EXTRA_SAP_ROW; // Get loaded Shared Preference Row from MainActivity

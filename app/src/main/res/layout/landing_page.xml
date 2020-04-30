@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="top"
+    android:gravity="top"
+    android:orientation="vertical"
+    tools:context=".LandingPage">
+
+    <ImageView
+        android:id="@+id/CompanyMastHead"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@drawable/rectangle_design_element" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/csvFileDisplay"
+        android:layout_marginBottom="2dp"
+        android:textSize="25sp"
+        android:text="Selected:"/>
+    <TextView
+        android:id="@+id/csvFileDisplay"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fileCreate"
+        android:layout_gravity="center"
+        android:layout_marginBottom="75dp"
+        android:text="No path selected"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/fileSelect"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="289dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/landingpagebutton"
+        android:gravity="center"
+        android:text="Open Existing"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/fileCreate"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fileSelect"
+        android:layout_gravity="center"
+        android:layout_marginBottom="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/landingpagebutton"
+        android:gravity="center"
+        android:text="Start New"
+        android:textColor="#FFFFFF"/>
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/csvProgress"
+        android:layout_width="300dp"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/fileSelect"
+        android:layout_marginBottom="-100dp"
+        android:layout_centerHorizontal="true"
+        android:progressDrawable="@drawable/landing_progress_bar"
+        android:progress="10" />
+
+    <TextView
+        android:id="@+id/numProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/csvProgress"
+        android:layout_alignTop="@+id/csvProgress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:background="#00000000"
+        android:singleLine="true"
+        android:text="Last Edited: 10/50"
+        android:textColor="#C5C4C4"
+        android:textSize="18sp" />
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:gravity="center"
+        android:background="@drawable/rectangle_design_element">
+
+        <Button
+            android:id="@+id/export"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_marginEnd="80dp"
+            android:background="@drawable/landingpagebutton"
+            android:text="Export"
+            tools:ignore="ButtonStyle"
+            android:textColor="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/openCSV"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_marginStart="80dp"
+            android:background="@drawable/landingpagebutton"
+            android:text="Go"
+            tools:ignore="ButtonStyle"
+            android:textColor="#FFFFFF"/>
+    </TableRow>
+
+
+</RelativeLayout>

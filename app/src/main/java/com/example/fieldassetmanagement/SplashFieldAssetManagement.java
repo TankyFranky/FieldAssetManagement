@@ -14,7 +14,7 @@ public class SplashFieldAssetManagement extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EasySplashScreen FieldAssetSplash = new EasySplashScreen(SplashFieldAssetManagement.this)
                 .withFullScreen()
-                .withTargetActivity(MainActivity.class)
+                .withTargetActivity(LandingPage.class)
                 .withSplashTimeOut(1000)
                 .withBackgroundColor(Color.parseColor("#ebb702"))
                 .withFooterText("By: Francesco Marrato")

@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 //TODO build in a button to export the csv to email/different file transfer places
 
-public class MainActivity extends AppCompatActivity {
+public class LandingPage extends AppCompatActivity {
     public static final String EXTRA_SAP_URI = "com.example.fieldassetmanagement.EXTRA_SAP_URI";
     public static final String EXTRA_SAP_ROW = "com.example.fieldassetmanagement.EXTRA_SAP_ROW";
     public static final String EXTRA_SAP_FILENAME = "com.example.fieldassetmanagement.EXTRA_SAP_FILENAME";
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button fileSelect;
     Button openCSV;
-    TextView csvFileName, uriText;
+    TextView csvFileName;
 
     //TODO check if file selected is blank
     //TODO allow export of file to other formats
@@ -37,11 +37,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO add display of last asset edited Asset based on entered file
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.landing_page);
 
         openCSV = (Button) findViewById(R.id.openCSV);
         fileSelect = (Button) findViewById(R.id.fileSelect);
-        uriText = (TextView) findViewById(R.id.uri);
         csvFileName = (TextView) findViewById(R.id.csvFileDisplay);
 
         openCSV.setOnClickListener(new View.OnClickListener() {
@@ -88,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
             if(data != null){
                 csvURI = data.getData();
 
-                Toast.makeText(this, "Uri: " + csvURI, Toast.LENGTH_LONG).show();
-                uriText.setText(csvURI.toString());
                 Toast.makeText(this, "Path: " + csvURI.getPath(), Toast.LENGTH_LONG).show();
                 csvFileName.setText(getFileName(csvURI));
             }
