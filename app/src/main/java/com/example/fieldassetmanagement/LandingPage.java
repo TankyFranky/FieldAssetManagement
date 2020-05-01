@@ -21,13 +21,16 @@ public class LandingPage extends AppCompatActivity {
     public static final String EXTRA_SAP_ROW = "com.example.fieldassetmanagement.EXTRA_SAP_ROW";
     public static final String EXTRA_SAP_FILENAME = "com.example.fieldassetmanagement.EXTRA_SAP_FILENAME";
 
+    public Uri getCsvURI() {
+        return csvURI;
+    }
+
     private Uri csvURI;
     private int row = 0;
 
     private  static final int REQUEST = 69;
 
-    Button fileSelect;
-    Button openCSV;
+    Button fileSelect, openCSV, exportCSV, startNew;
     TextView csvFileName;
 
     //TODO check if file selected is blank
@@ -41,6 +44,8 @@ public class LandingPage extends AppCompatActivity {
 
         openCSV = (Button) findViewById(R.id.openCSV);
         fileSelect = (Button) findViewById(R.id.fileSelect);
+        exportCSV = (Button) findViewById(R.id.export);
+        startNew = (Button) findViewById(R.id.fileCreate);
         csvFileName = (TextView) findViewById(R.id.csvFileDisplay);
 
         openCSV.setOnClickListener(new View.OnClickListener() {
@@ -56,19 +61,46 @@ public class LandingPage extends AppCompatActivity {
                 activateSearch();
             }
         });
+
+        exportCSV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exportSelected();
+            }
+        });
+    }
+
+    private void exportSelected() {
+        if(csvURI != null) {
+            Intent exportIntent = new Intent(Intent.ACTION_SEND);
+            exportIntent.setType("text/csv");
+            exportIntent.putExtra(Intent.EXTRA_SUBJECT, "_exported");
+            exportIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            exportIntent.putExtra(Intent.EXTRA_STREAM, getCsvURI());
+            startActivity(Intent.createChooser(exportIntent,"Export from Field Asset Management."));
+
+        }
+
+        else{
+            Toast.makeText(this, "No File Selected" , Toast.LENGTH_LONG).show();
+        }
     }
 
     private void openSingleAssetPage() {
-        //TODO Check if a file has been selected
-        //TODO Chrashes when no file is selected
-        Uri singleAssetURI = csvURI;
-        String stringURI =  singleAssetURI.toString();
-        row = loadRowPreference(singleAssetURI);
-        Intent singleAssetIntent = new Intent(this, SingleAssetPage.class);
-        singleAssetIntent.putExtra(EXTRA_SAP_URI, stringURI);
-        singleAssetIntent.putExtra(EXTRA_SAP_ROW, row);
-        singleAssetIntent.putExtra(EXTRA_SAP_FILENAME, getFileName(singleAssetURI));
-        startActivity(singleAssetIntent);
+        if(csvURI != null) {
+            Uri singleAssetURI = csvURI;
+            String stringURI = singleAssetURI.toString();
+            row = loadRowPreference(singleAssetURI);
+            Intent singleAssetIntent = new Intent(this, SingleAssetPage.class);
+            singleAssetIntent.putExtra(EXTRA_SAP_URI, stringURI);
+            singleAssetIntent.putExtra(EXTRA_SAP_ROW, row);
+            singleAssetIntent.putExtra(EXTRA_SAP_FILENAME, getFileName(singleAssetURI));
+            startActivity(singleAssetIntent);
+        }
+
+        else{
+            Toast.makeText(this, "No File Selected" , Toast.LENGTH_LONG).show();
+        }
     }
 
     private void activateSearch() {
