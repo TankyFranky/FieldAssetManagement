@@ -11,8 +11,15 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 
 //TODO build in a button to export the csv to email/different file transfer places
 
@@ -29,24 +36,37 @@ public class LandingPage extends AppCompatActivity {
     private int row = 0;
 
     private  static final int REQUEST = 69;
-
+    ProgressBar csvProg;
     Button fileSelect, openCSV, exportCSV, startNew;
-    TextView csvFileName;
+    TextView csvFileName, progText;
 
     //TODO check if file selected is blank
-    //TODO allow export of file to other formats
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        try {
+            activateProgress();
+        } catch (IOException e) {
+            ;
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO add display of last asset edited Asset based on entered file
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.landing_page);
+        setContentView(R.layout.activity_landing_page);
 
         openCSV = (Button) findViewById(R.id.openCSV);
         fileSelect = (Button) findViewById(R.id.fileSelect);
         exportCSV = (Button) findViewById(R.id.export);
         startNew = (Button) findViewById(R.id.fileCreate);
+
+        csvProg = (ProgressBar) findViewById(R.id.csvProgress);
+
         csvFileName = (TextView) findViewById(R.id.csvFileDisplay);
+        progText = (TextView) findViewById(R.id.numProgress);
 
         openCSV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +88,23 @@ public class LandingPage extends AppCompatActivity {
                 exportSelected();
             }
         });
+    }
+
+
+    private void activateProgress() throws IOException {
+        //Get total amount of entries
+        int totalProg = getRow(csvURI)-1;
+        //Get the last entry
+        int curProg = loadRowPreference(getCsvURI());
+
+        String progString = "Last Edited " + Integer.toString(curProg) + "/" + Integer.toString(totalProg);
+
+        //Set the progress bar
+        progText.setVisibility(View.VISIBLE);
+        progText.setText(progString);
+        csvProg.setVisibility(View.VISIBLE);
+        csvProg.setMax(totalProg);
+        csvProg.setProgress(curProg,true);
     }
 
     private void exportSelected() {
@@ -121,6 +158,13 @@ public class LandingPage extends AppCompatActivity {
 
                 Toast.makeText(this, "Path: " + csvURI.getPath(), Toast.LENGTH_LONG).show();
                 csvFileName.setText(getFileName(csvURI));
+
+                try {
+                    activateProgress();
+                } catch (IOException e) {
+                    ;
+                }
+
             }
         }
     }
@@ -146,6 +190,18 @@ public class LandingPage extends AppCompatActivity {
         }
         return result;
     }
+
+    private int getRow(Uri file) throws FileNotFoundException, IOException {
+        Scanner csvFileScanner = new Scanner(new BufferedReader(new InputStreamReader(getContentResolver().openInputStream(file))));
+        int tempRow = 0;
+        while(csvFileScanner.hasNextLine()){
+            csvFileScanner.nextLine();
+            tempRow++;
+        }
+        csvFileScanner.close();
+        return tempRow;
+    }
+
 
     public int loadRowPreference(Uri fileURI){
         SharedPreferences rowPreference = getSharedPreferences(SingleAssetPage.ROW_PREFERENCES, MODE_PRIVATE);

@@ -34,7 +34,7 @@
         android:textSize="15sp" />
 
     <Spinner
-        android:id="@+id/fruitEntry"
+        android:id="@+id/fruitName"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -53,6 +53,13 @@
         android:layout_gravity="center"
         android:text="Previous Asset"
         android:layout_marginTop="15dp"/>
+
+    <Spinner
+        android:id="@+id/colourEntry"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"/>
 
 
 </LinearLayout>

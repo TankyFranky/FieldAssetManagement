@@ -96,7 +96,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         fruit = (TextView) findViewById(R.id.fruitHeader);
 
         // Entry Spinners
-        fruitSpinner = (Spinner) findViewById(R.id.fruitEntry);
+        fruitSpinner = (Spinner) findViewById(R.id.fruitName);
 
         fruitSpinner.setOnItemSelectedListener(this);
 
@@ -206,8 +206,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     private void pushGUIEntries() {
         fruitSpinner.setSelection(Arrays.asList(fruitOptions).indexOf(curCSV.get(row)[0]));
     }
+    /////////////////////////////////////////////////////////////////////
+    // Support functions: No direct association to current state of GUI//
+    /////////////////////////////////////////////////////////////////////
 
-    // Support functions: No direct association to current state of GUI
     private List<String[]> loadCSVfromURI(Uri file) throws FileNotFoundException, IOException {
 
         Scanner csvFileScanner = new Scanner(new BufferedReader(new InputStreamReader(getContentResolver().openInputStream(file))));
