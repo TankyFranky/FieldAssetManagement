@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,10 +40,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     public static final String ROW_PREFERENCES = "rowPrev";
 
     // All Spinner declarations
-    private Spinner fruitSpinner;
+    private Spinner fruitName, fruitColour;
 
     // All Spinner option declarations
-    private String[] fruitOptions;
+    private String[] fruitNameOptions, fruitColourOptions;
 
     Button nextSave, prevSave;
     TextView longitude, latitude, fruit;
@@ -71,46 +72,9 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
             Toast.makeText(this, "I/O Exception: " + fileName, Toast.LENGTH_LONG).show();
 
         }
-        // Next and Prev Buttons
-        nextSave = (Button) findViewById(R.id.nextAsset);
-        prevSave = (Button) findViewById(R.id.prevAsset);
 
-        // Next and Prev Button listeners
-        nextSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextAssetView();
-            }
-        });
+        setupGUIEntries();
 
-        prevSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prevAssetView();
-            }
-        });
-
-        // Entry Headers
-        longitude = (TextView) findViewById(R.id.displayLongitude);
-        latitude = (TextView) findViewById(R.id.displayLatitude);
-        fruit = (TextView) findViewById(R.id.fruitHeader);
-
-        // Entry Spinners
-        fruitSpinner = (Spinner) findViewById(R.id.fruitName);
-
-        fruitSpinner.setOnItemSelectedListener(this);
-
-        // Spinner Options
-        fruitOptions = getSpinnerOptions(curCSV, 0);
-
-        // Spinner adapter
-        ArrayAdapter<String> sizeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fruitOptions);
-
-        // Dropdown Spinner Style
-        sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Attach adapter to spinner
-        fruitSpinner.setAdapter(sizeAdapter);
-        
         pushGUIEntries();
         // Set all TextViews
         fruit.setText(curCSV.get(0)[0]);
@@ -119,13 +83,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
 
     }
 
-
-
-    // Spinner Listeners
+    // General Spinner Listeners
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
-        // Save the new data to curCSV so that onSave it is changed
     }
 
     @Override
@@ -178,7 +139,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         String[] curRow = curCSV.get(row); // Get the current content found in current row
 
         // Pull data from Spinners and load it into StringArray at right location
-        curRow[0] = fruitSpinner.getSelectedItem().toString();
+        curRow[2] = fruitColour.getSelectedItem().toString();
 
         curCSV.set(row, curRow); // Save modified row back to curCSV
     }
@@ -204,8 +165,103 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     }
 
     private void pushGUIEntries() {
-        fruitSpinner.setSelection(Arrays.asList(fruitOptions).indexOf(curCSV.get(row)[0]));
+        fruitName.setSelection(Arrays.asList(fruitNameOptions).indexOf(curCSV.get(row)[0]));
+        fruitColour.setSelection(Arrays.asList(fruitColourOptions).indexOf(curCSV.get(row)[2]));
+
     }
+
+    private void setupGUIEntries() {
+        // Link variable to XML ID
+
+        // Next and Prev Buttons
+        nextSave = (Button) findViewById(R.id.nextAsset);
+        prevSave = (Button) findViewById(R.id.prevAsset);
+
+        // Next and Prev Button listeners
+        nextSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextAssetView();
+            }
+        });
+        prevSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prevAssetView();
+            }
+        });
+
+
+        // Entry Headers
+        longitude = (TextView) findViewById(R.id.displayLongitude);
+        latitude = (TextView) findViewById(R.id.displayLatitude);
+        fruit = (TextView) findViewById(R.id.fruitHeader);
+
+        // Entry Spinners
+        fruitName = (Spinner) findViewById(R.id.fruitName);
+        fruitColour = (Spinner) findViewById(R.id.colourEntry);
+
+        // Spinner Listeners
+        fruitName.setOnItemSelectedListener(this);
+        fruitColour.setOnItemSelectedListener(this);
+
+        // Spinner Options
+        fruitNameOptions = getSpinnerOptions(curCSV, 0);
+        fruitColourOptions = getSpinnerOptions(curCSV, 2);
+
+        // Spinner adapters
+        ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fruitNameOptions);
+        ArrayAdapter<String> colourAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fruitColourOptions);
+
+        // Dropdown Spinner Styles
+        nameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        colourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Attach adapter to spinners
+        fruitName.setAdapter(nameAdapter);
+        fruitColour.setAdapter(colourAdapter);
+
+        fruitName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // save current GUI items to curCSV
+                pullGUIEntries();
+                // save curCSV over top of old CSV
+                saveGUIEntries();
+                // save current row to SharedPreferences
+                saveRowPreferences();
+                // get chosen item from list and find its row number in curCSV
+                row = getRowIndex(fruitName.getSelectedItem().toString());
+                // update rest of GUI entries
+                pushGUIEntries();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+    }
+
+    private int getRowIndex(String stringValue) {
+        String[] indexRow = null;
+        for(String[] thisRow: curCSV){
+            indexRow = thisRow;
+            if(Arrays.asList(indexRow).indexOf(stringValue) != -1){
+                break;
+            }
+        }
+
+        return curCSV.indexOf(indexRow);
+    }
+
+    //TODO clean all toast messages
+
     /////////////////////////////////////////////////////////////////////
     // Support functions: No direct association to current state of GUI//
     /////////////////////////////////////////////////////////////////////

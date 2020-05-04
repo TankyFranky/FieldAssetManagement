@@ -20,7 +20,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".SingleAssetPage"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".SplashFieldAssetManagement"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>

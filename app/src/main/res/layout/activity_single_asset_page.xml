@@ -1,29 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="top"
+    android:gravity="top"
     android:orientation="vertical"
     tools:context=".SingleAssetPage">
 
-    <TextView
-        android:id="@+id/displayLongitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TableRow
+        android:id="@+id/row1"
+        android:layout_below="@+id/CompanyMastHead"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="URI"
-        android:textSize="25sp" />
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:background="@color/CompanyColorBeta">
+        <Button
+            android:id="@+id/prevAsset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prevt"
+            android:background="@drawable/landingpagebutton"
+            android:layout_column="0"/>
+        <Spinner
+            android:id="@+id/fruitName"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/nextAsset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:background="@drawable/landingpagebutton"
+            android:layout_column="2"/>
+    </TableRow>
 
-    <TextView
-        android:id="@+id/displayLatitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+    <TableRow
+        android:layout_below="@+id/row1"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
         android:layout_gravity="center"
-        android:text="Path"
-        android:textSize="25sp" />
+        android:gravity="center"
+        android:background="@color/CompanyColorBeta">
+
+        <TextView
+            android:id="@+id/displayLongitude"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="URI"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:layout_column="0"/>
+
+        <ImageButton
+            android:id="@+id/mapsButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_column="1"
+            android:background="@drawable/landingpagebutton"
+            android:scaleType="fitCenter"
+            android:src="@drawable/locatepng" />
+        <TextView
+            android:id="@+id/displayLatitude"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Path"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_column="2"/>
+
+    </TableRow>
+
+
+
+    <ImageView
+        android:id="@+id/CompanyMastHead"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@drawable/rectangle_design_element" />
+
     <TextView
         android:id="@+id/fruitHeader"
         android:layout_width="wrap_content"
@@ -34,27 +95,6 @@
         android:textSize="15sp" />
 
     <Spinner
-        android:id="@+id/fruitName"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"/>
-    <Button
-        android:id="@+id/nextAsset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Next Asset"
-        android:layout_marginTop="15dp"/>
-    <Button
-        android:id="@+id/prevAsset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Previous Asset"
-        android:layout_marginTop="15dp"/>
-
-    <Spinner
         android:id="@+id/colourEntry"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -62,4 +102,4 @@
         android:layout_marginTop="5dp"/>
 
 
-</LinearLayout>
+</RelativeLayout>
