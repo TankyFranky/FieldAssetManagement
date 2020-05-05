@@ -9,6 +9,12 @@
     android:orientation="vertical"
     tools:context=".SingleAssetPage">
 
+    <ImageView
+        android:id="@+id/CompanyMastHead"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@drawable/rectangle_design_element" />
+
     <TableRow
         android:id="@+id/row1"
         android:layout_below="@+id/CompanyMastHead"
@@ -23,38 +29,48 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Prevt"
+            android:textColor="@color/CompanyColorDelta"
             android:background="@drawable/landingpagebutton"
+            android:layout_margin="8dp"
             android:layout_column="0"/>
         <Spinner
             android:id="@+id/fruitName"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_column="1"
+            android:background="@drawable/single_asset_page_textview"
             android:gravity="center"/>
         <Button
             android:id="@+id/nextAsset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Next"
+            android:textColor="@color/CompanyColorDelta"
             android:background="@drawable/landingpagebutton"
+            android:layout_margin="8dp"
             android:layout_column="2"/>
     </TableRow>
 
     <TableRow
+        android:id="@+id/row2"
         android:layout_below="@+id/row1"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:layout_marginTop="0dp"
         android:gravity="center"
         android:background="@color/CompanyColorBeta">
 
         <TextView
             android:id="@+id/displayLongitude"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:text="URI"
-            android:textSize="25sp"
+            android:text="Latitude"
+            android:textSize="18sp"
             android:gravity="center"
+            android:background="@drawable/single_asset_page_textview"
+            android:layout_margin="5dp"
+            android:maxLines="1"
             android:layout_column="0"/>
 
         <ImageButton
@@ -64,26 +80,71 @@
             android:layout_column="1"
             android:background="@drawable/landingpagebutton"
             android:scaleType="fitCenter"
-            android:src="@drawable/locatepng" />
+            android:src="@drawable/locate_png" />
+
         <TextView
             android:id="@+id/displayLatitude"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:text="Path"
-            android:textSize="25sp"
+            android:text="Longitude"
+            android:textSize="18sp"
             android:gravity="center"
             android:layout_gravity="center"
+            android:background="@drawable/single_asset_page_textview"
+            android:layout_margin="5dp"
+            android:maxLines="1"
             android:layout_column="2"/>
 
     </TableRow>
 
-
-
-    <ImageView
-        android:id="@+id/CompanyMastHead"
+    <ScrollView
+        android:id="@+id/checkSheet"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:background="@drawable/rectangle_design_element" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/chinBar"
+        android:layout_below="@+id/row2"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp">
+        <LinearLayout
+            android:id="@+id/checkSheetStack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/textAlpha"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_column="0"
+                        android:text="column1Text">
+
+                    </TextView>
+                    <TextView
+                        android:id="@+id/textBeta"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_column="1"
+                        android:text="column2Text">
+
+                    </TextView>
+
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
     <TextView
         android:id="@+id/fruitHeader"
@@ -100,6 +161,40 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"/>
+
+    <TableRow
+        android:id="@+id/chinBar"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:gravity="center"
+        android:background="@drawable/rectangle_design_element">
+
+        <Button
+            android:id="@+id/getGPS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_marginEnd="80dp"
+            android:background="@drawable/landingpagebutton"
+            android:text="Get "
+            tools:ignore="ButtonStyle"
+            android:drawableEnd="@drawable/get_gps"
+            android:textColor="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/addNew"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_marginStart="80dp"
+            android:background="@drawable/landingpagebutton"
+            android:text="Add"
+            android:scaleType="fitCenter"
+            tools:ignore="ButtonStyle"
+            android:textColor="#FFFFFF"/>
+    </TableRow>
 
 
 </RelativeLayout>
