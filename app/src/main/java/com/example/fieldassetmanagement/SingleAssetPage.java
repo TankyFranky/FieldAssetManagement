@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     // All Spinner option declarations
     private String[] AssetNameOptions, C1LOptions, C1ROptions;
 
+    ImageButton mapsButton;
     Button nextSave, prevSave;
     TextView longitude, latitude, C1Ltext, C1Rtext;
 
@@ -171,7 +173,14 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
 
     private void setupGUIEntries() {
         // Link variable to XML ID
-
+        // Open in Maps Button
+        mapsButton = (ImageButton) findViewById(R.id.mapsButton);
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMaps();
+            }
+        });
         // Next and Prev Buttons
         nextSave = (Button) findViewById(R.id.nextAsset);
         prevSave = (Button) findViewById(R.id.prevAsset);
@@ -259,6 +268,35 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
 
 
 
+    }
+
+    private void openMaps() {
+        // TODO test if non-numerics cause a crash
+        float mapsLat;
+        float mapsLon;
+        String mapURI;
+        try{
+            // Get latitude and longitude values
+            mapsLat = Float.parseFloat(latitude.getText().toString());
+            mapsLon = Float.parseFloat(longitude.getText().toString());
+            // Check if they are valid lats and longs
+            if((mapsLat >= -90 && mapsLat <= 90)||(mapsLon >= -180 && mapsLon <= 180)){
+                //send to maps
+                mapURI = "geo:0,0?q="+latitude.getText().toString()+","+longitude.getText().toString()+"("+AssetName.getSelectedItem().toString()+")";
+                Uri openMaps = Uri.parse(mapURI);
+                Intent openMapsIntent = new Intent(Intent.ACTION_VIEW, openMaps);
+                openMapsIntent.setPackage("com.google.android.apps.maps");
+                startActivity(openMapsIntent);
+            }
+            else{
+                throw new NumberFormatException("Map Error");
+            }
+        }
+
+        catch (NumberFormatException e){
+            Toast.makeText(this, "Not valid lat/lon combination.",Toast.LENGTH_LONG).show();
+        }
+        // Open maps, setting a pin at that location
     }
 
     private int getRowIndex(String stringValue) {

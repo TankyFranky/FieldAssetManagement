@@ -59,6 +59,7 @@
         android:background="@drawable/landingpagebutton"
         android:gravity="center"
         android:text="Start New"
+        android:enabled="false"
         android:textColor="#FFFFFF"/>
 
     <ProgressBar

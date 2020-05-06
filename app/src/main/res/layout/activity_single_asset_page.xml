@@ -64,7 +64,7 @@
         android:background="@color/CompanyColorBeta">
 
         <TextView
-            android:id="@+id/displayLongitude"
+            android:id="@+id/displayLatitude"
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:text="Latitude"
@@ -85,7 +85,7 @@
             android:src="@drawable/locate_png" />
 
         <TextView
-            android:id="@+id/displayLatitude"
+            android:id="@+id/displayLongitude"
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:text="Longitude"
