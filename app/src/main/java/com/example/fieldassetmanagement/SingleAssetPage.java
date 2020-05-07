@@ -46,7 +46,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     private String[] AssetNameOptions, C1LOptions, C1ROptions;
 
     ImageButton mapsButton;
-    Button nextSave, prevSave;
+    Button nextSave, prevSave, photoL, photoR;
     TextView longitude, latitude, C1Ltext, C1Rtext;
 
     @Override
@@ -184,6 +184,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         // Next and Prev Buttons
         nextSave = (Button) findViewById(R.id.nextAsset);
         prevSave = (Button) findViewById(R.id.prevAsset);
+
+        photoL = (Button) findViewById(R.id.photoL);
+        photoR = (Button) findViewById(R.id.photoR);
+        setPhotoSize();
 
         // Next and Prev Button listeners
         nextSave.setOnClickListener(new View.OnClickListener() {
@@ -371,5 +375,12 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         String saveName = fileName;
         rowEditor.putInt(saveName,row);
         rowEditor.apply();
+    }
+
+    private void setPhotoSize() {
+        int lH = photoL.getWidth();
+        int rH = photoL.getWidth();
+        photoL.setHeight(lH);
+        photoR.setHeight(rH);
     }
 }
