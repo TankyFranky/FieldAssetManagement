@@ -1,13 +1,14 @@
 package com.example.fieldassetmanagement;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 //TODO build in a button to export the csv to email/different file transfer places
 
@@ -34,6 +39,7 @@ public class LandingPage extends AppCompatActivity {
 
     private Uri csvURI;
     private int row = 0;
+    private int STORAGE_REQUEST = 31;
 
     private  static final int REQUEST = 69;
     ProgressBar csvProg;
@@ -44,12 +50,13 @@ public class LandingPage extends AppCompatActivity {
     @Override
     protected void onRestart(){
         super.onRestart();
-        try {
-            activateProgress();
-        } catch (IOException e) {
-            ;
+        if(csvURI != null) {
+            try {
+                activateProgress();
+            } catch (IOException e) {
+                ;
+            }
         }
-
     }
 
     @Override
@@ -75,6 +82,8 @@ public class LandingPage extends AppCompatActivity {
             }
         });
 
+        checkPermissions();
+
         fileSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -90,10 +99,24 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
+    private void checkPermissions() {
+        // TODO add permissions dialog
+        if (ContextCompat.checkSelfPermission(LandingPage.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            //If permissions already are allowed
+            fileSelect.setEnabled(true);
+            startNew.setEnabled(true);
+        }
+        else{
+            //If permissions are not allowed
+            fileSelect.setEnabled(false);
+            startNew.setEnabled(false);
+        }
+
+    }
 
     private void activateProgress() throws IOException {
         //Get total amount of entries
-        int totalProg = getRow(csvURI)-1;
+        int totalProg = getRow(csvURI)-1; // subtract one to avoid including the headers as progress
         //Get the last entry
         int curProg = loadRowPreference(getCsvURI());
 
@@ -165,7 +188,25 @@ public class LandingPage extends AppCompatActivity {
                     ;
                 }
 
+                createImageFolder();
+
             }
+        }
+    }
+
+    private void createImageFolder() {
+        String folderName = removeExtension(getFileName(csvURI)) + "_img"; //create folder name
+        String state = Environment.getExternalStorageState(); //Check if storage is mounted
+        if(Environment.MEDIA_MOUNTED.equals(state)){
+            File assetPhotos = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), folderName); //create public directory
+            if(!assetPhotos.exists()) { //if it does not already exit then create it
+                if (!assetPhotos.mkdir()) {
+                    Toast.makeText(this, "Could not create folder " + assetPhotos.getPath(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        else {
+            Toast.makeText(this, "No mounted Storage.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -190,6 +231,28 @@ public class LandingPage extends AppCompatActivity {
         }
         return result;
     }
+
+    private static String removeExtension(String s) {
+
+        String separator = System.getProperty("file.separator");
+        String filename;
+
+        // Remove the path upto the filename.
+        int lastSeparatorIndex = s.lastIndexOf(separator);
+        if (lastSeparatorIndex == -1) {
+            filename = s;
+        } else {
+            filename = s.substring(lastSeparatorIndex + 1);
+        }
+
+        // Remove the extension.
+        int extensionIndex = filename.lastIndexOf(".");
+        if (extensionIndex == -1)
+            return filename;
+
+        return filename.substring(0, extensionIndex);
+    }
+
 
     private int getRow(Uri file) throws FileNotFoundException, IOException {
         Scanner csvFileScanner = new Scanner(new BufferedReader(new InputStreamReader(getContentResolver().openInputStream(file))));
