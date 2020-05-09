@@ -1,15 +1,14 @@
+//TODO add a code copyright
 package com.example.fieldassetmanagement;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentResolver;
-import android.content.SharedPreferences;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -28,12 +27,13 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class SingleAssetPage extends AppCompatActivity implements OnItemSelectedListener{
 
-    //TODO make the app non-rotatable
     private String fileName;
     private List<String[]> curCSV;
-    private Uri csvURI;
+    private Uri csvURI, imageURI;
     private int row;
 
     // Shared Preference Constants
@@ -54,14 +54,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_asset_page);
 
-        Intent openIntent = getIntent();
-        String EXTRA_SAP_URI = openIntent.getStringExtra(LandingPage.EXTRA_SAP_URI);
-        int EXTRA_SAP_ROW = openIntent.getIntExtra(LandingPage.EXTRA_SAP_ROW, 1);
-        String EXTRA_SAP_FILENAME = openIntent.getStringExtra(LandingPage.EXTRA_SAP_FILENAME);
-        csvURI=Uri.parse(EXTRA_SAP_URI);    // Convert EXTRA_SAP_URI data back to a URI
-        fileName = EXTRA_SAP_FILENAME; // Get Short-form fileName from MainActivity
-        row = EXTRA_SAP_ROW; // Get loaded Shared Preference Row from MainActivity
-
+        getExtraData();
         // Load data from selected CSV file
         try {
             curCSV = loadCSVfromURI(csvURI);   // Load 2D arrayList from File
@@ -75,6 +68,18 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         }
         setupGUIEntries();
         pushGUIEntries();
+    }
+
+    private void getExtraData() {
+        Intent openIntent = getIntent();
+        String EXTRA_SAP_ASSET_URI = openIntent.getStringExtra(LandingPage.EXTRA_SAP_ASSET_URI);
+        String EXTRA_SAP_IMAGE_URI = openIntent.getStringExtra(LandingPage.EXTRA_SAP_IMAGE_URI);
+        int EXTRA_SAP_ROW = openIntent.getIntExtra(LandingPage.EXTRA_SAP_ROW, 1);
+        String EXTRA_SAP_FILENAME = openIntent.getStringExtra(LandingPage.EXTRA_SAP_FILENAME);
+        csvURI=Uri.parse(EXTRA_SAP_ASSET_URI);    // Convert EXTRA_SAP_ASSET_URI data back to a URI
+        imageURI=Uri.parse(EXTRA_SAP_IMAGE_URI); // Convert EXTRA_SAP_IMAGE_URI data back to URI
+        fileName = EXTRA_SAP_FILENAME; // Get Short-form fileName from MainActivity
+        row = EXTRA_SAP_ROW; // Get loaded Shared Preference Row from MainActivity
     }
 
     // General Spinner Listeners
@@ -185,10 +190,15 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         nextSave = (Button) findViewById(R.id.nextAsset);
         prevSave = (Button) findViewById(R.id.prevAsset);
 
-        photoL = (Button) findViewById(R.id.photoL);
-        photoR = (Button) findViewById(R.id.photoR);
-        setPhotoSize();
-
+        if(imageURI != null) {
+            photoL = (Button) findViewById(R.id.photoL);
+            photoR = (Button) findViewById(R.id.photoR);
+            setPhotoSize();
+        }
+        else{   // If no folder could be created than do not show the camera buttons
+            photoL.setVisibility(View.GONE);
+            photoR.setVisibility(View.GONE);
+        }
         // Next and Prev Button listeners
         nextSave.setOnClickListener(new View.OnClickListener() {
             @Override

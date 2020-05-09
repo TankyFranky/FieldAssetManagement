@@ -29,7 +29,8 @@ import androidx.core.content.ContextCompat;
 //TODO build in a button to export the csv to email/different file transfer places
 
 public class LandingPage extends AppCompatActivity {
-    public static final String EXTRA_SAP_URI = "com.example.fieldassetmanagement.EXTRA_SAP_URI";
+    public static final String EXTRA_SAP_ASSET_URI = "com.example.fieldassetmanagement.EXTRA_SAP_ASSET_URI";
+    public static final String EXTRA_SAP_IMAGE_URI = "com.example.fieldassetmanagement.EXTRA_SAP_IMAGE_URI";
     public static final String EXTRA_SAP_ROW = "com.example.fieldassetmanagement.EXTRA_SAP_ROW";
     public static final String EXTRA_SAP_FILENAME = "com.example.fieldassetmanagement.EXTRA_SAP_FILENAME";
 
@@ -37,7 +38,7 @@ public class LandingPage extends AppCompatActivity {
         return csvURI;
     }
 
-    private Uri csvURI;
+    private Uri csvURI, imageURI;
     private int row = 0;
     private int STORAGE_REQUEST = 31;
 
@@ -149,10 +150,13 @@ public class LandingPage extends AppCompatActivity {
     private void openSingleAssetPage() {
         if(csvURI != null) {
             Uri singleAssetURI = csvURI;
-            String stringURI = singleAssetURI.toString();
+            Uri assetImageURI = imageURI;
+            String stringAssetURI = singleAssetURI.toString();
+            String stringImageURI = assetImageURI.toString();
             row = loadRowPreference(singleAssetURI);
             Intent singleAssetIntent = new Intent(this, SingleAssetPage.class);
-            singleAssetIntent.putExtra(EXTRA_SAP_URI, stringURI);
+            singleAssetIntent.putExtra(EXTRA_SAP_ASSET_URI, stringAssetURI);
+            singleAssetIntent.putExtra(EXTRA_SAP_IMAGE_URI, stringImageURI);
             singleAssetIntent.putExtra(EXTRA_SAP_ROW, row);
             singleAssetIntent.putExtra(EXTRA_SAP_FILENAME, getFileName(singleAssetURI));
             startActivity(singleAssetIntent);
@@ -203,6 +207,10 @@ public class LandingPage extends AppCompatActivity {
                 if (!assetPhotos.mkdir()) {
                     Toast.makeText(this, "Could not create folder " + assetPhotos.getPath(), Toast.LENGTH_LONG).show();
                 }
+
+            }
+            else{
+                imageURI = Uri.fromFile(assetPhotos);
             }
         }
         else {
