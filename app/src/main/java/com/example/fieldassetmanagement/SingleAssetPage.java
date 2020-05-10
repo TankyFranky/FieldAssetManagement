@@ -4,6 +4,7 @@ package com.example.fieldassetmanagement;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -12,11 +13,13 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,6 +48,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     // All Spinner option declarations
     private String[] AssetNameOptions, C1LOptions, C1ROptions;
 
+    ImageView mastHead;
     ImageButton mapsButton;
     Button nextSave, prevSave, photoL, photoR;
     TextView longitude, latitude, C1Ltext, C1Rtext;
@@ -76,8 +80,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         String EXTRA_SAP_IMAGE_URI = openIntent.getStringExtra(LandingPage.EXTRA_SAP_IMAGE_URI);
         int EXTRA_SAP_ROW = openIntent.getIntExtra(LandingPage.EXTRA_SAP_ROW, 1);
         String EXTRA_SAP_FILENAME = openIntent.getStringExtra(LandingPage.EXTRA_SAP_FILENAME);
-        csvURI=Uri.parse(EXTRA_SAP_ASSET_URI);    // Convert EXTRA_SAP_ASSET_URI data back to a URI
-        imageURI=Uri.parse(EXTRA_SAP_IMAGE_URI); // Convert EXTRA_SAP_IMAGE_URI data back to URI
+        csvURI = Uri.parse(EXTRA_SAP_ASSET_URI); // Convert EXTRA_SAP_ASSET_URI data back to a URI
+        if(EXTRA_SAP_IMAGE_URI != null) {
+            imageURI=Uri.parse(EXTRA_SAP_IMAGE_URI); // Convert EXTRA_SAP_IMAGE_URI data back to URI
+        }
         fileName = EXTRA_SAP_FILENAME; // Get Short-form fileName from MainActivity
         row = EXTRA_SAP_ROW; // Get loaded Shared Preference Row from MainActivity
     }
@@ -174,10 +180,23 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         C1LSpin.setSelection(Arrays.asList(C1LOptions).indexOf(curCSV.get(row)[1]));
         C1RSpin.setSelection(Arrays.asList(C1ROptions).indexOf(curCSV.get(row)[2]));
 
+        Uri lPhotoURI = Uri.withAppendedPath(imageURI,curCSV.get(row)[17]);
+        Uri rPhotoURI = Uri.withAppendedPath(imageURI,curCSV.get(row)[18]);
+
+        if(imageFound(lPhotoURI)) { photoL.setBackground(Drawable.createFromPath(lPhotoURI.getPath())); // Display the found image
+        }
+        else{ photoL.setBackground(getDrawable(R.drawable.harold)); // Display stock photo
+        }
+        if(imageFound(rPhotoURI)){ photoR.setBackground(Drawable.createFromPath(rPhotoURI.getPath()));
+        }
+        else{ photoR.setBackground(getDrawable(R.drawable.harold));}
+
     }
 
     private void setupGUIEntries() {
         // Link variable to XML ID
+        // MastHead
+        mastHead = (ImageView) findViewById(R.id.CompanyMastHead);
         // Open in Maps Button
         mapsButton = (ImageButton) findViewById(R.id.mapsButton);
         mapsButton.setOnClickListener(new View.OnClickListener() {
@@ -190,9 +209,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         nextSave = (Button) findViewById(R.id.nextAsset);
         prevSave = (Button) findViewById(R.id.prevAsset);
 
+        photoL = (Button) findViewById(R.id.photoL);
+        photoR = (Button) findViewById(R.id.photoR);
+
         if(imageURI != null) {
-            photoL = (Button) findViewById(R.id.photoL);
-            photoR = (Button) findViewById(R.id.photoR);
             setPhotoSize();
         }
         else{   // If no folder could be created than do not show the camera buttons
@@ -345,6 +365,14 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         }
         csvFileScanner.close();
         return csvROW;
+    }
+
+    private boolean imageFound(Uri photoURI){
+        File checkFile = new File(photoURI.getPath());
+        if(checkFile.exists()){
+            return true;
+        }
+        else return false;
     }
 
     private String formatForCSV() {

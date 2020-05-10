@@ -151,8 +151,11 @@ public class LandingPage extends AppCompatActivity {
         if(csvURI != null) {
             Uri singleAssetURI = csvURI;
             Uri assetImageURI = imageURI;
+            String stringImageURI = null;
             String stringAssetURI = singleAssetURI.toString();
-            String stringImageURI = assetImageURI.toString();
+            if (assetImageURI != null) {
+                stringImageURI = assetImageURI.toString();
+            }
             row = loadRowPreference(singleAssetURI);
             Intent singleAssetIntent = new Intent(this, SingleAssetPage.class);
             singleAssetIntent.putExtra(EXTRA_SAP_ASSET_URI, stringAssetURI);
@@ -203,15 +206,14 @@ public class LandingPage extends AppCompatActivity {
         String state = Environment.getExternalStorageState(); //Check if storage is mounted
         if(Environment.MEDIA_MOUNTED.equals(state)){
             File assetPhotos = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), folderName); //create public directory
-            if(!assetPhotos.exists()) { //if it does not already exit then create it
+            if(!assetPhotos.exists()) { //if it does not already exist then create it
                 if (!assetPhotos.mkdir()) {
                     Toast.makeText(this, "Could not create folder " + assetPhotos.getPath(), Toast.LENGTH_LONG).show();
+                    assetPhotos = null;
                 }
 
             }
-            else{
-                imageURI = Uri.fromFile(assetPhotos);
-            }
+            imageURI = Uri.fromFile(assetPhotos);
         }
         else {
             Toast.makeText(this, "No mounted Storage.", Toast.LENGTH_LONG).show();

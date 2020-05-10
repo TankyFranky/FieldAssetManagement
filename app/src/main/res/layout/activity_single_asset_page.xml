@@ -182,7 +182,7 @@
                     android:layout_column="0"
                     android:text="photoL"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/harold">
+                    >
 
                 </Button>
                 <Button
@@ -193,7 +193,7 @@
                     android:layout_column="1"
                     android:text="photoR"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/harold">
+                    >
 
                 </Button>
             </TableRow>
