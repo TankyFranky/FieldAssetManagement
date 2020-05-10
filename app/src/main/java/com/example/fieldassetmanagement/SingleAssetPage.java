@@ -148,6 +148,8 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         curRow[2] = C1RSpin.getSelectedItem().toString();
         curRow[15] = latitude.getText().toString();
         curRow[16] = longitude.getText().toString();
+        curRow[17] = photoL.getText().toString();
+        curRow[18] = photoR.getText().toString();
 
         curCSV.set(row, curRow); // Save modified row back to curCSV
     }
@@ -183,13 +185,22 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         Uri lPhotoURI = Uri.withAppendedPath(imageURI,curCSV.get(row)[17]);
         Uri rPhotoURI = Uri.withAppendedPath(imageURI,curCSV.get(row)[18]);
 
-        if(imageFound(lPhotoURI)) { photoL.setBackground(Drawable.createFromPath(lPhotoURI.getPath())); // Display the found image
+        if(imageFound(lPhotoURI)) {
+            photoL.setBackground(Drawable.createFromPath(lPhotoURI.getPath())); // Display the found image
+            photoL.setText(curCSV.get(row)[17]);
         }
-        else{ photoL.setBackground(getDrawable(R.drawable.harold)); // Display stock photo
+        else{
+            photoL.setBackground(getDrawable(R.drawable.harold));
+            photoL.setText(R.string.noimagefound); // Display stock photo
         }
-        if(imageFound(rPhotoURI)){ photoR.setBackground(Drawable.createFromPath(rPhotoURI.getPath()));
+        if(imageFound(rPhotoURI)){
+            photoR.setBackground(Drawable.createFromPath(rPhotoURI.getPath()));
+            photoR.setText(curCSV.get(row)[18]);
         }
-        else{ photoR.setBackground(getDrawable(R.drawable.harold));}
+        else{
+            photoR.setBackground(getDrawable(R.drawable.harold));
+            photoR.setText(R.string.noimagefound);
+        }
 
     }
 
@@ -219,6 +230,21 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
             photoL.setVisibility(View.GONE);
             photoR.setVisibility(View.GONE);
         }
+
+        photoL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Take image for left side
+            }
+        });
+
+        photoR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Take image for right side
+            }
+        });
+
         // Next and Prev Button listeners
         nextSave.setOnClickListener(new View.OnClickListener() {
             @Override

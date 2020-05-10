@@ -180,7 +180,7 @@
                     android:layout_height="200dp"
                     android:layout_weight="1"
                     android:layout_column="0"
-                    android:text="photoL"
+                    android:textColor="@color/CompanyColorBeta"
                     android:layout_marginEnd="8dp"
                     >
 
@@ -191,7 +191,7 @@
                     android:layout_height="200dp"
                     android:layout_weight="1"
                     android:layout_column="1"
-                    android:text="photoR"
+                    android:textColor="@color/CompanyColorBeta"
                     android:layout_marginStart="8dp"
                     >
 

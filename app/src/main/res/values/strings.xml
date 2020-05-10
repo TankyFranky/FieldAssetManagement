@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Field Asset Management</string>
+    <string name="noimagefound">No Image Available</string>
 </resources>

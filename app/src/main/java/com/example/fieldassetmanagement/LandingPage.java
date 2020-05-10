@@ -102,7 +102,10 @@ public class LandingPage extends AppCompatActivity {
 
     private void checkPermissions() {
         // TODO add permissions dialog
-        if (ContextCompat.checkSelfPermission(LandingPage.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (
+                ContextCompat.checkSelfPermission(LandingPage.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(LandingPage.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(LandingPage.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //If permissions already are allowed
             fileSelect.setEnabled(true);
             startNew.setEnabled(true);
