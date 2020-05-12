@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -31,16 +32,18 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
-public class SingleAssetPage extends AppCompatActivity implements OnItemSelectedListener{
+public class SingleAssetPage extends AppCompatActivity implements OnItemSelectedListener, ImageOverwritePopDialog.imgOverwriteListener{
 
     private String fileName;
     private List<String[]> curCSV;
-    private Uri csvURI, imageURI;
+    private Uri csvURI, imageURI, imgPath;
     private int row;
 
     // Shared Preference Constants
     public static final String ROW_PREFERENCES = "rowPrev";
+    private static final int REQUEST_IMAGE_CAPTURE = 5;
 
     // All Spinner declarations
     private Spinner AssetName, C1LSpin, C1RSpin;
@@ -52,6 +55,26 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     ImageButton mapsButton;
     Button nextSave, prevSave, photoL, photoR;
     TextView longitude, latitude, C1Ltext, C1Rtext;
+
+    // TODO update the button backgrouns on return from camera
+
+    @Override
+    protected void onPause(){   // Any time the SingleAssetActivity leaves the foreground, the info is saved.
+        super.onPause();
+        // save current GUI items to curCSV
+        pullGUIEntries();
+        // save curCSV over top of old CSV
+        saveGUIEntries();
+        // save current row to SharedPreferences
+        saveRowPreferences();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        pushGUIEntries();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +163,6 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     }
 
     private void pullGUIEntries() {
-        //TODO should activate with saveGUIEntries on App shutdown, read below TODO for details
         String[] curRow = curCSV.get(row); // Get the current content found in current row
 
         // Pull data from Spinners and load it into StringArray at right location
@@ -148,8 +170,8 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         curRow[2] = C1RSpin.getSelectedItem().toString();
         curRow[15] = latitude.getText().toString();
         curRow[16] = longitude.getText().toString();
-        curRow[17] = photoL.getText().toString();
-        curRow[18] = photoR.getText().toString();
+
+        // Photo names are not saved based on what is displayed
 
         curCSV.set(row, curRow); // Save modified row back to curCSV
     }
@@ -172,7 +194,6 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
             Toast.makeText(this, "Save Failure", Toast.LENGTH_LONG).show();
 
         }
-        //TODO entries must also be saved when the program is shutdown, that way, the next button does not need to be pressed before close (no save necessary)
     }
 
     private void pushGUIEntries() {
@@ -182,7 +203,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         C1LSpin.setSelection(Arrays.asList(C1LOptions).indexOf(curCSV.get(row)[1]));
         C1RSpin.setSelection(Arrays.asList(C1ROptions).indexOf(curCSV.get(row)[2]));
 
-        Uri lPhotoURI = Uri.withAppendedPath(imageURI,curCSV.get(row)[17]);
+        Uri lPhotoURI = Uri.withAppendedPath(imageURI,curCSV.get(row)[17]); //TODO Name has to be based off of asset name for search
         Uri rPhotoURI = Uri.withAppendedPath(imageURI,curCSV.get(row)[18]);
 
         if(imageFound(lPhotoURI)) {
@@ -234,14 +255,14 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         photoL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Take image for left side
+                activatePhoto(17, true);// Take image for left side
             }
         });
 
         photoR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Take image for right side
+                activatePhoto(18, false);// Take image for right side
             }
         });
 
@@ -324,10 +345,44 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
 
             }
         });
+    }
 
+    private void activatePhoto(int photoColumn, boolean side) {
+        // Left = True, Right = False
+        Uri imgExists = Uri.withAppendedPath(imageURI,curCSV.get(row)[photoColumn]);
+        String photoName = null;
+        if(side){
+            photoName = curCSV.get(row)[0] + "_L.jpg";
+        }
+        else{
+            photoName = curCSV.get(row)[0] + "_R.jpg";
+        }
+        imgPath = Uri.withAppendedPath(imageURI,photoName); // Set save location for takePhoto()
+        //check if photo exists
+        if(imageFound(imgExists)){
+            ImageOverwritePopDialog imgOverwrite = new ImageOverwritePopDialog();
+            imgOverwrite.show(getSupportFragmentManager(),"Overwrite Image Pop-Up");
+        }
+        else{
+            // File has to be created
+            takePhoto();
+        }
+    }
 
+    private void takePhoto() {
+        Intent takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(takePhoto.resolveActivity(getPackageManager()) != null) {
 
+            File saveImg = new File(imgPath.getPath());
+            Uri saveImgURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", saveImg);
+            takePhoto.putExtra(MediaStore.EXTRA_OUTPUT,saveImgURI);
+            startActivityForResult(takePhoto, REQUEST_IMAGE_CAPTURE);
+            String name1 = imgPath.getLastPathSegment();
+            String name2 = saveImg.getName();
+            int temp = 2;
 
+        }
+        imgPath = null;
     }
 
     private void openMaps() {
@@ -446,5 +501,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         int rH = photoL.getWidth();
         photoL.setHeight(lH);
         photoR.setHeight(rH);
+    }
+
+    @Override
+    public void onNewPhotoClicked() {
+        takePhoto();
     }
 }

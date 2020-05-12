@@ -223,7 +223,7 @@ public class LandingPage extends AppCompatActivity {
         }
     }
 
-    public String getFileName(Uri uri) {
+    private String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
