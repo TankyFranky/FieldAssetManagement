@@ -372,17 +372,21 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     private void takePhoto() {
         Intent takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(takePhoto.resolveActivity(getPackageManager()) != null) {
-
             File saveImg = new File(imgPath.getPath());
-            Uri saveImgURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", saveImg);
-            takePhoto.putExtra(MediaStore.EXTRA_OUTPUT,saveImgURI);
+            String authority = getApplicationContext().getPackageName() + ".fileprovider";
+            Uri contentURI = FileProvider.getUriForFile(this, authority, saveImg);
+            takePhoto.putExtra(MediaStore.EXTRA_OUTPUT,contentURI);
             startActivityForResult(takePhoto, REQUEST_IMAGE_CAPTURE);
-            String name1 = imgPath.getLastPathSegment();
-            String name2 = saveImg.getName();
-            int temp = 2;
-
+            // save the name to the spreadsheet
         }
-        imgPath = null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            String fileName = imgPath.getLastPathSegment();
+        }
     }
 
     private void openMaps() {
