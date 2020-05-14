@@ -40,6 +40,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     private List<String[]> curCSV;
     private Uri csvURI, imageURI, imgPath;
     private int row;
+    private boolean side;
 
     // Shared Preference Constants
     public static final String ROW_PREFERENCES = "rowPrev";
@@ -255,14 +256,16 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         photoL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activatePhoto(17, true);// Take image for left side
+                side = true;
+                activatePhoto(17);// Take image for left side
             }
         });
 
         photoR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activatePhoto(18, false);// Take image for right side
+                side = false;
+                activatePhoto(18);// Take image for right side
             }
         });
 
@@ -347,7 +350,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         });
     }
 
-    private void activatePhoto(int photoColumn, boolean side) {
+    private void activatePhoto(int photoColumn) {
         // Left = True, Right = False
         Uri imgExists = Uri.withAppendedPath(imageURI,curCSV.get(row)[photoColumn]);
         String photoName = null;
@@ -360,7 +363,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         imgPath = Uri.withAppendedPath(imageURI,photoName); // Set save location for takePhoto()
         //check if photo exists
         if(imageFound(imgExists)){
+            Bundle passName = new Bundle();
+            passName.putString("name", photoName);
             ImageOverwritePopDialog imgOverwrite = new ImageOverwritePopDialog();
+            imgOverwrite.setArguments(passName);
             imgOverwrite.show(getSupportFragmentManager(),"Overwrite Image Pop-Up");
         }
         else{
@@ -385,7 +391,18 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            String fileName = imgPath.getLastPathSegment();
+            String[] curRow = curCSV.get(row);
+            if(side){
+                curRow[17] = imgPath.getLastPathSegment();
+            }
+            else{
+                curRow[18] = imgPath.getLastPathSegment();
+            }
+            curCSV.set(row, curRow);
+
+            Intent galleryScan = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            galleryScan.setData(imgPath);
+            this.sendBroadcast(galleryScan);
         }
     }
 

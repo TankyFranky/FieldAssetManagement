@@ -16,9 +16,12 @@ public class ImageOverwritePopDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Bundle grabName = getArguments();
+        assert grabName != null;
+        final String name = grabName.getString("name");
         AlertDialog.Builder imgOverwrite = new AlertDialog.Builder(getActivity());
         imgOverwrite.setTitle("Attention: Image Overwrite");
-        imgOverwrite.setMessage("An image already exists under this file name. Taking a new photo will overwrite it.");
+        imgOverwrite.setMessage("Image " + name + " already exists. Proceeding will overwrite it.");
         // TODO make the set message dynamic
         imgOverwrite.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -48,7 +51,7 @@ public class ImageOverwritePopDialog extends AppCompatDialogFragment {
         try{
             listener = (imgOverwriteListener) context;
         } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + "Pop-up dialog error");
+            throw new ClassCastException(context.toString() + "Pop-up dialog error, must implent Listener");
         }
     }
 }
