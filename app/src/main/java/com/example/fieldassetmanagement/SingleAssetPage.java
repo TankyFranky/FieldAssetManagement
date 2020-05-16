@@ -1,10 +1,16 @@
 //TODO add a code copyright
+//TODO organize functions
 package com.example.fieldassetmanagement;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -34,8 +40,15 @@ import java.util.stream.Collectors;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-public class SingleAssetPage extends AppCompatActivity implements OnItemSelectedListener, ImageOverwritePopDialog.imgOverwriteListener{
+public class SingleAssetPage extends AppCompatActivity implements
+        OnItemSelectedListener,
+        ImageOverwritePopDialog.imgOverwriteListener {
+    // GPS variables
+    private LocationManager managerGPS;
+    private final long minTimeUpdates = 50;
+    private final float minDistanceUpdates = 1;
 
+    // SingleAssetPage local variables
     private String fileName;
     private List<String[]> curCSV;
     private Uri csvURI, imageURI, imgPath;
@@ -54,13 +67,13 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
 
     ImageView mastHead;
     ImageButton mapsButton;
-    Button nextSave, prevSave, photoL, photoR;
+    Button nextSave, prevSave, photoL, photoR, getGPS;
     TextView longitude, latitude, C1Ltext, C1Rtext;
 
     // TODO update the button backgrouns on return from camera
 
     @Override
-    protected void onPause(){   // Any time the SingleAssetActivity leaves the foreground, the info is saved.
+    protected void onPause() {   // Any time the SingleAssetActivity leaves the foreground, the info is saved.
         super.onPause();
         // save current GUI items to curCSV
         pullGUIEntries();
@@ -74,13 +87,28 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     protected void onRestart() {
         super.onRestart();
         pushGUIEntries();
-
     }
 
+    @Override
+    protected void onStart() {
+        //clientGPS.asGoogleApiClient().connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        //clientGPS.asGoogleApiClient().disconnect();
+        super.onStop();
+    }
+
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_asset_page);
+        // Get GPS reference
+        managerGPS = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        managerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTimeUpdates, minDistanceUpdates, listenerGPS);
 
         getExtraData();
         // Load data from selected CSV file
@@ -105,8 +133,8 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         int EXTRA_SAP_ROW = openIntent.getIntExtra(LandingPage.EXTRA_SAP_ROW, 1);
         String EXTRA_SAP_FILENAME = openIntent.getStringExtra(LandingPage.EXTRA_SAP_FILENAME);
         csvURI = Uri.parse(EXTRA_SAP_ASSET_URI); // Convert EXTRA_SAP_ASSET_URI data back to a URI
-        if(EXTRA_SAP_IMAGE_URI != null) {
-            imageURI=Uri.parse(EXTRA_SAP_IMAGE_URI); // Convert EXTRA_SAP_IMAGE_URI data back to URI
+        if (EXTRA_SAP_IMAGE_URI != null) {
+            imageURI = Uri.parse(EXTRA_SAP_IMAGE_URI); // Convert EXTRA_SAP_IMAGE_URI data back to URI
         }
         fileName = EXTRA_SAP_FILENAME; // Get Short-form fileName from MainActivity
         row = EXTRA_SAP_ROW; // Get loaded Shared Preference Row from MainActivity
@@ -131,11 +159,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         // save current row to SharedPreferences
         saveRowPreferences();
 
-        if(row >= curCSV.size()-1){
+        if (row >= curCSV.size() - 1) {
             // EOF reached, do not increase row count
-            Toast.makeText(this, "Last Asset Reached "+ ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
-        }
-        else{
+            Toast.makeText(this, "Last Asset Reached " + ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
+        } else {
             // EOF not yet reached, increase row count, update GUI for next Asset
             row++;
             // Load GUI items based on row
@@ -151,11 +178,10 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         // save current row to SharedPreferences
         saveRowPreferences();
 
-        if(row <= 1){
+        if (row <= 1) {
             // EOF reached, do not increase row count
-            Toast.makeText(this, "First Asset Reached "+ ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
-        }
-        else{
+            Toast.makeText(this, "First Asset Reached " + ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
+        } else {
             // EOF not yet reached, increase row count, update GUI for next Asset
             row--;
             // Load GUI items based on row
@@ -204,22 +230,20 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         C1LSpin.setSelection(Arrays.asList(C1LOptions).indexOf(curCSV.get(row)[1]));
         C1RSpin.setSelection(Arrays.asList(C1ROptions).indexOf(curCSV.get(row)[2]));
 
-        Uri lPhotoURI = Uri.withAppendedPath(imageURI,curCSV.get(row)[17]); //TODO Name has to be based off of asset name for search
-        Uri rPhotoURI = Uri.withAppendedPath(imageURI,curCSV.get(row)[18]);
+        Uri lPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[17]); //TODO Name has to be based off of asset name for search
+        Uri rPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[18]);
 
-        if(imageFound(lPhotoURI)) {
+        if (imageFound(lPhotoURI)) {
             photoL.setBackground(Drawable.createFromPath(lPhotoURI.getPath())); // Display the found image
             photoL.setText(curCSV.get(row)[17]);
-        }
-        else{
+        } else {
             photoL.setBackground(getDrawable(R.drawable.harold));
             photoL.setText(R.string.noimagefound); // Display stock photo
         }
-        if(imageFound(rPhotoURI)){
+        if (imageFound(rPhotoURI)) {
             photoR.setBackground(Drawable.createFromPath(rPhotoURI.getPath()));
             photoR.setText(curCSV.get(row)[18]);
-        }
-        else{
+        } else {
             photoR.setBackground(getDrawable(R.drawable.harold));
             photoR.setText(R.string.noimagefound);
         }
@@ -242,13 +266,16 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         nextSave = (Button) findViewById(R.id.nextAsset);
         prevSave = (Button) findViewById(R.id.prevAsset);
 
+        // Get current GPS coordinates
+        getGPS = (Button) findViewById(R.id.getGPS);
+
+        // Phot Buttons
         photoL = (Button) findViewById(R.id.photoL);
         photoR = (Button) findViewById(R.id.photoR);
 
-        if(imageURI != null) {
+        if (imageURI != null) {
             setPhotoSize();
-        }
-        else{   // If no folder could be created than do not show the camera buttons
+        } else {   // If no folder could be created than do not show the camera buttons
             photoL.setVisibility(View.GONE);
             photoR.setVisibility(View.GONE);
         }
@@ -280,6 +307,14 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
             @Override
             public void onClick(View v) {
                 prevAssetView();
+            }
+        });
+
+        // Current GPS listener
+        getGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLocation();
             }
         });
 
@@ -350,6 +385,15 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
         });
     }
 
+    private void getLocation() {
+        boolean gps = managerGPS.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        @SuppressLint("MissingPermission")
+        Location loc = managerGPS.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        latitude.setText(Double.toString(loc.getLatitude()));
+        longitude.setText(Double.toString(loc.getLongitude()));
+    }
+
     private void activatePhoto(int photoColumn) {
         // Left = True, Right = False
         Uri imgExists = Uri.withAppendedPath(imageURI,curCSV.get(row)[photoColumn]);
@@ -383,7 +427,7 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
             Uri contentURI = FileProvider.getUriForFile(this, authority, saveImg);
             takePhoto.putExtra(MediaStore.EXTRA_OUTPUT,contentURI);
             startActivityForResult(takePhoto, REQUEST_IMAGE_CAPTURE);
-            // save the name to the spreadsheet
+
         }
     }
 
@@ -528,4 +572,26 @@ public class SingleAssetPage extends AppCompatActivity implements OnItemSelected
     public void onNewPhotoClicked() {
         takePhoto();
     }
+
+    LocationListener listenerGPS = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 }
