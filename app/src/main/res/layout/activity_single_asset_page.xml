@@ -209,18 +209,32 @@
         android:layout_marginBottom="0dp"
         android:gravity="center"
         android:background="@drawable/rectangle_design_element">
-
-        <Button
-            android:id="@+id/getGPS"
+        <RelativeLayout
+            android:id="@+id/getGPSpanel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginEnd="80dp"
-            android:background="@drawable/landingpagebutton"
-            android:text="Get "
-            tools:ignore="ButtonStyle"
-            android:drawableEnd="@drawable/get_gps"
-            android:textColor="#FFFFFF"/>
+            android:layout_column="0">
+            <Button
+                android:id="@+id/getGPS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/landingpagebutton"
+                android:text="Get "
+                tools:ignore="ButtonStyle"
+                android:layout_margin="5dp"
+                android:drawableEnd="@drawable/get_gps"
+                android:textColor="#FFFFFF"/>
+            <ProgressBar
+                android:id="@+id/gpsProgress"
+                android:indeterminate="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/CompanyColorAlpha"
+                android:indeterminateTintMode="src_in"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
 
         <Button
             android:id="@+id/addNew"

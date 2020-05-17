@@ -13,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +48,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     // GPS variables
     private LocationManager managerGPS;
     private final long minTimeUpdates = 50;
-    private final float minDistanceUpdates = 1;
+    private final float minDistanceUpdates = 0; // setting to zero means it is non-movement based updates
 
     // SingleAssetPage local variables
     private String fileName;
@@ -67,6 +69,7 @@ public class SingleAssetPage extends AppCompatActivity implements
 
     ImageView mastHead;
     ImageButton mapsButton;
+    ProgressBar progressGPS;
     Button nextSave, prevSave, photoL, photoR, getGPS;
     TextView longitude, latitude, C1Ltext, C1Rtext;
 
@@ -89,27 +92,27 @@ public class SingleAssetPage extends AppCompatActivity implements
         pushGUIEntries();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onStart() {
-        //clientGPS.asGoogleApiClient().connect();
         super.onStart();
+        // Start requesting GPS updates
+        managerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTimeUpdates, minDistanceUpdates, listenerGPS);
     }
 
     @Override
     protected void onStop() {
-        //clientGPS.asGoogleApiClient().disconnect();
         super.onStop();
+        // Stop requesting GPS updates
+        managerGPS.removeUpdates(listenerGPS);
     }
 
-    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_asset_page);
-        // Get GPS reference
+        // Create GPS reference
         managerGPS = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        managerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTimeUpdates, minDistanceUpdates, listenerGPS);
-
         getExtraData();
         // Load data from selected CSV file
         try {
@@ -268,7 +271,7 @@ public class SingleAssetPage extends AppCompatActivity implements
 
         // Get current GPS coordinates
         getGPS = (Button) findViewById(R.id.getGPS);
-
+        progressGPS = (ProgressBar) findViewById(R.id.gpsProgress);
         // Phot Buttons
         photoL = (Button) findViewById(R.id.photoL);
         photoR = (Button) findViewById(R.id.photoR);
@@ -314,7 +317,10 @@ public class SingleAssetPage extends AppCompatActivity implements
         getGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getLocation();
+                progressGPS.setVisibility(View.VISIBLE);
+                getGPS.setEnabled(false);
+                gpsThread gps = new gpsThread();
+                gps.start();
             }
         });
 
@@ -385,13 +391,14 @@ public class SingleAssetPage extends AppCompatActivity implements
         });
     }
 
+    @SuppressLint("MissingPermission") // This can be suppressed because the title screen checks for permissions and restricts access until granted.
     private void getLocation() {
-        boolean gps = managerGPS.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        @SuppressLint("MissingPermission")
-        Location loc = managerGPS.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        latitude.setText(Double.toString(loc.getLatitude()));
-        longitude.setText(Double.toString(loc.getLongitude()));
+        long start = SystemClock.elapsedRealtime();
+        long current = SystemClock.elapsedRealtime();
+        while((current-start) < 2000){
+            current = SystemClock.elapsedRealtime();
+        }
+//        currentLoc = managerGPS.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
 
     private void activatePhoto(int photoColumn) {
@@ -594,4 +601,18 @@ public class SingleAssetPage extends AppCompatActivity implements
 
         }
     };
+
+    class gpsThread extends Thread{
+        public void run() {
+            super.run();
+            getLocation();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressGPS.setVisibility(View.GONE);
+                    getGPS.setEnabled(true);
+                }
+            });
+        }
+    }
 }
