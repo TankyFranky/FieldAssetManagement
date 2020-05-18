@@ -44,7 +44,8 @@ import androidx.core.content.FileProvider;
 
 public class SingleAssetPage extends AppCompatActivity implements
         OnItemSelectedListener,
-        ImageOverwritePopDialog.imgOverwriteListener {
+        LocationGPSResultDialog.GPSResultListener,
+        ImageOverwritePopDialog.imgOverwriteListener{
     // GPS variables
     private LocationManager managerGPS;
     private final long minTimeUpdates = 50;
@@ -425,7 +426,7 @@ public class SingleAssetPage extends AppCompatActivity implements
             photoName = curCSV.get(row)[0] + "_R.jpg";
         }
         imgPath = Uri.withAppendedPath(imageURI,photoName); // Set save location for takePhoto()
-        //check if photo exists
+        //check if photo exists, use pop-up dialog, taking new photo may follow
         if(imageFound(imgExists)){
             Bundle passName = new Bundle();
             passName.putString("name", photoName);
@@ -619,7 +620,22 @@ public class SingleAssetPage extends AppCompatActivity implements
         public void run() {
             super.run();
             Location location = getLocation();// Use location in alertDialog
+            String locMessage;
             // make message for alert dialog
+            if(location != null){
+                locMessage = "GPS location found:\n" +
+                        "Latitude: " + location.getLatitude() + "\n" +
+                        "Longitude: " + location.getLongitude() + "\n" +
+                        "Accuracy: " + location.getAccuracy();
+            }
+            else{
+                locMessage = "GPS could not acquire accurate results.";
+            }
+            Bundle passMessage = new Bundle();
+            passMessage.putString("message", locMessage);
+            LocationGPSResultDialog alertGPS = new LocationGPSResultDialog();
+            alertGPS.setArguments(passMessage);
+            alertGPS.show(getSupportFragmentManager(),"GPS result alert dialog");
             // make alert dialog
             runOnUiThread(new Runnable() {
                 @Override
@@ -629,5 +645,10 @@ public class SingleAssetPage extends AppCompatActivity implements
                 }
             });
         }
+    }
+
+    @Override
+    public void onNewGPSResult() {
+
     }
 }

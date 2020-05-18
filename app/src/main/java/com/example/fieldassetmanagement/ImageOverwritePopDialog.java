@@ -51,7 +51,7 @@ public class ImageOverwritePopDialog extends AppCompatDialogFragment {
         try{
             listener = (imgOverwriteListener) context;
         } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + "Pop-up dialog error, must implent Listener");
+            throw new ClassCastException(context.toString() + "Pop-up dialog error, must implent Listener (ImageOverwrite)");
         }
     }
 }
