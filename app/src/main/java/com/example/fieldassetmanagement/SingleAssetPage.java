@@ -49,6 +49,8 @@ public class SingleAssetPage extends AppCompatActivity implements
     private LocationManager managerGPS;
     private final long minTimeUpdates = 50;
     private final float minDistanceUpdates = 0; // setting to zero means it is non-movement based updates
+    private final long checkGPStime = 4000;
+    private final double accThres = 3.0;
 
     // SingleAssetPage local variables
     private String fileName;
@@ -72,7 +74,6 @@ public class SingleAssetPage extends AppCompatActivity implements
     ProgressBar progressGPS;
     Button nextSave, prevSave, photoL, photoR, getGPS;
     TextView longitude, latitude, C1Ltext, C1Rtext;
-
     // TODO update the button backgrouns on return from camera
 
     @Override
@@ -392,13 +393,25 @@ public class SingleAssetPage extends AppCompatActivity implements
     }
 
     @SuppressLint("MissingPermission") // This can be suppressed because the title screen checks for permissions and restricts access until granted.
-    private void getLocation() {
+    private Location getLocation() {
         long start = SystemClock.elapsedRealtime();
         long current = SystemClock.elapsedRealtime();
-        while((current-start) < 2000){
+        double accBest = 1000; // Could return null if accuracy is outside 1 km^2
+        Location currentLoc;
+        Location bestLoc = null;
+        while((current-start) < checkGPStime && (accBest > accThres)){
             current = SystemClock.elapsedRealtime();
+            currentLoc = managerGPS.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(currentLoc != null) { // Avoids risk of null return if GPS sig is lost
+                if ((currentLoc.getElapsedRealtimeNanos()/1000000) > start) {
+                    if (currentLoc.getAccuracy() < accBest) {
+                        bestLoc = currentLoc;
+                        accBest = bestLoc.getAccuracy();
+                    }
+                }
+            }
         }
-//        currentLoc = managerGPS.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        return bestLoc;
     }
 
     private void activatePhoto(int photoColumn) {
@@ -605,7 +618,9 @@ public class SingleAssetPage extends AppCompatActivity implements
     class gpsThread extends Thread{
         public void run() {
             super.run();
-            getLocation();
+            Location location = getLocation();// Use location in alertDialog
+            // make message for alert dialog
+            // make alert dialog
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
