@@ -1,3 +1,4 @@
+// TODO make alert dialogs look pretty
 package com.example.fieldassetmanagement;
 
 import android.app.AlertDialog;
@@ -16,31 +17,47 @@ public class LocationGPSResultDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Bundle grabName = getArguments();
-        assert grabName != null;
-        final String message = grabName.getString("message");
         AlertDialog.Builder gpsOverwrite = new AlertDialog.Builder(getActivity());
         gpsOverwrite.setTitle("GPS: Location Results.");
-        gpsOverwrite.setMessage(message);
-        // TODO make the set message dynamic
-        gpsOverwrite.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
 
-            }
-        })
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        listener.onNewGPSResult();
-                    }
-                });
+        // Possible null location logic
+        final Bundle grabName = getArguments();
+        final String message;
+        if (grabName.get("message") != null) {
+            message = grabName.getString("message");
+            gpsOverwrite.setMessage(message);
+            gpsOverwrite.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            })
+            .setPositiveButton("Update Location Data", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    double latitude = grabName.getDouble("latitude");
+                    double longitude = grabName.getDouble("longitude");
+                    listener.onNewGPSResult(Double.toString(SingleAssetPage.round(latitude,6)), Double.toString(SingleAssetPage.round(longitude,6)));
+                }
+            });
+        }
+        else{
+            gpsOverwrite.setMessage("Location could not be accurately determined at this time.\n" +
+                    "Please try again later");
+            gpsOverwrite.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+        }
+
 
         return gpsOverwrite.create();
     }
 
     public interface GPSResultListener {
-        void onNewGPSResult();
+        void onNewGPSResult(String latitudeAD, String longitudeAD);
     }
 
     @Override
@@ -50,7 +67,7 @@ public class LocationGPSResultDialog extends AppCompatDialogFragment {
         try{
             listener = (GPSResultListener) context;
         } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + "Pop-up dialog error, must implent Listener (GPS)");
+            throw new ClassCastException(context.toString() + "Pop-up dialog error, must implement Listener (GPS)");
         }
     }
 }

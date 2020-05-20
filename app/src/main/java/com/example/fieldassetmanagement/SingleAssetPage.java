@@ -51,7 +51,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     private final long minTimeUpdates = 50;
     private final float minDistanceUpdates = 0; // setting to zero means it is non-movement based updates
     private final long checkGPStime = 4000;
-    private final double accThres = 3.0;
+    private final double accThres = 5.0;
 
     // SingleAssetPage local variables
     private String fileName;
@@ -518,6 +518,15 @@ public class SingleAssetPage extends AppCompatActivity implements
     // Support functions: No direct association to current state of GUI//
     /////////////////////////////////////////////////////////////////////
 
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
     private List<String[]> loadCSVfromURI(Uri file) throws FileNotFoundException, IOException {
 
         Scanner csvFileScanner = new Scanner(new BufferedReader(new InputStreamReader(getContentResolver().openInputStream(file))));
@@ -621,17 +630,19 @@ public class SingleAssetPage extends AppCompatActivity implements
             super.run();
             Location location = getLocation();// Use location in alertDialog
             String locMessage;
+            Bundle passMessage = new Bundle();
             // make message for alert dialog
             if(location != null){
                 locMessage = "GPS location found:\n" +
                         "Latitude: " + location.getLatitude() + "\n" +
                         "Longitude: " + location.getLongitude() + "\n" +
                         "Accuracy: " + location.getAccuracy();
+                passMessage.putDouble("latitude", location.getLatitude());
+                passMessage.putDouble("longitude", location.getLongitude());
             }
             else{
-                locMessage = "GPS could not acquire accurate results.";
+                locMessage = null;
             }
-            Bundle passMessage = new Bundle();
             passMessage.putString("message", locMessage);
             LocationGPSResultDialog alertGPS = new LocationGPSResultDialog();
             alertGPS.setArguments(passMessage);
@@ -648,7 +659,8 @@ public class SingleAssetPage extends AppCompatActivity implements
     }
 
     @Override
-    public void onNewGPSResult() {
-
+    public void onNewGPSResult(String latitudeAD, String longitudeAD) {
+        latitude.setText(latitudeAD);
+        longitude.setText(longitudeAD);
     }
 }
