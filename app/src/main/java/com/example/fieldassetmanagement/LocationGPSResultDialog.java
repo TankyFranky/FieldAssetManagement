@@ -1,4 +1,5 @@
 // TODO make alert dialogs look pretty
+// TODO add toast message to encourage re-use of gps locater if accuracy is low.
 package com.example.fieldassetmanagement;
 
 import android.app.AlertDialog;

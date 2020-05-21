@@ -45,7 +45,8 @@ import androidx.core.content.FileProvider;
 public class SingleAssetPage extends AppCompatActivity implements
         OnItemSelectedListener,
         LocationGPSResultDialog.GPSResultListener,
-        ImageOverwritePopDialog.imgOverwriteListener{
+        ImageOverwritePopDialog.imgOverwriteListener,
+        NewAssetDialog.NewAssetDialogListener {
     // GPS variables
     private LocationManager managerGPS;
     private final long minTimeUpdates = 50;
@@ -73,7 +74,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     ImageView mastHead;
     ImageButton mapsButton;
     ProgressBar progressGPS;
-    Button nextSave, prevSave, photoL, photoR, getGPS;
+    Button nextSave, prevSave, photoL, photoR, getGPS, addAsset;
     TextView longitude, latitude, C1Ltext, C1Rtext;
     // TODO update the button backgrouns on return from camera
 
@@ -274,7 +275,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         // Get current GPS coordinates
         getGPS = (Button) findViewById(R.id.getGPS);
         progressGPS = (ProgressBar) findViewById(R.id.gpsProgress);
-        // Phot Buttons
+        // Add new Asset Button
+        addAsset = (Button) findViewById(R.id.addNew);
+        // Photo Buttons
         photoL = (Button) findViewById(R.id.photoL);
         photoR = (Button) findViewById(R.id.photoR);
 
@@ -323,6 +326,15 @@ public class SingleAssetPage extends AppCompatActivity implements
                 getGPS.setEnabled(false);
                 gpsThread gps = new gpsThread();
                 gps.start();
+            }
+        });
+
+        // Add new asset listener
+        addAsset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewAssetDialog addNew = new NewAssetDialog();
+                addNew.show(getSupportFragmentManager(), "Add new asset dialog");
             }
         });
 
@@ -596,6 +608,11 @@ public class SingleAssetPage extends AppCompatActivity implements
         int rH = photoL.getWidth();
         photoL.setHeight(lH);
         photoR.setHeight(rH);
+    }
+
+    @Override
+    public void newAssetName(String newAssetName) {
+        Toast.makeText(this, "Yeet here Ya Go: " + newAssetName,Toast.LENGTH_SHORT).show();
     }
 
     @Override
