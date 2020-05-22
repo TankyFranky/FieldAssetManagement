@@ -43,7 +43,7 @@ public class NewAssetDialog extends AppCompatDialogFragment {
                 });
         newAsset = NewAssetView.findViewById(R.id.assetNameDialog);
 
-        return super.onCreateDialog(savedInstanceState);
+        return NewAssetBuilder.create();
     }
 
     @Override

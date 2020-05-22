@@ -1,5 +1,6 @@
 //TODO add a code copyright
 //TODO organize functions
+//TODO known bug, if the previously saved row is larger than the current size it will crash
 package com.example.fieldassetmanagement;
 
 import android.annotation.SuppressLint;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,7 +71,8 @@ public class SingleAssetPage extends AppCompatActivity implements
     private Spinner AssetName, C1LSpin, C1RSpin;
 
     // All Spinner option declarations
-    private String[] AssetNameOptions, C1LOptions, C1ROptions;
+    private List<String> AssetNameOptions, C1LOptions, C1ROptions; // TODO use one option list for all spinners which would contain similar values
+    private ArrayAdapter<String> assetNameAdapter, C1LAdapter, C1RAdapter;
 
     ImageView mastHead;
     ImageButton mapsButton;
@@ -230,11 +233,11 @@ public class SingleAssetPage extends AppCompatActivity implements
     }
 
     private void pushGUIEntries() {
-        AssetName.setSelection(Arrays.asList(AssetNameOptions).indexOf(curCSV.get(row)[0]));
+        AssetName.setSelection(AssetNameOptions.indexOf(curCSV.get(row)[0]));
         longitude.setText(curCSV.get(row)[16]);
         latitude.setText(curCSV.get(row)[15]);
-        C1LSpin.setSelection(Arrays.asList(C1LOptions).indexOf(curCSV.get(row)[1]));
-        C1RSpin.setSelection(Arrays.asList(C1ROptions).indexOf(curCSV.get(row)[2]));
+        C1LSpin.setSelection(C1LOptions.indexOf(curCSV.get(row)[1]));
+        C1RSpin.setSelection(C1ROptions.indexOf(curCSV.get(row)[2]));
 
         Uri lPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[17]); //TODO Name has to be based off of asset name for search
         Uri rPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[18]);
@@ -364,9 +367,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C1ROptions = getSpinnerOptions(curCSV, 2);
 
         // Spinner adapters
-        ArrayAdapter<String> assetNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, AssetNameOptions);
-        ArrayAdapter<String> C1LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C1LOptions);
-        ArrayAdapter<String> C1RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C1ROptions);
+        assetNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, AssetNameOptions);
+        C1LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C1LOptions);
+        C1RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C1ROptions);
 
         // Dropdown Spinner Styles
         assetNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -578,9 +581,8 @@ public class SingleAssetPage extends AppCompatActivity implements
         return saveCSV;
     }
 
-    private String[] getSpinnerOptions(List<String[]> master, int column){
+    private List<String> getSpinnerOptions(List<String[]> master, int column){
         String[] allOptions = new String[master.size()-1]; // -1 to not include first descriptive row
-        //TODO add option for when an empty csv (without previous options) is loaded.
         for(int i = 1; i < master.size(); i++){
             allOptions[i-1]= master.get(i)[column];
         }
@@ -590,7 +592,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         allOptions = new String[spinnerOptions.size()];
         allOptions = spinnerOptions.toArray(allOptions);
 
-        return allOptions;
+        return new ArrayList<String>(Arrays.asList(allOptions));
     }
 
     private void saveRowPreferences(){
@@ -612,7 +614,29 @@ public class SingleAssetPage extends AppCompatActivity implements
 
     @Override
     public void newAssetName(String newAssetName) {
-        Toast.makeText(this, "Yeet here Ya Go: " + newAssetName,Toast.LENGTH_SHORT).show();
+        createNewAsset(newAssetName);
+    }
+
+    private void createNewAsset(String newAssetName) {
+        Pattern validName = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]");
+
+        if(!validName.matcher(newAssetName).find()){
+            String[] newAssetRow = new String[curCSV.get(row).length];
+            Arrays.fill(newAssetRow, "N/A");
+            newAssetRow[0] = newAssetName;
+            curCSV.add(newAssetRow);
+
+            pullGUIEntries();
+            saveGUIEntries();
+            saveRowPreferences();
+            row = getRowIndex(newAssetName);
+            assetNameAdapter.add(newAssetName);
+            assetNameAdapter.notifyDataSetChanged();
+            pushGUIEntries();
+        }
+        else{
+            Toast.makeText(this, "Invalid Name: No special characters allowed. " + ("\u274c"), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
