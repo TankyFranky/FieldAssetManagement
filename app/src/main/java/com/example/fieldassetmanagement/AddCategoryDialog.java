@@ -20,7 +20,7 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder AddCategoryBuilder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder AddCategoryBuilder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater AddCategoryInflator = getActivity().getLayoutInflater();
         final View AddCategoryView = AddCategoryInflator.inflate(R.layout.new_category_dialog, null);
@@ -30,13 +30,7 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel(); }
-                })
-
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        listener.cancelCategoryDialog();
+                        dialog.cancel(); // debug tell me I am reaching this call
                     }
                 })
 
@@ -61,6 +55,11 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
         } catch (Exception e){
             throw new ClassCastException(context.toString() + " must implement AddCategoryDialog");
         }
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        listener.cancelCategoryDialog();
     }
 
     public interface AddCategoryDialogListener{

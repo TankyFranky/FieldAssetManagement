@@ -153,8 +153,6 @@ public class SingleAssetPage extends AppCompatActivity implements
     // General Spinner Listeners
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String item = parent.getItemAtPosition(position).toString();
-
         switch (parent.getId()){
             case R.id.AssetName:
                 // save current GUI items to curCSV
@@ -169,12 +167,12 @@ public class SingleAssetPage extends AppCompatActivity implements
                 pushGUIEntries();
             break;
             case R.id.C1Lspin:
-                if(C1LSpin.getSelectedItem() == getString(R.string.addoption)){
+                if(C1LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.addoption))){
                     addOption(C1LAdapter, C1LSpin);
                 }
             break;
             case R.id.C1Rspin:
-                if(C1RSpin.getSelectedItem() == getString(R.string.addoption)){
+                if(C1RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.addoption))){
                     addOption(C1RAdapter, C1RSpin);
                 }
             break;
@@ -712,9 +710,11 @@ public class SingleAssetPage extends AppCompatActivity implements
 
     @Override
     public void cancelCategoryDialog() {
-        ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_SPINNER.getLastVisiblePosition());
-        ASYNC_PROCESS_ADAPTER = null;
-        ASYNC_PROCESS_SPINNER = null;
+        if(ASYNC_PROCESS_SPINNER!=null && ASYNC_PROCESS_ADAPTER !=null) {
+            ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_SPINNER.getLastVisiblePosition());
+            ASYNC_PROCESS_ADAPTER = null;
+            ASYNC_PROCESS_SPINNER = null;
+        }
     }
 
     class gpsThread extends Thread{
