@@ -63,11 +63,13 @@ public class SingleAssetPage extends AppCompatActivity implements
     private List<String[]> curCSV;
     private Uri csvURI, imageURI, imgPath;
     private int row;
+    private int check = 0;
     private boolean side;
 
     // Shared Preference Constants
     public static final String ROW_PREFERENCES = "rowPrev";
     private static final int REQUEST_IMAGE_CAPTURE = 5;
+    private String ASYNC_PREVIOUS_SPINNER_OPTION;
 
     // All Spinner declarations
     private Spinner ASYNC_PROCESS_SPINNER, AssetName, C1LSpin, C1RSpin;
@@ -153,36 +155,41 @@ public class SingleAssetPage extends AppCompatActivity implements
     // General Spinner Listeners
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()){
-            case R.id.AssetName:
-                // save current GUI items to curCSV
-                pullGUIEntries();
-                // save curCSV over top of old CSV
-                saveGUIEntries();
-                // save current row to SharedPreferences
-                saveRowPreferences();
-                // get chosen item from list and find its row number in curCSV
-                row = getRowIndex(AssetName.getSelectedItem().toString());
-                // update rest of GUI entries
-                pushGUIEntries();
-            break;
-            case R.id.C1Lspin:
-                if(C1LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.addoption))){
-                    addOption(C1LAdapter, C1LSpin);
-                }
-            break;
-            case R.id.C1Rspin:
-                if(C1RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.addoption))){
-                    addOption(C1RAdapter, C1RSpin);
-                }
-            break;
+        if(++check > 1) {
+            switch (parent.getId()) {
+                case R.id.AssetName:
+                    // save current GUI items to curCSV
+                    pullGUIEntries();
+                    // save curCSV over top of old CSV
+                    saveGUIEntries();
+                    // save current row to SharedPreferences
+                    saveRowPreferences();
+                    // get chosen item from list and find its row number in curCSV
+                    row = getRowIndex(AssetName.getSelectedItem().toString());
+                    // update rest of GUI entries
+                    pushGUIEntries();
 
+                    break;
+                case R.id.C1Lspin:
+                    if (C1LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C1LAdapter, C1LSpin, curCSV.get(row)[1]);
+                    }
+                    break;
+                case R.id.C1Rspin:
+                    if (C1RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C1RAdapter, C1RSpin, curCSV.get(row)[2]);
+                    }
+                    break;
+
+            }
+            pullGUIEntries();
         }
     }
 
-    private void addOption(ArrayAdapter<String> spinnerAdapter, Spinner spinner) {
+    private void addOption(ArrayAdapter<String> spinnerAdapter, Spinner spinner, String lastOption) {
         ASYNC_PROCESS_ADAPTER = spinnerAdapter; // Set reference to which spinner list had to be edited
         ASYNC_PROCESS_SPINNER = spinner; // Set reference to which spinner list should show the new change
+        ASYNC_PREVIOUS_SPINNER_OPTION = lastOption; // Set reference to previous value of spinner on the event of cancellation
 
         AddCategoryDialog addCategory = new AddCategoryDialog();
         addCategory.show(getSupportFragmentManager(), "Adding new category to Spinner");
@@ -390,11 +397,6 @@ public class SingleAssetPage extends AppCompatActivity implements
         C1LSpin = (Spinner) findViewById(R.id.C1Lspin);
         C1RSpin = (Spinner) findViewById(R.id.C1Rspin);
 
-        // Spinner Listeners
-        AssetName.setOnItemSelectedListener(this);
-        C1LSpin.setOnItemSelectedListener(this);
-        C1RSpin.setOnItemSelectedListener(this);
-
         // Spinner Options
         AssetNameOptions = getSpinnerOptions(curCSV, 0, false);
         C1LOptions = getSpinnerOptions(curCSV, 1, true);
@@ -414,7 +416,10 @@ public class SingleAssetPage extends AppCompatActivity implements
         AssetName.setAdapter(assetNameAdapter);
         C1LSpin.setAdapter(C1LAdapter);
         C1RSpin.setAdapter(C1RAdapter);
-
+        // Spinner Listeners
+        AssetName.setOnItemSelectedListener(this);
+        C1LSpin.setOnItemSelectedListener(this);
+        C1RSpin.setOnItemSelectedListener(this);
         // Set static Entry Headers (non-location)
         C1Ltext.setText(curCSV.get(0)[1]);
         C1Rtext.setText(curCSV.get(0)[2]);
@@ -606,8 +611,8 @@ public class SingleAssetPage extends AppCompatActivity implements
 
         List<String> toList = new ArrayList<String>(Arrays.asList(allOptions));
 
-        if(extendable && !toList.contains(getString(R.string.addoption))){
-            toList.add(getString(R.string.addoption));
+        if(extendable && !toList.contains(getString(R.string.add_option))){
+            toList.add(getString(R.string.add_option));
         }
 
         return toList;
@@ -687,15 +692,16 @@ public class SingleAssetPage extends AppCompatActivity implements
     @Override
     public void addCategory(String addCategory) {
         //check for proper category name
-        Pattern validName = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]");
+        Pattern validName = Pattern.compile("[$&+,:;=\\\\?@#|'<>.^*()%!-]");
 
-        if(ASYNC_PROCESS_ADAPTER !=null || ASYNC_PROCESS_SPINNER !=null) {
+        if(ASYNC_PROCESS_ADAPTER !=null && ASYNC_PROCESS_SPINNER !=null) {
             if (!validName.matcher(addCategory).find() && !addCategory.isEmpty() && !addCategory.trim().isEmpty()) {
-                ASYNC_PROCESS_ADAPTER.remove(getString(R.string.addoption));
+                ASYNC_PROCESS_ADAPTER.remove(getString(R.string.add_option));
                 ASYNC_PROCESS_ADAPTER.add(addCategory);
-                ASYNC_PROCESS_ADAPTER.add(getString(R.string.addoption));
+                ASYNC_PROCESS_ADAPTER.add(getString(R.string.add_option));
                 ASYNC_PROCESS_ADAPTER.notifyDataSetChanged();
                 ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_ADAPTER.getPosition(addCategory));
+                pullGUIEntries();
             }
 
             else{
@@ -706,15 +712,17 @@ public class SingleAssetPage extends AppCompatActivity implements
         //set ASYNC_PROCESS_ADAPTER to null
         ASYNC_PROCESS_ADAPTER = null;
         ASYNC_PROCESS_SPINNER = null;
+        ASYNC_PREVIOUS_SPINNER_OPTION = null;
     }
 
     @Override
     public void cancelCategoryDialog() {
-        if(ASYNC_PROCESS_SPINNER!=null && ASYNC_PROCESS_ADAPTER !=null) {
-            ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_SPINNER.getLastVisiblePosition());
-            ASYNC_PROCESS_ADAPTER = null;
-            ASYNC_PROCESS_SPINNER = null;
+        if(ASYNC_PROCESS_SPINNER!=null && ASYNC_PROCESS_ADAPTER !=null && ASYNC_PREVIOUS_SPINNER_OPTION != null) {
+            ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_ADAPTER.getPosition(ASYNC_PREVIOUS_SPINNER_OPTION));
         }
+        ASYNC_PROCESS_ADAPTER = null;
+        ASYNC_PROCESS_SPINNER = null;
+        ASYNC_PREVIOUS_SPINNER_OPTION = null;
     }
 
     class gpsThread extends Thread{
