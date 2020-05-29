@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="culvertID">0</integer>
+    <integer name="dateInspected">1</integer>
+    <integer name="township">2</integer>
+    <integer name="highway">3</integer>
+    <integer name="lhrs">4</integer>
+    <integer name="offset">5</integer>
+    <integer name="latitude">6</integer>
+    <integer name="longitude">7</integer>
+    <integer name="hwyRW">8</integer>
+    <integer name="material">9</integer>
+    <integer name="shape">10</integer>
+    <integer name="length">11</integer>
+    <integer name="size">12</integer>
+    <integer name="depth">13</integer>
+    <integer name="surround">14</integer>
+    <integer name="remainingLife">15</integer>
+    <integer name="materialL">16</integer>
+    <integer name="materialR">17</integer>
+    <integer name="shapeL">18</integer>
+    <integer name="shapeR">19</integer>
+    <integer name="capacityL">20</integer>
+    <integer name="capacityR">21</integer>
+    <integer name="invertL">22</integer>
+    <integer name="invertR">23</integer>
+    <integer name="scourL">24</integer>
+    <integer name="scourR">25</integer>
+    <integer name="slopeL">26</integer>
+    <integer name="slopeR">27</integer>
+    <integer name="settlement">28</integer>
+    <integer name="notes">29</integer>
+    <integer name="priority">30</integer>
+    <integer name="warranty">31</integer>
+    <integer name="photoL">32</integer>
+    <integer name="photoR">33</integer>
+
+
+</resources>

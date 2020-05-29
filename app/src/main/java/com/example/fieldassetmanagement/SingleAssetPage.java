@@ -63,7 +63,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     private List<String[]> curCSV;
     private Uri csvURI, imageURI, imgPath;
     private int row;
-    private int check = 0;
+    private static int check = 0;
     private boolean side;
 
     // Shared Preference Constants
@@ -72,17 +72,17 @@ public class SingleAssetPage extends AppCompatActivity implements
     private String ASYNC_PREVIOUS_SPINNER_OPTION;
 
     // All Spinner declarations
-    private Spinner ASYNC_PROCESS_SPINNER, AssetName, C1LSpin, C1RSpin;
+    private Spinner ASYNC_PROCESS_SPINNER, AssetName, C1LSpin, C1RSpin,C6LSpin, C6RSpin;
 
     // All Spinner option declarations
-    private List<String> AssetNameOptions, C1LOptions, C1ROptions; // TODO use one option list for all spinners which would contain similar values
-    private ArrayAdapter<String> ASYNC_PROCESS_ADAPTER, assetNameAdapter, C1LAdapter, C1RAdapter;
+    private List<String> AssetNameOptions, C1LOptions, C1ROptions, C6LOptions, C6ROptions; // TODO use one option list for all spinners which would contain similar values
+    private ArrayAdapter<String> ASYNC_PROCESS_ADAPTER, assetNameAdapter, C1LAdapter, C1RAdapter, C6LAdapter, C6RAdapter;
 
     ImageView mastHead;
     ImageButton mapsButton;
     ProgressBar progressGPS;
     Button nextSave, prevSave, photoL, photoR, getGPS, addAsset;
-    TextView longitude, latitude, C1Ltext, C1Rtext;
+    TextView longitude, latitude, C1Ltext, C1Rtext,C6Ltext, C6Rtext;
 
     @Override
     protected void onPause() {   // Any time the SingleAssetActivity leaves the foreground, the info is saved.
@@ -172,12 +172,22 @@ public class SingleAssetPage extends AppCompatActivity implements
                     break;
                 case R.id.C1Lspin:
                     if (C1LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C1LAdapter, C1LSpin, curCSV.get(row)[1]);
+                        addOption(C1LAdapter, C1LSpin, curCSV.get(row)[getResources().getInteger(R.integer.hwyRW)]);
                     }
                     break;
                 case R.id.C1Rspin:
                     if (C1RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C1RAdapter, C1RSpin, curCSV.get(row)[2]);
+                        addOption(C1RAdapter, C1RSpin, curCSV.get(row)[getResources().getInteger(R.integer.material)]);
+                    }
+                    break;
+                case R.id.C6Lspin:
+                    if (C6LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C6LAdapter, C6LSpin, curCSV.get(row)[getResources().getInteger(R.integer.materialL)]);
+                    }
+                    break;
+                case R.id.C6Rspin:
+                    if (C6RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C6RAdapter, C6RSpin, curCSV.get(row)[getResources().getInteger(R.integer.materialR)]);
                     }
                     break;
 
@@ -243,10 +253,12 @@ public class SingleAssetPage extends AppCompatActivity implements
         String[] curRow = curCSV.get(row); // Get the current content found in current row
 
         // Pull data from Spinners and load it into StringArray at right location
-        curRow[1] = C1LSpin.getSelectedItem().toString();
-        curRow[2] = C1RSpin.getSelectedItem().toString();
-        curRow[15] = latitude.getText().toString();
-        curRow[16] = longitude.getText().toString();
+        curRow[getResources().getInteger(R.integer.hwyRW)] = C1LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.material)] = C1RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.materialL)] = C6LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.materialR)] = C6RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.latitude)] = latitude.getText().toString();
+        curRow[getResources().getInteger(R.integer.longitude)] = longitude.getText().toString();
 
         // Photo names are not saved based on what is displayed
 
@@ -274,25 +286,27 @@ public class SingleAssetPage extends AppCompatActivity implements
     }
 
     private void pushGUIEntries() {
-        AssetName.setSelection(AssetNameOptions.indexOf(curCSV.get(row)[0]));
-        longitude.setText(curCSV.get(row)[16]);
-        latitude.setText(curCSV.get(row)[15]);
-        C1LSpin.setSelection(C1LOptions.indexOf(curCSV.get(row)[1]));
-        C1RSpin.setSelection(C1ROptions.indexOf(curCSV.get(row)[2]));
+        AssetName.setSelection(AssetNameOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.culvertID)]));
+        latitude.setText(curCSV.get(row)[getResources().getInteger(R.integer.latitude)]);
+        longitude.setText(curCSV.get(row)[getResources().getInteger(R.integer.longitude)]);
+        C1LSpin.setSelection(C1LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.hwyRW)]));
+        C1RSpin.setSelection(C1ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.material)]));
+        C6LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialL)]));
+        C6RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialR)]));
 
-        Uri lPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[17]); //TODO Name has to be based off of asset name for search
-        Uri rPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[18]);
+        Uri lPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[getResources().getInteger(R.integer.photoL)]); //TODO Name has to be based off of asset name for search
+        Uri rPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[getResources().getInteger(R.integer.photoR)]);
 
         if (imageFound(lPhotoURI)) {
             photoL.setBackground(Drawable.createFromPath(lPhotoURI.getPath())); // Display the found image
-            photoL.setText(curCSV.get(row)[17]);
+            photoL.setText(curCSV.get(row)[getResources().getInteger(R.integer.photoL)]);
         } else {
             photoL.setBackground(getDrawable(R.drawable.harold));
             photoL.setText(R.string.noimagefound); // Display stock photo
         }
         if (imageFound(rPhotoURI)) {
             photoR.setBackground(Drawable.createFromPath(rPhotoURI.getPath()));
-            photoR.setText(curCSV.get(row)[18]);
+            photoR.setText(curCSV.get(row)[getResources().getInteger(R.integer.photoR)]);
         } else {
             photoR.setBackground(getDrawable(R.drawable.harold));
             photoR.setText(R.string.noimagefound);
@@ -336,7 +350,7 @@ public class SingleAssetPage extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 side = true;
-                activatePhoto(17);// Take image for left side
+                activatePhoto(getResources().getInteger(R.integer.photoL));// Take image for left side
             }
         });
 
@@ -344,7 +358,7 @@ public class SingleAssetPage extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 side = false;
-                activatePhoto(18);// Take image for right side
+                activatePhoto(getResources().getInteger(R.integer.photoR));// Take image for right side
             }
         });
 
@@ -389,6 +403,8 @@ public class SingleAssetPage extends AppCompatActivity implements
         // Characteristics
         C1Ltext = (TextView) findViewById(R.id.C1Ltext);
         C1Rtext = (TextView) findViewById(R.id.C1Rtext);
+        C6Ltext = (TextView) findViewById(R.id.C6Ltext);
+        C6Rtext = (TextView) findViewById(R.id.C6Rtext);
 
         // Entry Spinners
         //Header Spinner
@@ -396,33 +412,47 @@ public class SingleAssetPage extends AppCompatActivity implements
         //Option Spinners
         C1LSpin = (Spinner) findViewById(R.id.C1Lspin);
         C1RSpin = (Spinner) findViewById(R.id.C1Rspin);
+        C6LSpin = (Spinner) findViewById(R.id.C6Lspin);
+        C6RSpin = (Spinner) findViewById(R.id.C6Rspin);
 
         // Spinner Options
-        AssetNameOptions = getSpinnerOptions(curCSV, 0, false);
-        C1LOptions = getSpinnerOptions(curCSV, 1, true);
-        C1ROptions = getSpinnerOptions(curCSV, 2, true);
+        AssetNameOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.culvertID), false);
+        C1LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.hwyRW), true);
+        C1ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.material), true);
+        C6LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.materialL), true);
+        C6ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.materialR), true);
 
         // Spinner adapters
         assetNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, AssetNameOptions);
         C1LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C1LOptions);
         C1RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C1ROptions);
+        C6LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C6LOptions);
+        C6RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C6ROptions);
 
         // Dropdown Spinner Styles
         assetNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         C1LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         C1RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C6LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C6RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Attach adapter to spinners
         AssetName.setAdapter(assetNameAdapter);
         C1LSpin.setAdapter(C1LAdapter);
         C1RSpin.setAdapter(C1RAdapter);
+        C6LSpin.setAdapter(C6LAdapter);
+        C6RSpin.setAdapter(C6RAdapter);
         // Spinner Listeners
         AssetName.setOnItemSelectedListener(this);
         C1LSpin.setOnItemSelectedListener(this);
         C1RSpin.setOnItemSelectedListener(this);
+        C6LSpin.setOnItemSelectedListener(this);
+        C6RSpin.setOnItemSelectedListener(this);
         // Set static Entry Headers (non-location)
-        C1Ltext.setText(curCSV.get(0)[1]);
-        C1Rtext.setText(curCSV.get(0)[2]);
+        C1Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.hwyRW)]);
+        C1Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.material)]);
+        C6Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.materialL)]);
+        C6Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.materialR)]);
     }
 
     @SuppressLint("MissingPermission") // This can be suppressed because the title screen checks for permissions and restricts access until granted.
@@ -452,10 +482,10 @@ public class SingleAssetPage extends AppCompatActivity implements
         Uri imgExists = Uri.withAppendedPath(imageURI,curCSV.get(row)[photoColumn]);
         String photoName = null;
         if(side){
-            photoName = curCSV.get(row)[0] + "_L.jpg";
+            photoName = curCSV.get(row)[getResources().getInteger(R.integer.culvertID)] + "_L.jpg";
         }
         else{
-            photoName = curCSV.get(row)[0] + "_R.jpg";
+            photoName = curCSV.get(row)[getResources().getInteger(R.integer.culvertID)] + "_R.jpg";
         }
         imgPath = Uri.withAppendedPath(imageURI,photoName); // Set save location for takePhoto()
         //check if photo exists, use pop-up dialog, taking new photo may follow
@@ -490,10 +520,10 @@ public class SingleAssetPage extends AppCompatActivity implements
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             String[] curRow = curCSV.get(row);
             if(side){
-                curRow[17] = imgPath.getLastPathSegment();
+                curRow[getResources().getInteger(R.integer.photoL)] = imgPath.getLastPathSegment();
             }
             else{
-                curRow[18] = imgPath.getLastPathSegment();
+                curRow[getResources().getInteger(R.integer.photoR)] = imgPath.getLastPathSegment();
             }
             curCSV.set(row, curRow);
 
@@ -646,7 +676,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         if(!validName.matcher(newAssetName).find()){
             String[] newAssetRow = new String[curCSV.get(row).length];
             Arrays.fill(newAssetRow, "N/A");
-            newAssetRow[0] = newAssetName;
+            newAssetRow[getResources().getInteger(R.integer.culvertID)] = newAssetName;
             curCSV.add(newAssetRow);
 
             pullGUIEntries();
