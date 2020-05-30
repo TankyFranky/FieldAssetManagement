@@ -2,9 +2,11 @@
 //TODO organize functions
 //TODO known bug, if the previously saved row is larger than the current size it will crash
 //TODO put spinner options in alphabetical order
+//TODO fold and comment code
 package com.example.fieldassetmanagement;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,6 +41,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -48,6 +52,7 @@ import androidx.core.content.FileProvider;
 
 public class SingleAssetPage extends AppCompatActivity implements
         OnItemSelectedListener,
+        DatePickerDialog.OnDateSetListener,
         LocationGPSResultDialog.GPSResultListener,
         ImageOverwritePopDialog.imgOverwriteListener,
         NewAssetDialog.NewAssetDialogListener,
@@ -58,6 +63,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     private final float minDistanceUpdates = 0; // setting to zero means it is non-movement based updates
     private final long checkGPStime = 4000;
     private final double accThres = 5.0;
+    private Calendar today;
 
     // SingleAssetPage local variables
     private String fileName;
@@ -73,20 +79,20 @@ public class SingleAssetPage extends AppCompatActivity implements
     private String ASYNC_PREVIOUS_SPINNER_OPTION;
 
     // All Spinner declarations
-    private Spinner ASYNC_PROCESS_SPINNER, AssetName, C1LSpin, C1RSpin, C3LSpin, C3RSpin, C4LSpin, C4RSpin,C6LSpin, C6RSpin;
+    private Spinner ASYNC_PROCESS_SPINNER, AssetName, C1LSpin, C1RSpin, C3LSpin, C3RSpin, C4LSpin, C4RSpin,C6LSpin, C6RSpin, C7LSpin, C7RSpin, C8LSpin, C8RSpin, C9LSpin, C9RSpin, C10LSpin, C10RSpin, C11LSpin, C11RSpin;
 
     // All EditText declarations
     private EditText C2LeditText, C2ReditText;
 
     // All Spinner option declarations
-    private List<String> AssetNameOptions, C1LOptions, C1ROptions, C3LOptions, C3ROptions, C4LOptions, C4ROptions, C6LOptions, C6ROptions; // TODO use one option list for all spinners which would contain similar values
-    private ArrayAdapter<String> ASYNC_PROCESS_ADAPTER, assetNameAdapter, C1LAdapter, C1RAdapter, C3LAdapter, C3RAdapter, C4LAdapter, C4RAdapter, C6LAdapter, C6RAdapter;
+    private List<String> AssetNameOptions, C1LOptions, C1ROptions, C3LOptions, C3ROptions, C4LOptions, C4ROptions, C6LOptions, C6ROptions, C7LOptions, C7ROptions, C8LOptions, C8ROptions, C9LOptions, C9ROptions, C10LOptions, C10ROptions, C11LOptions, C11ROptions; // TODO use one option list for all spinners which would contain similar values
+    private ArrayAdapter<String> ASYNC_PROCESS_ADAPTER, assetNameAdapter, C1LAdapter, C1RAdapter, C3LAdapter, C3RAdapter, C4LAdapter, C4RAdapter, C6LAdapter, C6RAdapter, C7LAdapter, C7RAdapter, C8LAdapter, C8RAdapter, C9LAdapter, C9RAdapter, C10LAdapter, C10RAdapter, C11LAdapter, C11RAdapter;
 
     ImageView mastHead;
     ImageButton mapsButton;
     ProgressBar progressGPS;
     Button nextSave, prevSave, photoL, photoR, getGPS, addAsset;
-    TextView longitude, latitude, C1Ltext, C1Rtext, C2Ltext, C2Rtext, C3Ltext, C3Rtext, C4Ltext, C4Rtext, C6Ltext, C6Rtext;
+    TextView ASYNC_PROCESS_TEXTVIEW, longitude, latitude, C1Ltext, C1Rtext, C2Ltext, C2Rtext, C3Ltext, C3Rtext, C4Ltext, C4Rtext, C5Ltext, C5Rtext, C5Ldate, C5Rdate, C6Ltext, C6Rtext, C7Ltext, C7Rtext, C8Ltext, C8Rtext, C9Ltext, C9Rtext, C10Ltext, C10Rtext, C11Ltext, C11Rtext;
 
     @Override
     protected void onPause() {   // Any time the SingleAssetActivity leaves the foreground, the info is saved.
@@ -109,6 +115,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
+        today = Calendar.getInstance();
         // Start requesting GPS updates
         managerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTimeUpdates, minDistanceUpdates, listenerGPS);
     }
@@ -214,7 +221,56 @@ public class SingleAssetPage extends AppCompatActivity implements
                         addOption(C6RAdapter, C6RSpin, curCSV.get(row)[getResources().getInteger(R.integer.materialR)]);
                     }
                     break;
-
+                case R.id.C7Lspin:
+                    if (C7LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C7LAdapter, C7LSpin, curCSV.get(row)[getResources().getInteger(R.integer.shapeL)]);
+                    }
+                    break;
+                case R.id.C7Rspin:
+                    if (C7RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C7RAdapter, C7RSpin, curCSV.get(row)[getResources().getInteger(R.integer.shapeR)]);
+                    }
+                    break;
+                case R.id.C8Lspin:
+                    if (C8LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C8LAdapter, C8LSpin, curCSV.get(row)[getResources().getInteger(R.integer.capacityL)]);
+                    }
+                    break;
+                case R.id.C8Rspin:
+                    if (C8RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C8RAdapter, C8RSpin, curCSV.get(row)[getResources().getInteger(R.integer.capacityR)]);
+                    }
+                    break;
+                case R.id.C9Lspin:
+                    if (C9LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C9LAdapter, C9LSpin, curCSV.get(row)[getResources().getInteger(R.integer.invertL)]);
+                    }
+                    break;
+                case R.id.C9Rspin:
+                    if (C9RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C9RAdapter, C9RSpin, curCSV.get(row)[getResources().getInteger(R.integer.invertR)]);
+                    }
+                    break;
+                case R.id.C10Lspin:
+                    if (C10LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C10LAdapter, C10LSpin, curCSV.get(row)[getResources().getInteger(R.integer.scourL)]);
+                    }
+                    break;
+                case R.id.C10Rspin:
+                    if (C10RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C10RAdapter, C10RSpin, curCSV.get(row)[getResources().getInteger(R.integer.scourR)]);
+                    }
+                    break;
+                case R.id.C11Lspin:
+                    if (C11LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C11LAdapter, C11LSpin, curCSV.get(row)[getResources().getInteger(R.integer.slopeL)]);
+                    }
+                    break;
+                case R.id.C11Rspin:
+                    if (C11RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C11RAdapter, C11RSpin, curCSV.get(row)[getResources().getInteger(R.integer.slopeR)]);
+                    }
+                    break;
             }
             pullGUIEntries();
         }
@@ -285,8 +341,20 @@ public class SingleAssetPage extends AppCompatActivity implements
         curRow[getResources().getInteger(R.integer.highway)] = C3RSpin.getSelectedItem().toString();
         curRow[getResources().getInteger(R.integer.shape)] = C4LSpin.getSelectedItem().toString();
         curRow[getResources().getInteger(R.integer.surround)] = C4RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.dateInspected)] = C5Ldate.getText().toString();
+        curRow[getResources().getInteger(R.integer.warranty)] = C5Rdate.getText().toString();
         curRow[getResources().getInteger(R.integer.materialL)] = C6LSpin.getSelectedItem().toString();
         curRow[getResources().getInteger(R.integer.materialR)] = C6RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.shapeL)] = C6LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.shapeR)] = C6RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.capacityL)] = C6LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.capacityR)] = C6RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.invertL)] = C6LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.invertL)] = C6RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.scourL)] = C6LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.scourR)] = C6RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.slopeL)] = C6LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.slopeR)] = C6RSpin.getSelectedItem().toString();
         curRow[getResources().getInteger(R.integer.latitude)] = latitude.getText().toString();
         curRow[getResources().getInteger(R.integer.longitude)] = longitude.getText().toString();
 
@@ -327,8 +395,20 @@ public class SingleAssetPage extends AppCompatActivity implements
         C3RSpin.setSelection(C3ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.highway)]));
         C4LSpin.setSelection(C4LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shape)]));
         C4RSpin.setSelection(C4ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.surround)]));
+        C5Ldate.setText(curCSV.get(row)[getResources().getInteger(R.integer.dateInspected)]);
+        C5Rdate.setText(curCSV.get(row)[getResources().getInteger(R.integer.warranty)]);
         C6LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialL)]));
         C6RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialR)]));
+        C7LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeL)]));
+        C7RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeR)]));
+        C8LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityL)]));
+        C8RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityR)]));
+        C9LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertL)]));
+        C9RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertR)]));
+        C10LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourL)]));
+        C10RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourR)]));
+        C11LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeL)]));
+        C11RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeR)]));
 
         Uri lPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[getResources().getInteger(R.integer.photoL)]); //TODO Name has to be based off of asset name for search
         Uri rPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[getResources().getInteger(R.integer.photoR)]);
@@ -375,6 +455,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         photoL = (Button) findViewById(R.id.photoL);
         photoR = (Button) findViewById(R.id.photoR);
 
+        C5Ldate = (TextView) findViewById(R.id.C5Lspin);
+        C5Rdate = (TextView) findViewById(R.id.C5Rspin);
+
         if (imageURI != null) {
             setPhotoSize();
         } else {   // If no folder could be created than do not show the camera buttons
@@ -395,6 +478,42 @@ public class SingleAssetPage extends AppCompatActivity implements
             public void onClick(View v) {
                 side = false;
                 activatePhoto(getResources().getInteger(R.integer.photoR));// Take image for right side
+            }
+        });
+
+        C5Ldate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int Year = today.get(Calendar.YEAR);
+                int Month = today.get(Calendar.MONTH);
+                int Day = today.get(Calendar.DAY_OF_MONTH);
+
+                openDate(Year, Month, Day, C5Ldate);
+            }
+        });
+
+        C5Rdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Pattern validDate = Pattern.compile("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$");
+                String current = C5Rdate.getText().toString();
+                int Year;
+                int Month;
+                int Day;
+                if(validDate.matcher(current).find()){
+                    String[] dateSplit = current.split("-",3);
+                    Year = Integer.parseInt(dateSplit[0]);
+                    Month = Integer.parseInt(dateSplit[1]);
+                    Day = Integer.parseInt(dateSplit[2]);
+                }
+
+                else{
+                    Year = today.get(Calendar.YEAR);
+                    Month = today.get(Calendar.MONTH);
+                    Day = today.get(Calendar.DAY_OF_MONTH);
+                }
+
+                openDate(Year, Month, Day, C5Rdate);
             }
         });
 
@@ -445,8 +564,20 @@ public class SingleAssetPage extends AppCompatActivity implements
         C3Rtext = (TextView) findViewById(R.id.C3Rtext);
         C4Ltext = (TextView) findViewById(R.id.C4Ltext);
         C4Rtext = (TextView) findViewById(R.id.C4Rtext);
+        C5Ltext = (TextView) findViewById(R.id.C5Ltext);
+        C5Rtext = (TextView) findViewById(R.id.C5Rtext);
         C6Ltext = (TextView) findViewById(R.id.C6Ltext);
         C6Rtext = (TextView) findViewById(R.id.C6Rtext);
+        C7Ltext = (TextView) findViewById(R.id.C7Ltext);
+        C7Rtext = (TextView) findViewById(R.id.C7Rtext);
+        C8Ltext = (TextView) findViewById(R.id.C8Ltext);
+        C8Rtext = (TextView) findViewById(R.id.C8Rtext);
+        C9Ltext = (TextView) findViewById(R.id.C9Ltext);
+        C9Rtext = (TextView) findViewById(R.id.C9Rtext);
+        C10Ltext = (TextView) findViewById(R.id.C10Ltext);
+        C10Rtext = (TextView) findViewById(R.id.C10Rtext);
+        C11Ltext = (TextView) findViewById(R.id.C11Ltext);
+        C11Rtext = (TextView) findViewById(R.id.C11Rtext);
 
         // Entry Spinners
         //Header Spinner
@@ -462,6 +593,16 @@ public class SingleAssetPage extends AppCompatActivity implements
         C4RSpin = (Spinner) findViewById(R.id.C4Rspin);
         C6LSpin = (Spinner) findViewById(R.id.C6Lspin);
         C6RSpin = (Spinner) findViewById(R.id.C6Rspin);
+        C7LSpin = (Spinner) findViewById(R.id.C7Lspin);
+        C7RSpin = (Spinner) findViewById(R.id.C7Rspin);
+        C8LSpin = (Spinner) findViewById(R.id.C8Lspin);
+        C8RSpin = (Spinner) findViewById(R.id.C8Rspin);
+        C9LSpin = (Spinner) findViewById(R.id.C9Lspin);
+        C9RSpin = (Spinner) findViewById(R.id.C9Rspin);
+        C10LSpin = (Spinner) findViewById(R.id.C10Lspin);
+        C10RSpin = (Spinner) findViewById(R.id.C10Rspin);
+        C11LSpin = (Spinner) findViewById(R.id.C11Lspin);
+        C11RSpin = (Spinner) findViewById(R.id.C11Rspin);
 
         // Spinner Options
         AssetNameOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.culvertID), false);
@@ -473,6 +614,16 @@ public class SingleAssetPage extends AppCompatActivity implements
         C4ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.surround), true);
         C6LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.materialL), true);
         C6ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.materialR), true);
+        C7LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.shapeL), true);
+        C7ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.shapeR), true);
+        C8LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.capacityL), true);
+        C8ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.capacityR), true);
+        C9LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.invertL), true);
+        C9ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.invertR), true);
+        C10LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.scourL), true);
+        C10ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.scourR), true);
+        C11LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.slopeL), true);
+        C11ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.slopeR), true);
 
         // Spinner adapters
         assetNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, AssetNameOptions);
@@ -484,6 +635,16 @@ public class SingleAssetPage extends AppCompatActivity implements
         C4RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C4ROptions);
         C6LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C6LOptions);
         C6RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C6ROptions);
+        C7LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C7LOptions);
+        C7RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C7ROptions);
+        C8LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C8LOptions);
+        C8RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C8ROptions);
+        C9LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C9LOptions);
+        C9RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C9ROptions);
+        C10LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C10LOptions);
+        C10RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C10ROptions);
+        C11LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C11LOptions);
+        C11RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C11ROptions);
 
         // Dropdown Spinner Styles
         assetNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -495,6 +656,16 @@ public class SingleAssetPage extends AppCompatActivity implements
         C4RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         C6LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         C6RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C7LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C7RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C8LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C8RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C9LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C9RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C10LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C10RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C11LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C11RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Attach adapter to spinners
         AssetName.setAdapter(assetNameAdapter);
@@ -506,6 +677,16 @@ public class SingleAssetPage extends AppCompatActivity implements
         C4RSpin.setAdapter(C4RAdapter);
         C6LSpin.setAdapter(C6LAdapter);
         C6RSpin.setAdapter(C6RAdapter);
+        C7LSpin.setAdapter(C7LAdapter);
+        C7RSpin.setAdapter(C7RAdapter);
+        C8LSpin.setAdapter(C8LAdapter);
+        C8RSpin.setAdapter(C8RAdapter);
+        C9LSpin.setAdapter(C9LAdapter);
+        C9RSpin.setAdapter(C9RAdapter);
+        C10LSpin.setAdapter(C10LAdapter);
+        C10RSpin.setAdapter(C10RAdapter);
+        C11LSpin.setAdapter(C11LAdapter);
+        C11RSpin.setAdapter(C11RAdapter);
         // Spinner Listeners
         AssetName.setOnItemSelectedListener(this);
         C1LSpin.setOnItemSelectedListener(this);
@@ -516,6 +697,16 @@ public class SingleAssetPage extends AppCompatActivity implements
         C4RSpin.setOnItemSelectedListener(this);
         C6LSpin.setOnItemSelectedListener(this);
         C6RSpin.setOnItemSelectedListener(this);
+        C7LSpin.setOnItemSelectedListener(this);
+        C7RSpin.setOnItemSelectedListener(this);
+        C8LSpin.setOnItemSelectedListener(this);
+        C8RSpin.setOnItemSelectedListener(this);
+        C9LSpin.setOnItemSelectedListener(this);
+        C9RSpin.setOnItemSelectedListener(this);
+        C10LSpin.setOnItemSelectedListener(this);
+        C10RSpin.setOnItemSelectedListener(this);
+        C11LSpin.setOnItemSelectedListener(this);
+        C11RSpin.setOnItemSelectedListener(this);
         // Set static Entry Headers (non-location)
         C1Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.hwyRW)]);
         C1Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.material)]);
@@ -525,8 +716,35 @@ public class SingleAssetPage extends AppCompatActivity implements
         C3Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.highway)]);
         C4Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.shape)]);
         C4Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.surround)]);
+        C5Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.dateInspected)]);
+        C5Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.warranty)]);
         C6Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.materialL)]);
         C6Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.materialR)]);
+        C7Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.shapeL)]);
+        C7Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.shapeR)]);
+        C8Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.capacityL)]);
+        C8Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.capacityR)]);
+        C9Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.invertL)]);
+        C9Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.invertR)]);
+        C10Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.scourL)]);
+        C10Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.scourR)]);
+        C11Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.slopeL)]);
+        C11Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.slopeR)]);
+    }
+    private void openDate(int year, int month, int day, TextView entry) {
+        ASYNC_PROCESS_TEXTVIEW = entry;
+        DatePickerDialog dateDialog = new DatePickerDialog(
+                this,
+                this,
+                year, month, day);
+        dateDialog.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String dateString = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(dayOfMonth);
+        ASYNC_PROCESS_TEXTVIEW.setText(dateString);
+        ASYNC_PROCESS_TEXTVIEW = null;
     }
 
     @SuppressLint("MissingPermission") // This can be suppressed because the title screen checks for permissions and restricts access until granted.

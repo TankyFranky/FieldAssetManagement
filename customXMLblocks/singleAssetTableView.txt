@@ -14,7 +14,7 @@
                         android:layout_height="20dp"
                         android:layout_weight="1"
                         android:layout_column="0"
-                        android:text="column1Text"
+                        android:text="TitleNumL"
                         android:gravity="center">
                     </TextView>
                     <TextView
@@ -23,7 +23,7 @@
                         android:layout_height="20dp"
                         android:layout_weight="1"
                         android:layout_column="1"
-                        android:text="column2Text"
+                        android:text="TitleNumR"
                         android:gravity="center">
                     </TextView>
                 </TableRow>

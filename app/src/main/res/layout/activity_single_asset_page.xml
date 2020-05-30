@@ -152,6 +152,7 @@
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:layout_column="0"
+                        android:textAlignment="center"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -160,6 +161,7 @@
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:layout_column="1"
+                        android:textAlignment="center"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -206,6 +208,7 @@
                         android:layout_column="0"
                         android:inputType="number"
                         android:hint="LHRS"
+                        android:textAlignment="center"
                         android:layout_marginEnd="3dp">
                     </EditText>
                     <EditText
@@ -215,7 +218,8 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:inputType="number"
-                        android:hint="offset"
+                        android:hint="Offset"
+                        android:textAlignment="center"
                         android:layout_marginStart="3dp">
                     </EditText>
 
@@ -260,6 +264,7 @@
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:layout_column="0"
+                        android:textAlignment="center"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -268,6 +273,7 @@
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:layout_column="1"
+                        android:textAlignment="center"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -312,6 +318,7 @@
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:layout_column="0"
+                        android:textAlignment="center"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -320,6 +327,7 @@
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:layout_column="1"
+                        android:textAlignment="center"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -361,21 +369,25 @@
                     <TextView
                         android:id="@+id/C5Lspin"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:inputType="date"
                         android:hint="Inspection Date"
+                        android:textAlignment="center"
                         android:layout_marginEnd="3dp">
                     </TextView>
                     <TextView
                         android:id="@+id/C5Rspin"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:inputType="date"
                         android:hint="Warrenty Date"
+                        android:textAlignment="center"
                         android:layout_marginStart="3dp">
                     </TextView>
 
@@ -425,6 +437,276 @@
                     </Spinner>
                     <Spinner
                         android:id="@+id/C6Rspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:textAlignment="center"
+                        android:layout_marginStart="3dp">
+                    </Spinner>
+
+                </TableRow>
+            </TableLayout>
+            <TableLayout
+                android:id="@+id/C7t"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp">
+                <TableRow
+                    android:id="@+id/C7textRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/C7Ltext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:text="Title7L"
+                        android:gravity="center">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/C7Rtext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:text="Title7R"
+                        android:gravity="center">
+                    </TextView>
+                </TableRow>
+                <TableRow
+                    android:id="@+id/C7spinRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/C7Lspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="3dp">
+                    </Spinner>
+                    <Spinner
+                        android:id="@+id/C7Rspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:textAlignment="center"
+                        android:layout_marginStart="3dp">
+                    </Spinner>
+
+                </TableRow>
+            </TableLayout>
+            <TableLayout
+                android:id="@+id/C8t"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp">
+                <TableRow
+                    android:id="@+id/C8textRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/C8Ltext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:text="Title8L"
+                        android:gravity="center">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/C8Rtext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:text="Title8R"
+                        android:gravity="center">
+                    </TextView>
+                </TableRow>
+                <TableRow
+                    android:id="@+id/C8spinRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/C8Lspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="3dp">
+                    </Spinner>
+                    <Spinner
+                        android:id="@+id/C8Rspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:textAlignment="center"
+                        android:layout_marginStart="3dp">
+                    </Spinner>
+
+                </TableRow>
+            </TableLayout>
+            <TableLayout
+                android:id="@+id/C9t"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp">
+                <TableRow
+                    android:id="@+id/C9textRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/C9Ltext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:text="Title9L"
+                        android:gravity="center">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/C9Rtext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:text="Title9R"
+                        android:gravity="center">
+                    </TextView>
+                </TableRow>
+                <TableRow
+                    android:id="@+id/C9spinRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/C9Lspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="3dp">
+                    </Spinner>
+                    <Spinner
+                        android:id="@+id/C9Rspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:textAlignment="center"
+                        android:layout_marginStart="3dp">
+                    </Spinner>
+
+                </TableRow>
+            </TableLayout>
+            <TableLayout
+                android:id="@+id/C10t"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp">
+                <TableRow
+                    android:id="@+id/C10textRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/C10Ltext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:text="Title10L"
+                        android:gravity="center">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/C10Rtext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:text="Title10R"
+                        android:gravity="center">
+                    </TextView>
+                </TableRow>
+                <TableRow
+                    android:id="@+id/C10spinRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/C10Lspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="3dp">
+                    </Spinner>
+                    <Spinner
+                        android:id="@+id/C10Rspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:textAlignment="center"
+                        android:layout_marginStart="3dp">
+                    </Spinner>
+
+                </TableRow>
+            </TableLayout>
+            <TableLayout
+                android:id="@+id/C11t"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp">
+                <TableRow
+                    android:id="@+id/C11textRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/C11Ltext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:text="Title11L"
+                        android:gravity="center">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/C11Rtext"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:text="Title11R"
+                        android:gravity="center">
+                    </TextView>
+                </TableRow>
+                <TableRow
+                    android:id="@+id/C11spinRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/C11Lspin"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:layout_column="0"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="3dp">
+                    </Spinner>
+                    <Spinner
+                        android:id="@+id/C11Rspin"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"

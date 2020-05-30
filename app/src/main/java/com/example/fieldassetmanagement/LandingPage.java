@@ -1,3 +1,6 @@
+//TODO Multiple SingleAssetPages open if Go button is spammed
+//TODO app crashed if file is selected, then exited, then resumed
+//TODO app takes a while to load, implement multithreading
 package com.example.fieldassetmanagement;
 
 import android.Manifest;
