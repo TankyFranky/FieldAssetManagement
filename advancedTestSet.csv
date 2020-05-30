@@ -1,0 +1,11 @@
+﻿Asset Name,characteristic 1L,characteristic 1R,characteristic 2L,characteristic 2R,characteristic 3L,characteristic 3R,characteristic 4L,characteristic 4R,characteristic 5L,characteristic 5R,characteristic 6L,characteristic 6R,characteristic 7L,characteristic 7R,Latitude,Longitude
+A1 Alpha,Good,Fair,metal,wood,sand,sand,1y,2y,Fair,Good,smooth,smooth,small,small,54.51397,-126.5525
+A2 Beta,Bad,Bad,wood,wood,gravel,gravel,2y,4y,Bad,Bad,cracked,buldged,medium,medium,9.04719,43.45996
+A3 Charlie,Fair,Good,concrete,metal,stone,stone,3y,3y,Good,Fair,dipped,cracked,large,large,-34.53468,-63.72571
+A4 Delta,Fair,Fair,concrete,concrete,gravel,gravel,4y,4y,Fair,Fair,buldged,cracked,Xlarge,Xlarge,33.22571,-80.15546
+A5 Echo,Bad,Bad,metal,wood,gravel,gravel,2y,9y,Bad,Bad,smooth,dipped,medium,medium,-43.46307,-67.2066
+A6 Foxtrot,Good,Bad,wood,metal,stone,stone,9y,2y,Bad,Good,buldged,smooth,medium,medium,58.50641,40.26551
+A7 Golf,Fair,Good,concrete,concrete,sand,sand,1y,1y,Good,Fair,cracked,dipped,small,small,-7.50823,-66.08449
+A8 Hotel,Bad,Fair,metal,wood,gravel,gravel,2y,2y,Fair,Bad,dipped,smooth,Xlarge,Xlarge,45.503,134.62533
+A9 India,Fair,Good,wood,metal,stone,stone,4y,4y,Good,Fair,cracked,cracked,large,large,29.99545,47.48582
+A10 Juliet,Fair,Bad,wood,concrete,sand,sand,2y,2y,Bad,Fair,smooth,dipped,small,small,45.54772,96.2428
