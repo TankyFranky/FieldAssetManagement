@@ -3,6 +3,7 @@
 //TODO known bug, if the previously saved row is larger than the current size it will crash
 //TODO put spinner options in alphabetical order
 //TODO fold and comment code
+//TODO duplicate asset names cause a bug
 package com.example.fieldassetmanagement;
 
 import android.annotation.SuppressLint;

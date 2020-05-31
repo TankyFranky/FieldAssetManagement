@@ -126,20 +126,28 @@
                     <TextView
                         android:id="@+id/C1Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title1L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                     <TextView
                         android:id="@+id/C1Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title1R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -153,6 +161,7 @@
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -162,6 +171,7 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -180,20 +190,28 @@
                     <TextView
                         android:id="@+id/C2Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title2L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">>
                     </TextView>
                     <TextView
                         android:id="@+id/C2Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title2R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -209,6 +227,9 @@
                         android:inputType="number"
                         android:hint="LHRS"
                         android:textAlignment="center"
+                        android:textSize="17sp"
+                        android:padding="5dp"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </EditText>
                     <EditText
@@ -217,9 +238,12 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
-                        android:inputType="number"
+                        android:inputType="number|numberDecimal|numberSigned"
                         android:hint="Offset"
                         android:textAlignment="center"
+                        android:textSize="17sp"
+                        android:padding="5dp"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </EditText>
 
@@ -238,20 +262,28 @@
                     <TextView
                         android:id="@+id/C3Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title3L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">>
                     </TextView>
                     <TextView
                         android:id="@+id/C3Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title3R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -265,6 +297,7 @@
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -274,6 +307,7 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -292,20 +326,28 @@
                     <TextView
                         android:id="@+id/C4Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title4L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">>
                     </TextView>
                     <TextView
                         android:id="@+id/C4Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title4R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -319,6 +361,7 @@
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -328,6 +371,7 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -346,20 +390,28 @@
                     <TextView
                         android:id="@+id/C5Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title5L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">>
                     </TextView>
                     <TextView
                         android:id="@+id/C5Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title5R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -376,6 +428,9 @@
                         android:inputType="date"
                         android:hint="Inspection Date"
                         android:textAlignment="center"
+                        android:textSize="17sp"
+                        android:padding="5dp"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </TextView>
                     <TextView
@@ -388,6 +443,9 @@
                         android:inputType="date"
                         android:hint="Warrenty Date"
                         android:textAlignment="center"
+                        android:textSize="17sp"
+                        android:padding="5dp"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </TextView>
 
@@ -406,20 +464,28 @@
                     <TextView
                         android:id="@+id/C6Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title6L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">>
                     </TextView>
                     <TextView
                         android:id="@+id/C6Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title6R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -433,6 +499,7 @@
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -442,6 +509,7 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -460,20 +528,28 @@
                     <TextView
                         android:id="@+id/C7Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title7L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">>
                     </TextView>
                     <TextView
                         android:id="@+id/C7Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title7R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -487,6 +563,7 @@
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -496,6 +573,7 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -514,20 +592,28 @@
                     <TextView
                         android:id="@+id/C8Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title8L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">>
                     </TextView>
                     <TextView
                         android:id="@+id/C8Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title8R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -541,6 +627,7 @@
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -550,6 +637,7 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -568,20 +656,28 @@
                     <TextView
                         android:id="@+id/C9Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title9L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">>
                     </TextView>
                     <TextView
                         android:id="@+id/C9Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
-                        android:text="Title9R"
-                        android:gravity="center">
+                        android:text="Title10R"
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -595,6 +691,7 @@
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -604,6 +701,7 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -622,20 +720,28 @@
                     <TextView
                         android:id="@+id/C10Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title10L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">>
                     </TextView>
                     <TextView
                         android:id="@+id/C10Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title10R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -649,6 +755,7 @@
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -658,6 +765,7 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
@@ -676,20 +784,28 @@
                     <TextView
                         android:id="@+id/C11Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:text="Title11L"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                     <TextView
                         android:id="@+id/C11Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:text="Title11R"
-                        android:gravity="center">
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
@@ -703,6 +819,7 @@
                         android:layout_weight="1"
                         android:layout_column="0"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
@@ -712,6 +829,7 @@
                         android:layout_weight="1"
                         android:layout_column="1"
                         android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 
