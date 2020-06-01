@@ -1,50 +1,62 @@
 <TableLayout
-                android:id="@+id/Cnumt"
+                android:id="@+id/C11t"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp">
                 <TableRow
-                    android:id="@+id/CnumtextRow"
+                    android:id="@+id/C11textRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/CnumLtext"
+                        android:id="@+id/C11Ltext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
-                        android:text="TitleNumL"
-                        android:gravity="center">
+                        android:text="Title11L"
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                     <TextView
-                        android:id="@+id/CnumRtext"
+                        android:id="@+id/C11Rtext"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
-                        android:text="TitleNumR"
-                        android:gravity="center">
+                        android:text="Title11R"
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
                     </TextView>
                 </TableRow>
                 <TableRow
-                    android:id="@+id/CnumspinRow"
+                    android:id="@+id/C11spinRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <Spinner
-                        android:id="@+id/CnumLspin"
+                        android:id="@+id/C11Lspin"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:layout_column="0"
+                        android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginEnd="3dp">
                     </Spinner>
                     <Spinner
-                        android:id="@+id/CnumRspin"
+                        android:id="@+id/C11Rspin"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:layout_column="1"
+                        android:textAlignment="center"
+                        android:background="@drawable/single_asset_page_textview"
                         android:layout_marginStart="3dp">
                     </Spinner>
 

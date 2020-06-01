@@ -377,8 +377,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         curRow[getResources().getInteger(R.integer.settlement)] = C12LSpin.getSelectedItem().toString();
         curRow[getResources().getInteger(R.integer.remainingLife)] = C13LSpin.getSelectedItem().toString();
         curRow[getResources().getInteger(R.integer.priority)] = C13RSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.notes)] = C14LeditText.getText().toString();
-        curRow[getResources().getInteger(R.integer.notes)] = C14LeditText.getText().toString();
+        curRow[getResources().getInteger(R.integer.notes)] = C14LeditText.getText().toString().replace(",",".");
 
 
         curRow[getResources().getInteger(R.integer.latitude)] = latitude.getText().toString();
