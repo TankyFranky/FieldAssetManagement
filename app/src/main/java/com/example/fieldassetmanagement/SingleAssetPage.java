@@ -12,6 +12,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -20,7 +21,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -80,20 +83,20 @@ public class SingleAssetPage extends AppCompatActivity implements
     private String ASYNC_PREVIOUS_SPINNER_OPTION;
 
     // All Spinner declarations
-    private Spinner ASYNC_PROCESS_SPINNER, AssetName, C1LSpin, C1RSpin, C3LSpin, C3RSpin, C4LSpin, C4RSpin,C6LSpin, C6RSpin, C7LSpin, C7RSpin, C8LSpin, C8RSpin, C9LSpin, C9RSpin, C10LSpin, C10RSpin, C11LSpin, C11RSpin;
+    private Spinner ASYNC_PROCESS_SPINNER, AssetName, C1LSpin, C1RSpin, C3LSpin, C3RSpin, C4LSpin, C4RSpin,C6LSpin, C6RSpin, C7LSpin, C7RSpin, C8LSpin, C8RSpin, C9LSpin, C9RSpin, C10LSpin, C10RSpin, C11LSpin, C11RSpin, C12LSpin, C13LSpin, C13RSpin;
 
     // All EditText declarations
-    private EditText C2LeditText, C2ReditText;
+    private EditText C2LeditText, C2ReditText, C14LeditText;
 
     // All Spinner option declarations
-    private List<String> AssetNameOptions, C1LOptions, C1ROptions, C3LOptions, C3ROptions, C4LOptions, C4ROptions, C6LOptions, C6ROptions, C7LOptions, C7ROptions, C8LOptions, C8ROptions, C9LOptions, C9ROptions, C10LOptions, C10ROptions, C11LOptions, C11ROptions; // TODO use one option list for all spinners which would contain similar values
-    private ArrayAdapter<String> ASYNC_PROCESS_ADAPTER, assetNameAdapter, C1LAdapter, C1RAdapter, C3LAdapter, C3RAdapter, C4LAdapter, C4RAdapter, C6LAdapter, C6RAdapter, C7LAdapter, C7RAdapter, C8LAdapter, C8RAdapter, C9LAdapter, C9RAdapter, C10LAdapter, C10RAdapter, C11LAdapter, C11RAdapter;
+    private List<String> AssetNameOptions, C1LOptions, C1ROptions, C3LOptions, C3ROptions, C4LOptions, C4ROptions, C6LOptions, C6ROptions, C7LOptions, C7ROptions, C8LOptions, C8ROptions, C9LOptions, C9ROptions, C10LOptions, C10ROptions, C11LOptions, C11ROptions, C12LOptions, C13LOptions, C13ROptions; // TODO use one option list for all spinners which would contain similar values
+    private ArrayAdapter<String> ASYNC_PROCESS_ADAPTER, assetNameAdapter, C1LAdapter, C1RAdapter, C3LAdapter, C3RAdapter, C4LAdapter, C4RAdapter, C6LAdapter, C6RAdapter, C7LAdapter, C7RAdapter, C8LAdapter, C8RAdapter, C9LAdapter, C9RAdapter, C10LAdapter, C10RAdapter, C11LAdapter, C11RAdapter, C12LAdapter, C13LAdapter, C13RAdapter;
 
     ImageView mastHead;
     ImageButton mapsButton;
     ProgressBar progressGPS;
     Button nextSave, prevSave, photoL, photoR, getGPS, addAsset;
-    TextView ASYNC_PROCESS_TEXTVIEW, longitude, latitude, C1Ltext, C1Rtext, C2Ltext, C2Rtext, C3Ltext, C3Rtext, C4Ltext, C4Rtext, C5Ltext, C5Rtext, C5Ldate, C5Rdate, C6Ltext, C6Rtext, C7Ltext, C7Rtext, C8Ltext, C8Rtext, C9Ltext, C9Rtext, C10Ltext, C10Rtext, C11Ltext, C11Rtext;
+    TextView ASYNC_PROCESS_TEXTVIEW, longitude, latitude, C1Ltext, C1Rtext, C2Ltext, C2Rtext, C3Ltext, C3Rtext, C4Ltext, C4Rtext, C5Ltext, C5Rtext, C5Ldate, C5Rdate, C6Ltext, C6Rtext, C7Ltext, C7Rtext, C8Ltext, C8Rtext, C9Ltext, C9Rtext, C10Ltext, C10Rtext, C11Ltext, C11Rtext, C12Ltext, C13Ltext, C13Rtext, C14Ltext;
 
     @Override
     protected void onPause() {   // Any time the SingleAssetActivity leaves the foreground, the info is saved.
@@ -272,6 +275,21 @@ public class SingleAssetPage extends AppCompatActivity implements
                         addOption(C11RAdapter, C11RSpin, curCSV.get(row)[getResources().getInteger(R.integer.slopeR)]);
                     }
                     break;
+                case R.id.C12Lspin:
+                    if (C12LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C12LAdapter, C12LSpin, curCSV.get(row)[getResources().getInteger(R.integer.settlement)]);
+                    }
+                    break;
+                case R.id.C13Lspin:
+                    if (C13LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C13LAdapter, C13LSpin, curCSV.get(row)[getResources().getInteger(R.integer.remainingLife)]);
+                    }
+                    break;
+                case R.id.C13Rspin:
+                    if (C13RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
+                        addOption(C13RAdapter, C13RSpin, curCSV.get(row)[getResources().getInteger(R.integer.priority)]);
+                    }
+                    break;
             }
             pullGUIEntries();
         }
@@ -346,18 +364,26 @@ public class SingleAssetPage extends AppCompatActivity implements
         curRow[getResources().getInteger(R.integer.warranty)] = C5Rdate.getText().toString();
         curRow[getResources().getInteger(R.integer.materialL)] = C6LSpin.getSelectedItem().toString();
         curRow[getResources().getInteger(R.integer.materialR)] = C6RSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.shapeL)] = C6LSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.shapeR)] = C6RSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.capacityL)] = C6LSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.capacityR)] = C6RSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.invertL)] = C6LSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.invertL)] = C6RSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.scourL)] = C6LSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.scourR)] = C6RSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.slopeL)] = C6LSpin.getSelectedItem().toString();
-        curRow[getResources().getInteger(R.integer.slopeR)] = C6RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.shapeL)] = C7LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.shapeR)] = C7RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.capacityL)] = C8LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.capacityR)] = C8RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.invertL)] = C9LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.invertR)] = C9RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.scourL)] = C10LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.scourR)] = C10RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.slopeL)] = C11LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.slopeR)] = C11RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.settlement)] = C12LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.remainingLife)] = C13LSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.priority)] = C13RSpin.getSelectedItem().toString();
+        curRow[getResources().getInteger(R.integer.notes)] = C14LeditText.getText().toString();
+        curRow[getResources().getInteger(R.integer.notes)] = C14LeditText.getText().toString();
+
+
         curRow[getResources().getInteger(R.integer.latitude)] = latitude.getText().toString();
         curRow[getResources().getInteger(R.integer.longitude)] = longitude.getText().toString();
+
 
         // Photo names are not saved based on what is displayed
 
@@ -400,16 +426,20 @@ public class SingleAssetPage extends AppCompatActivity implements
         C5Rdate.setText(curCSV.get(row)[getResources().getInteger(R.integer.warranty)]);
         C6LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialL)]));
         C6RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialR)]));
-        C7LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeL)]));
-        C7RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeR)]));
-        C8LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityL)]));
-        C8RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityR)]));
-        C9LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertL)]));
-        C9RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertR)]));
-        C10LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourL)]));
-        C10RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourR)]));
-        C11LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeL)]));
-        C11RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeR)]));
+        C7LSpin.setSelection(C7LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeL)]));
+        C7RSpin.setSelection(C7ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeR)]));
+        C8LSpin.setSelection(C8LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityL)]));
+        C8RSpin.setSelection(C8ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityR)]));
+        C9LSpin.setSelection(C9LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertL)]));
+        C9RSpin.setSelection(C9ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertR)]));
+        C10LSpin.setSelection(C10LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourL)]));
+        C10RSpin.setSelection(C10ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourR)]));
+        C11LSpin.setSelection(C11LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeL)]));
+        C11RSpin.setSelection(C11ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeR)]));
+        C12LSpin.setSelection(C12LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.settlement)]));
+        C13LSpin.setSelection(C13LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.remainingLife)]));
+        C13RSpin.setSelection(C13ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.priority)]));
+        C14LeditText.setText(curCSV.get(row)[getResources().getInteger(R.integer.notes)]);
 
         Uri lPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[getResources().getInteger(R.integer.photoL)]); //TODO Name has to be based off of asset name for search
         Uri rPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[getResources().getInteger(R.integer.photoR)]);
@@ -579,6 +609,10 @@ public class SingleAssetPage extends AppCompatActivity implements
         C10Rtext = (TextView) findViewById(R.id.C10Rtext);
         C11Ltext = (TextView) findViewById(R.id.C11Ltext);
         C11Rtext = (TextView) findViewById(R.id.C11Rtext);
+        C12Ltext = (TextView) findViewById(R.id.C12Ltext);
+        C13Ltext = (TextView) findViewById(R.id.C13Ltext);
+        C13Rtext = (TextView) findViewById(R.id.C13Rtext);
+        C14Ltext = (TextView) findViewById(R.id.C14Ltext);
 
         // Entry Spinners
         //Header Spinner
@@ -604,6 +638,10 @@ public class SingleAssetPage extends AppCompatActivity implements
         C10RSpin = (Spinner) findViewById(R.id.C10Rspin);
         C11LSpin = (Spinner) findViewById(R.id.C11Lspin);
         C11RSpin = (Spinner) findViewById(R.id.C11Rspin);
+        C12LSpin = (Spinner) findViewById(R.id.C12Lspin);
+        C13LSpin = (Spinner) findViewById(R.id.C13Lspin);
+        C13RSpin = (Spinner) findViewById(R.id.C13Rspin);
+        C14LeditText = (EditText) findViewById(R.id.C14Lspin);
 
         // Spinner Options
         AssetNameOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.culvertID), false);
@@ -625,6 +663,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C10ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.scourR), true);
         C11LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.slopeL), true);
         C11ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.slopeR), true);
+        C12LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.settlement), true);
+        C13LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.remainingLife), true);
+        C13ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.priority), true);
 
         // Spinner adapters
         assetNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, AssetNameOptions);
@@ -646,6 +687,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C10RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C10ROptions);
         C11LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C11LOptions);
         C11RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C11ROptions);
+        C12LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C12LOptions);
+        C13LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C13LOptions);
+        C13RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C13ROptions);
 
         // Dropdown Spinner Styles
         assetNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -667,6 +711,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C10RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         C11LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         C11RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C12LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C13LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C13RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Attach adapter to spinners
         AssetName.setAdapter(assetNameAdapter);
@@ -688,6 +735,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C10RSpin.setAdapter(C10RAdapter);
         C11LSpin.setAdapter(C11LAdapter);
         C11RSpin.setAdapter(C11RAdapter);
+        C12LSpin.setAdapter(C12LAdapter);
+        C13LSpin.setAdapter(C13LAdapter);
+        C13RSpin.setAdapter(C13RAdapter);
         // Spinner Listeners
         AssetName.setOnItemSelectedListener(this);
         C1LSpin.setOnItemSelectedListener(this);
@@ -708,6 +758,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C10RSpin.setOnItemSelectedListener(this);
         C11LSpin.setOnItemSelectedListener(this);
         C11RSpin.setOnItemSelectedListener(this);
+        C12LSpin.setOnItemSelectedListener(this);
+        C13LSpin.setOnItemSelectedListener(this);
+        C13RSpin.setOnItemSelectedListener(this);
         // Set static Entry Headers (non-location)
         C1Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.hwyRW)]);
         C1Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.material)]);
@@ -731,6 +784,10 @@ public class SingleAssetPage extends AppCompatActivity implements
         C10Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.scourR)]);
         C11Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.slopeL)]);
         C11Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.slopeR)]);
+        C12Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.settlement)]);
+        C13Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.remainingLife)]);
+        C13Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.priority)]);
+        C14Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.notes)]);
     }
     private void openDate(int year, int month, int day, TextView entry) {
         ASYNC_PROCESS_TEXTVIEW = entry;
@@ -935,6 +992,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         List<String> toList = new ArrayList<String>(Arrays.asList(allOptions));
 
         if(extendable && !toList.contains(getString(R.string.add_option))){
+            if(!toList.contains("N/A")){
+                toList.add("N/A");
+            }
             toList.add(getString(R.string.add_option));
         }
 
@@ -966,7 +1026,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     private void createNewAsset(String newAssetName) {
         Pattern validName = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]");
 
-        if(!validName.matcher(newAssetName).find()){
+        if(!validName.matcher(newAssetName).find()){    //TODO make sure you cant add an asset under the same name as an existing one
             String[] newAssetRow = new String[curCSV.get(row).length];
             Arrays.fill(newAssetRow, "N/A");
             newAssetRow[getResources().getInteger(R.integer.culvertID)] = newAssetName;
@@ -1085,5 +1145,22 @@ public class SingleAssetPage extends AppCompatActivity implements
     public void onNewGPSResult(String latitudeAD, String longitudeAD) {
         latitude.setText(latitudeAD);
         longitude.setText(longitudeAD);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 }
