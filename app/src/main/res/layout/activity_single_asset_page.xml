@@ -1012,11 +1012,24 @@
                         android:layout_gravity="center">>
                     </TextView>
                     <TextView
-                        android:id="@+id/C15Rtext"
+                        android:id="@+id/C15Ctext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="1"
+                        android:text="Title1CR"
+                        android:textSize="17sp"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/C15Rtext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_column="2"
                         android:text="Title15R"
                         android:textSize="17sp"
                         android:textAllCaps="true"
@@ -1035,8 +1048,23 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_column="0"
-                        android:inputType="number"
-                        android:hint="LHRS"
+                        android:inputType="numberDecimal"
+                        android:hint="Length"
+                        android:textAlignment="center"
+                        android:textSize="17sp"
+                        android:padding="5dp"
+                        android:maxLength="30"
+                        android:background="@drawable/single_asset_page_textview"
+                        android:layout_marginEnd="3dp">
+                    </EditText>
+                    <EditText
+                        android:id="@+id/C15Cspin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_column="1"
+                        android:inputType="numberDecimal"
+                        android:hint="Size"
                         android:textAlignment="center"
                         android:textSize="17sp"
                         android:padding="5dp"
@@ -1049,15 +1077,15 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_column="1"
-                        android:inputType="number|numberDecimal|numberSigned"
-                        android:hint="Offset"
+                        android:layout_column="2"
+                        android:inputType="numberDecimal"
+                        android:hint="Depth"
                         android:textAlignment="center"
                         android:textSize="17sp"
                         android:padding="5dp"
                         android:maxLength="30"
                         android:background="@drawable/single_asset_page_textview"
-                        android:layout_marginStart="3dp">
+                        android:layout_marginEnd="3dp">
                     </EditText>
 
                 </TableRow>

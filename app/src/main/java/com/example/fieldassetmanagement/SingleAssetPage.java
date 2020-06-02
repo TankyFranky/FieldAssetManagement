@@ -86,7 +86,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     private Spinner ASYNC_PROCESS_SPINNER, AssetName, C1LSpin, C1RSpin, C3LSpin, C3RSpin, C4LSpin, C4RSpin,C6LSpin, C6RSpin, C7LSpin, C7RSpin, C8LSpin, C8RSpin, C9LSpin, C9RSpin, C10LSpin, C10RSpin, C11LSpin, C11RSpin, C12LSpin, C13LSpin, C13RSpin;
 
     // All EditText declarations
-    private EditText C2LeditText, C2ReditText, C14LeditText;
+    private EditText C2LeditText, C2ReditText, C14LeditText, C15LeditText, C15CeditText, C15ReditText;
 
     // All Spinner option declarations
     private List<String> AssetNameOptions, C1LOptions, C1ROptions, C3LOptions, C3ROptions, C4LOptions, C4ROptions, C6LOptions, C6ROptions, C7LOptions, C7ROptions, C8LOptions, C8ROptions, C9LOptions, C9ROptions, C10LOptions, C10ROptions, C11LOptions, C11ROptions, C12LOptions, C13LOptions, C13ROptions; // TODO use one option list for all spinners which would contain similar values
@@ -96,7 +96,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     ImageButton mapsButton;
     ProgressBar progressGPS;
     Button nextSave, prevSave, photoL, photoR, getGPS, addAsset;
-    TextView ASYNC_PROCESS_TEXTVIEW, longitude, latitude, C1Ltext, C1Rtext, C2Ltext, C2Rtext, C3Ltext, C3Rtext, C4Ltext, C4Rtext, C5Ltext, C5Rtext, C5Ldate, C5Rdate, C6Ltext, C6Rtext, C7Ltext, C7Rtext, C8Ltext, C8Rtext, C9Ltext, C9Rtext, C10Ltext, C10Rtext, C11Ltext, C11Rtext, C12Ltext, C13Ltext, C13Rtext, C14Ltext;
+    TextView ASYNC_PROCESS_TEXTVIEW, longitude, latitude, C1Ltext, C1Rtext, C2Ltext, C2Rtext, C3Ltext, C3Rtext, C4Ltext, C4Rtext, C5Ltext, C5Rtext, C5Ldate, C5Rdate, C6Ltext, C6Rtext, C7Ltext, C7Rtext, C8Ltext, C8Rtext, C9Ltext, C9Rtext, C10Ltext, C10Rtext, C11Ltext, C11Rtext, C12Ltext, C13Ltext, C13Rtext, C14Ltext, C15Ltext, C15Ctext, C15Rtext;
 
     @Override
     protected void onPause() {   // Any time the SingleAssetActivity leaves the foreground, the info is saved.
@@ -378,6 +378,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         curRow[getResources().getInteger(R.integer.remainingLife)] = C13LSpin.getSelectedItem().toString();
         curRow[getResources().getInteger(R.integer.priority)] = C13RSpin.getSelectedItem().toString();
         curRow[getResources().getInteger(R.integer.notes)] = C14LeditText.getText().toString().replace(",",".");
+        curRow[getResources().getInteger(R.integer.length)] = C15LeditText.getText().toString();
+        curRow[getResources().getInteger(R.integer.size)] = C15CeditText.getText().toString();
+        curRow[getResources().getInteger(R.integer.depth)] = C15ReditText.getText().toString();
 
 
         curRow[getResources().getInteger(R.integer.latitude)] = latitude.getText().toString();
@@ -439,6 +442,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C13LSpin.setSelection(C13LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.remainingLife)]));
         C13RSpin.setSelection(C13ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.priority)]));
         C14LeditText.setText(curCSV.get(row)[getResources().getInteger(R.integer.notes)]);
+        C15LeditText.setText(curCSV.get(row)[getResources().getInteger(R.integer.length)]);
+        C15CeditText.setText(curCSV.get(row)[getResources().getInteger(R.integer.size)]);
+        C15ReditText.setText(curCSV.get(row)[getResources().getInteger(R.integer.depth)]);
 
         Uri lPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[getResources().getInteger(R.integer.photoL)]); //TODO Name has to be based off of asset name for search
         Uri rPhotoURI = Uri.withAppendedPath(imageURI, curCSV.get(row)[getResources().getInteger(R.integer.photoR)]);
@@ -612,6 +618,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C13Ltext = (TextView) findViewById(R.id.C13Ltext);
         C13Rtext = (TextView) findViewById(R.id.C13Rtext);
         C14Ltext = (TextView) findViewById(R.id.C14Ltext);
+        C15Ltext = (TextView) findViewById(R.id.C15Ltext);
+        C15Ctext = (TextView) findViewById(R.id.C15Ctext);
+        C15Rtext = (TextView) findViewById(R.id.C15Rtext);
 
         // Entry Spinners
         //Header Spinner
@@ -641,6 +650,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C13LSpin = (Spinner) findViewById(R.id.C13Lspin);
         C13RSpin = (Spinner) findViewById(R.id.C13Rspin);
         C14LeditText = (EditText) findViewById(R.id.C14Lspin);
+        C15LeditText = (EditText) findViewById(R.id.C15Lspin);
+        C15CeditText = (EditText) findViewById(R.id.C15Cspin);
+        C15ReditText = (EditText) findViewById(R.id.C15Rspin);
 
         // Spinner Options
         AssetNameOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.culvertID), false);
@@ -787,6 +799,9 @@ public class SingleAssetPage extends AppCompatActivity implements
         C13Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.remainingLife)]);
         C13Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.priority)]);
         C14Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.notes)]);
+        C15Ltext.setText(curCSV.get(0)[getResources().getInteger(R.integer.length)]);
+        C15Ctext.setText(curCSV.get(0)[getResources().getInteger(R.integer.size)]);
+        C15Rtext.setText(curCSV.get(0)[getResources().getInteger(R.integer.depth)]);
     }
     private void openDate(int year, int month, int day, TextView entry) {
         ASYNC_PROCESS_TEXTVIEW = entry;
