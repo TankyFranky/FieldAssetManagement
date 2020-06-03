@@ -48,6 +48,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -89,8 +90,8 @@ public class SingleAssetPage extends AppCompatActivity implements
     private EditText C2LeditText, C2ReditText, C14LeditText, C15LeditText, C15CeditText, C15ReditText;
 
     // All Spinner option declarations
-    private List<String> AssetNameOptions, C1LOptions, C1ROptions, C3LOptions, C3ROptions, C4LOptions, C4ROptions, C6LOptions, C6ROptions, C7LOptions, C7ROptions, C8LOptions, C8ROptions, C9LOptions, C9ROptions, C10LOptions, C10ROptions, C11LOptions, C11ROptions, C12LOptions, C13LOptions, C13ROptions; // TODO use one option list for all spinners which would contain similar values
-    private ArrayAdapter<String> ASYNC_PROCESS_ADAPTER, assetNameAdapter, C1LAdapter, C1RAdapter, C3LAdapter, C3RAdapter, C4LAdapter, C4RAdapter, C6LAdapter, C6RAdapter, C7LAdapter, C7RAdapter, C8LAdapter, C8RAdapter, C9LAdapter, C9RAdapter, C10LAdapter, C10RAdapter, C11LAdapter, C11RAdapter, C12LAdapter, C13LAdapter, C13RAdapter;
+    private List<String> AssetNameOptions, C1LOptions, C1ROptions, C3LOptions, C3ROptions, C4LOptions, C4ROptions, C6213Options, C13ROptions; // TODO use one option list for all spinners which would contain similar values
+    private ArrayAdapter<String> ASYNC_PROCESS_ADAPTER, assetNameAdapter, C1LAdapter, C1RAdapter, C3LAdapter, C3RAdapter, C4LAdapter, C4RAdapter, C6213Adapter, C13RAdapter;
 
     ImageView mastHead;
     ImageButton mapsButton;
@@ -217,72 +218,72 @@ public class SingleAssetPage extends AppCompatActivity implements
                     break;
                 case R.id.C6Lspin:
                     if (C6LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C6LAdapter, C6LSpin, curCSV.get(row)[getResources().getInteger(R.integer.materialL)]);
+                        addOption(C6213Adapter, C6LSpin, curCSV.get(row)[getResources().getInteger(R.integer.materialL)]);
                     }
                     break;
                 case R.id.C6Rspin:
                     if (C6RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C6RAdapter, C6RSpin, curCSV.get(row)[getResources().getInteger(R.integer.materialR)]);
+                        addOption(C6213Adapter, C6RSpin, curCSV.get(row)[getResources().getInteger(R.integer.materialR)]);
                     }
                     break;
                 case R.id.C7Lspin:
                     if (C7LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C7LAdapter, C7LSpin, curCSV.get(row)[getResources().getInteger(R.integer.shapeL)]);
+                        addOption(C6213Adapter, C7LSpin, curCSV.get(row)[getResources().getInteger(R.integer.shapeL)]);
                     }
                     break;
                 case R.id.C7Rspin:
                     if (C7RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C7RAdapter, C7RSpin, curCSV.get(row)[getResources().getInteger(R.integer.shapeR)]);
+                        addOption(C6213Adapter, C7RSpin, curCSV.get(row)[getResources().getInteger(R.integer.shapeR)]);
                     }
                     break;
                 case R.id.C8Lspin:
                     if (C8LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C8LAdapter, C8LSpin, curCSV.get(row)[getResources().getInteger(R.integer.capacityL)]);
+                        addOption(C6213Adapter, C8LSpin, curCSV.get(row)[getResources().getInteger(R.integer.capacityL)]);
                     }
                     break;
                 case R.id.C8Rspin:
                     if (C8RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C8RAdapter, C8RSpin, curCSV.get(row)[getResources().getInteger(R.integer.capacityR)]);
+                        addOption(C6213Adapter, C8RSpin, curCSV.get(row)[getResources().getInteger(R.integer.capacityR)]);
                     }
                     break;
                 case R.id.C9Lspin:
                     if (C9LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C9LAdapter, C9LSpin, curCSV.get(row)[getResources().getInteger(R.integer.invertL)]);
+                        addOption(C6213Adapter, C9LSpin, curCSV.get(row)[getResources().getInteger(R.integer.invertL)]);
                     }
                     break;
                 case R.id.C9Rspin:
                     if (C9RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C9RAdapter, C9RSpin, curCSV.get(row)[getResources().getInteger(R.integer.invertR)]);
+                        addOption(C6213Adapter, C9RSpin, curCSV.get(row)[getResources().getInteger(R.integer.invertR)]);
                     }
                     break;
                 case R.id.C10Lspin:
                     if (C10LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C10LAdapter, C10LSpin, curCSV.get(row)[getResources().getInteger(R.integer.scourL)]);
+                        addOption(C6213Adapter, C10LSpin, curCSV.get(row)[getResources().getInteger(R.integer.scourL)]);
                     }
                     break;
                 case R.id.C10Rspin:
                     if (C10RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C10RAdapter, C10RSpin, curCSV.get(row)[getResources().getInteger(R.integer.scourR)]);
+                        addOption(C6213Adapter, C10RSpin, curCSV.get(row)[getResources().getInteger(R.integer.scourR)]);
                     }
                     break;
                 case R.id.C11Lspin:
                     if (C11LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C11LAdapter, C11LSpin, curCSV.get(row)[getResources().getInteger(R.integer.slopeL)]);
+                        addOption(C6213Adapter, C11LSpin, curCSV.get(row)[getResources().getInteger(R.integer.slopeL)]);
                     }
                     break;
                 case R.id.C11Rspin:
                     if (C11RSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C11RAdapter, C11RSpin, curCSV.get(row)[getResources().getInteger(R.integer.slopeR)]);
+                        addOption(C6213Adapter, C11RSpin, curCSV.get(row)[getResources().getInteger(R.integer.slopeR)]);
                     }
                     break;
                 case R.id.C12Lspin:
                     if (C12LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C12LAdapter, C12LSpin, curCSV.get(row)[getResources().getInteger(R.integer.settlement)]);
+                        addOption(C6213Adapter, C12LSpin, curCSV.get(row)[getResources().getInteger(R.integer.settlement)]);
                     }
                     break;
                 case R.id.C13Lspin:
                     if (C13LSpin.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_option))) {
-                        addOption(C13LAdapter, C13LSpin, curCSV.get(row)[getResources().getInteger(R.integer.remainingLife)]);
+                        addOption(C6213Adapter, C13LSpin, curCSV.get(row)[getResources().getInteger(R.integer.remainingLife)]);
                     }
                     break;
                 case R.id.C13Rspin:
@@ -291,7 +292,6 @@ public class SingleAssetPage extends AppCompatActivity implements
                     }
                     break;
             }
-            pullGUIEntries();
         }
     }
 
@@ -426,20 +426,20 @@ public class SingleAssetPage extends AppCompatActivity implements
         C4RSpin.setSelection(C4ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.surround)]));
         C5Ldate.setText(curCSV.get(row)[getResources().getInteger(R.integer.dateInspected)]);
         C5Rdate.setText(curCSV.get(row)[getResources().getInteger(R.integer.warranty)]);
-        C6LSpin.setSelection(C6LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialL)]));
-        C6RSpin.setSelection(C6ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialR)]));
-        C7LSpin.setSelection(C7LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeL)]));
-        C7RSpin.setSelection(C7ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeR)]));
-        C8LSpin.setSelection(C8LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityL)]));
-        C8RSpin.setSelection(C8ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityR)]));
-        C9LSpin.setSelection(C9LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertL)]));
-        C9RSpin.setSelection(C9ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertR)]));
-        C10LSpin.setSelection(C10LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourL)]));
-        C10RSpin.setSelection(C10ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourR)]));
-        C11LSpin.setSelection(C11LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeL)]));
-        C11RSpin.setSelection(C11ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeR)]));
-        C12LSpin.setSelection(C12LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.settlement)]));
-        C13LSpin.setSelection(C13LOptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.remainingLife)]));
+        C6LSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialL)]));
+        C6RSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.materialR)]));
+        C7LSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeL)]));
+        C7RSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.shapeR)]));
+        C8LSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityL)]));
+        C8RSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.capacityR)]));
+        C9LSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertL)]));
+        C9RSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.invertR)]));
+        C10LSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourL)]));
+        C10RSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.scourR)]));
+        C11LSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeL)]));
+        C11RSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.slopeR)]));
+        C12LSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.settlement)]));
+        C13LSpin.setSelection(C6213Options.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.remainingLife)]));
         C13RSpin.setSelection(C13ROptions.indexOf(curCSV.get(row)[getResources().getInteger(R.integer.priority)]));
         C14LeditText.setText(curCSV.get(row)[getResources().getInteger(R.integer.notes)]);
         C15LeditText.setText(curCSV.get(row)[getResources().getInteger(R.integer.length)]);
@@ -655,27 +655,19 @@ public class SingleAssetPage extends AppCompatActivity implements
         C15ReditText = (EditText) findViewById(R.id.C15Rspin);
 
         // Spinner Options
-        AssetNameOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.culvertID), false);
+        List commonList = Arrays.asList(getResources().getInteger(R.integer.remainingLife),getResources().getInteger(R.integer.materialL),getResources().getInteger(R.integer.materialR),getResources().getInteger(R.integer.shapeL),getResources().getInteger(R.integer.shapeR),
+                getResources().getInteger(R.integer.capacityL),getResources().getInteger(R.integer.capacityR),getResources().getInteger(R.integer.invertL),getResources().getInteger(R.integer.invertR),getResources().getInteger(R.integer.scourL),
+                getResources().getInteger(R.integer.scourR),getResources().getInteger(R.integer.slopeL),getResources().getInteger(R.integer.slopeR),getResources().getInteger(R.integer.settlement));
+
+        
+        AssetNameOptions = getAssetNameOptions(curCSV, getResources().getInteger(R.integer.culvertID));
         C1LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.hwyRW), true);
         C1ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.material), true);
         C3LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.township), true);
         C3ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.highway), true);
         C4LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.shape), true);
         C4ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.surround), true);
-        C6LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.materialL), true);
-        C6ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.materialR), true);
-        C7LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.shapeL), true);
-        C7ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.shapeR), true);
-        C8LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.capacityL), true);
-        C8ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.capacityR), true);
-        C9LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.invertL), true);
-        C9ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.invertR), true);
-        C10LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.scourL), true);
-        C10ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.scourR), true);
-        C11LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.slopeL), true);
-        C11ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.slopeR), true);
-        C12LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.settlement), true);
-        C13LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.remainingLife), true);
+        C6213Options = getSpinnerOptionsM(curCSV, commonList, true);
         C13ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.priority), true);
 
         // Spinner adapters
@@ -686,20 +678,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         C3RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C3ROptions);
         C4LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C4LOptions);
         C4RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C4ROptions);
-        C6LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C6LOptions);
-        C6RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C6ROptions);
-        C7LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C7LOptions);
-        C7RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C7ROptions);
-        C8LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C8LOptions);
-        C8RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C8ROptions);
-        C9LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C9LOptions);
-        C9RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C9ROptions);
-        C10LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C10LOptions);
-        C10RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C10ROptions);
-        C11LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C11LOptions);
-        C11RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C11ROptions);
-        C12LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C12LOptions);
-        C13LAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C13LOptions);
+        C6213Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C6213Options);
         C13RAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, C13ROptions);
 
         // Dropdown Spinner Styles
@@ -710,20 +689,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         C3RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         C4LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         C4RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C6LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C6RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C7LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C7RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C8LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C8RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C9LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C9RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C10LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C10RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C11LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C11RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C12LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        C13LAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        C6213Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         C13RAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Attach adapter to spinners
@@ -734,20 +700,20 @@ public class SingleAssetPage extends AppCompatActivity implements
         C3RSpin.setAdapter(C3RAdapter);
         C4LSpin.setAdapter(C4LAdapter);
         C4RSpin.setAdapter(C4RAdapter);
-        C6LSpin.setAdapter(C6LAdapter);
-        C6RSpin.setAdapter(C6RAdapter);
-        C7LSpin.setAdapter(C7LAdapter);
-        C7RSpin.setAdapter(C7RAdapter);
-        C8LSpin.setAdapter(C8LAdapter);
-        C8RSpin.setAdapter(C8RAdapter);
-        C9LSpin.setAdapter(C9LAdapter);
-        C9RSpin.setAdapter(C9RAdapter);
-        C10LSpin.setAdapter(C10LAdapter);
-        C10RSpin.setAdapter(C10RAdapter);
-        C11LSpin.setAdapter(C11LAdapter);
-        C11RSpin.setAdapter(C11RAdapter);
-        C12LSpin.setAdapter(C12LAdapter);
-        C13LSpin.setAdapter(C13LAdapter);
+        C6LSpin.setAdapter(C6213Adapter);
+        C6RSpin.setAdapter(C6213Adapter);
+        C7LSpin.setAdapter(C6213Adapter);
+        C7RSpin.setAdapter(C6213Adapter);
+        C8LSpin.setAdapter(C6213Adapter);
+        C8RSpin.setAdapter(C6213Adapter);
+        C9LSpin.setAdapter(C6213Adapter);
+        C9RSpin.setAdapter(C6213Adapter);
+        C10LSpin.setAdapter(C6213Adapter);
+        C10RSpin.setAdapter(C6213Adapter);
+        C11LSpin.setAdapter(C6213Adapter);
+        C11RSpin.setAdapter(C6213Adapter);
+        C12LSpin.setAdapter(C6213Adapter);
+        C13LSpin.setAdapter(C6213Adapter);
         C13RSpin.setAdapter(C13RAdapter);
         // Spinner Listeners
         AssetName.setOnItemSelectedListener(this);
@@ -992,7 +958,44 @@ public class SingleAssetPage extends AppCompatActivity implements
         return saveCSV;
     }
 
+    private List<String> getSpinnerOptionsM(List<String[]> master, List<Integer> columns, boolean extendable){
+        TreeSet<String> allOptions = new TreeSet<>(); // -1 to not include first descriptive row
+        for( Integer curColumn: columns) {
+            for (int i = 1; i < master.size(); i++) {
+                allOptions.add(master.get(i)[curColumn].toUpperCase());
+            }
+        }
+        List<String> toList = new ArrayList<String> (allOptions);
+
+        if(extendable){
+            toList.remove(getString(R.string.notAvailable));
+            toList.remove(getString(R.string.add_option));
+            toList.add(getString(R.string.notAvailable));
+            toList.add(getString(R.string.add_option));
+        }
+
+        return toList;
+    }
+
     private List<String> getSpinnerOptions(List<String[]> master, int column, boolean extendable){
+        TreeSet<String> allOptions = new TreeSet<>(); // -1 to not include first descriptive row
+        for(int i = 1; i < master.size(); i++){
+            allOptions.add(master.get(i)[column].toUpperCase());
+        }
+
+        List<String> toList = new ArrayList<String> (allOptions);
+
+        if(extendable && !toList.contains(getString(R.string.add_option))){
+            if(!toList.contains(getString(R.string.notAvailable))){
+                toList.add(getString(R.string.notAvailable));
+            }
+            toList.add(getString(R.string.add_option));
+        }
+
+        return toList;
+    }
+
+    private List<String> getAssetNameOptions(List<String[]> master, int column){
         String[] allOptions = new String[master.size()-1]; // -1 to not include first descriptive row
         for(int i = 1; i < master.size(); i++){
             allOptions[i-1]= master.get(i)[column];
@@ -1004,13 +1007,6 @@ public class SingleAssetPage extends AppCompatActivity implements
         allOptions = spinnerOptions.toArray(allOptions);
 
         List<String> toList = new ArrayList<String>(Arrays.asList(allOptions));
-
-        if(extendable && !toList.contains(getString(R.string.add_option))){
-            if(!toList.contains("N/A")){
-                toList.add("N/A");
-            }
-            toList.add(getString(R.string.add_option));
-        }
 
         return toList;
     }
@@ -1087,29 +1083,36 @@ public class SingleAssetPage extends AppCompatActivity implements
     };
 
     @Override
-    public void addCategory(String addCategory) {
+    public void addCategory(String category) {
         //check for proper category name
+        String addCategory = category.toUpperCase();
+
         Pattern validName = Pattern.compile("[$&+,:;=\\\\?@#|'<>.^*()%!-]");
 
         if(ASYNC_PROCESS_ADAPTER !=null && ASYNC_PROCESS_SPINNER !=null) {
-            if (!validName.matcher(addCategory).find() && !addCategory.isEmpty() && !addCategory.trim().isEmpty()) {
+            if (!validName.matcher(addCategory).find() && !addCategory.isEmpty() && !addCategory.trim().isEmpty() && ASYNC_PROCESS_ADAPTER.getPosition(addCategory.trim()) == -1) {
+                // Alphabetise
+                ASYNC_PROCESS_ADAPTER.remove(getString(R.string.notAvailable));
                 ASYNC_PROCESS_ADAPTER.remove(getString(R.string.add_option));
                 ASYNC_PROCESS_ADAPTER.add(addCategory);
+                ASYNC_PROCESS_ADAPTER.sort(String.CASE_INSENSITIVE_ORDER);
+                ASYNC_PROCESS_ADAPTER.add(getString(R.string.notAvailable));
                 ASYNC_PROCESS_ADAPTER.add(getString(R.string.add_option));
                 ASYNC_PROCESS_ADAPTER.notifyDataSetChanged();
                 ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_ADAPTER.getPosition(addCategory));
+                ASYNC_PREVIOUS_SPINNER_OPTION = null;
                 pullGUIEntries();
             }
 
             else{
-                Toast.makeText(this, "Invalid Category: No special characters allowed. " + ("\u274c"), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "No special characters or duplicates allowed. " + ("\u274c"), Toast.LENGTH_LONG).show();
+                ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_ADAPTER.getPosition(ASYNC_PREVIOUS_SPINNER_OPTION));
             }
         }
 
         //set ASYNC_PROCESS_ADAPTER to null
         ASYNC_PROCESS_ADAPTER = null;
         ASYNC_PROCESS_SPINNER = null;
-        ASYNC_PREVIOUS_SPINNER_OPTION = null;
     }
 
     @Override
