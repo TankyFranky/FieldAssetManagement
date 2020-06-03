@@ -1,7 +1,6 @@
 //TODO add a code copyright
 //TODO organize functions
-//TODO known bug, if the previously saved row is larger than the current size it will crash
-//TODO put spinner options in alphabetical order
+//TODO known bug, if the previously saved row is larger than the current size it will crash (avoid any "," from being saved, will corrupt csv)
 //TODO fold and comment code
 //TODO duplicate asset names cause a bug
 package com.example.fieldassetmanagement;
@@ -659,7 +658,7 @@ public class SingleAssetPage extends AppCompatActivity implements
                 getResources().getInteger(R.integer.capacityL),getResources().getInteger(R.integer.capacityR),getResources().getInteger(R.integer.invertL),getResources().getInteger(R.integer.invertR),getResources().getInteger(R.integer.scourL),
                 getResources().getInteger(R.integer.scourR),getResources().getInteger(R.integer.slopeL),getResources().getInteger(R.integer.slopeR),getResources().getInteger(R.integer.settlement));
 
-        
+
         AssetNameOptions = getAssetNameOptions(curCSV, getResources().getInteger(R.integer.culvertID));
         C1LOptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.hwyRW), true);
         C1ROptions = getSpinnerOptions(curCSV, getResources().getInteger(R.integer.material), true);
@@ -1013,7 +1012,6 @@ public class SingleAssetPage extends AppCompatActivity implements
 
     private void saveRowPreferences(){
         // Has nothing to do with spinner or GUI items
-        //TODO This has to be called on app close
         SharedPreferences rowPreference = getSharedPreferences(ROW_PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor rowEditor = rowPreference.edit();
         String saveName = fileName;
@@ -1036,22 +1034,26 @@ public class SingleAssetPage extends AppCompatActivity implements
     private void createNewAsset(String newAssetName) {
         Pattern validName = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]");
 
-        if(!validName.matcher(newAssetName).find()){    //TODO make sure you cant add an asset under the same name as an existing one
-            String[] newAssetRow = new String[curCSV.get(row).length];
-            Arrays.fill(newAssetRow, "N/A");
-            newAssetRow[getResources().getInteger(R.integer.culvertID)] = newAssetName;
-            curCSV.add(newAssetRow);
+        if(assetNameAdapter.getPosition(newAssetName.trim()) == -1) {
+            if (!validName.matcher(newAssetName).find()) { 
+                String[] newAssetRow = new String[curCSV.get(row).length];
+                Arrays.fill(newAssetRow, "N/A");
+                newAssetRow[getResources().getInteger(R.integer.culvertID)] = newAssetName;
+                curCSV.add(newAssetRow);
 
-            pullGUIEntries();
-            saveGUIEntries();
-            saveRowPreferences();
-            row = getRowIndex(newAssetName);
-            assetNameAdapter.add(newAssetName);
-            assetNameAdapter.notifyDataSetChanged();
-            pushGUIEntries();
+                pullGUIEntries();
+                saveGUIEntries();
+                saveRowPreferences();
+                row = getRowIndex(newAssetName);
+                assetNameAdapter.add(newAssetName);
+                assetNameAdapter.notifyDataSetChanged();
+                pushGUIEntries();
+            } else {
+                Toast.makeText(this, "Invalid Name: No special characters allowed. " + ("\u274c"), Toast.LENGTH_LONG).show();
+            }
         }
-        else{
-            Toast.makeText(this, "Invalid Name: No special characters allowed. " + ("\u274c"), Toast.LENGTH_LONG).show();
+        else {
+            Toast.makeText(this, "Invalid Name: Duplicate. " + ("\u274c"), Toast.LENGTH_LONG).show();
         }
     }
 

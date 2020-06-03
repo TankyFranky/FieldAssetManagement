@@ -1,5 +1,4 @@
 //TODO Multiple SingleAssetPages open if Go button is spammed
-//TODO app crashed if file is selected, then exited, then resumed
 //TODO app takes a while to load, implement multithreading
 package com.example.fieldassetmanagement;
 
@@ -28,8 +27,6 @@ import java.util.Scanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
-//TODO build in a button to export the csv to email/different file transfer places
 
 public class LandingPage extends AppCompatActivity {
     public static final String EXTRA_SAP_ASSET_URI = "com.example.fieldassetmanagement.EXTRA_SAP_ASSET_URI";
@@ -65,7 +62,6 @@ public class LandingPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO add display of last asset edited Asset based on entered file
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
 
