@@ -22,7 +22,6 @@ public class ImageOverwritePopDialog extends AppCompatDialogFragment {
         AlertDialog.Builder imgOverwrite = new AlertDialog.Builder(getActivity());
         imgOverwrite.setTitle("Attention: Image Overwrite");
         imgOverwrite.setMessage("Image " + name + " already exists. Proceeding will overwrite it.");
-        // TODO make the set message dynamic
         imgOverwrite.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

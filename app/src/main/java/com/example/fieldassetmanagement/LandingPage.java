@@ -1,5 +1,10 @@
-//TODO Multiple SingleAssetPages open if Go button is spammed
-//TODO app takes a while to load, implement multithreading
+/* Copyright (C) Francesco Software - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * You may note use this material for commercial or monetary purposes
+ * Proprietary and confidential
+ * Written by Francesco R.A. Marrato <unkindthrower@gmail.com>, June 2020
+ */
+//TODO app takes a while to load, implement multithreading (Stretch)
 package com.example.fieldassetmanagement;
 
 import android.Manifest;
@@ -20,7 +25,6 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -43,11 +47,17 @@ public class LandingPage extends AppCompatActivity {
     private int STORAGE_REQUEST = 31;
 
     private  static final int REQUEST = 69;
-    ProgressBar csvProg;
+    ProgressBar csvProg, openProgress;
     Button fileSelect, openCSV, exportCSV, startNew;
     TextView csvFileName, progText;
 
-    //TODO check if file selected is blank
+    @Override
+    protected void onResume() {
+        super.onResume();
+        openProgress.setVisibility(View.GONE);
+        openCSV.setEnabled(true);
+    }
+
     @Override
     protected void onRestart(){
         super.onRestart();
@@ -55,25 +65,28 @@ public class LandingPage extends AppCompatActivity {
             try {
                 activateProgress();
             } catch (IOException e) {
-                ;
+                progText.setVisibility(View.INVISIBLE);
+                csvProg.setVisibility(View.INVISIBLE);
             }
         }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
 
-        openCSV = (Button) findViewById(R.id.openCSV);
-        fileSelect = (Button) findViewById(R.id.fileSelect);
-        exportCSV = (Button) findViewById(R.id.export);
-        startNew = (Button) findViewById(R.id.fileCreate);
+        openCSV = findViewById(R.id.openCSV);
+        fileSelect = findViewById(R.id.fileSelect);
+        exportCSV = findViewById(R.id.export);
+        startNew = findViewById(R.id.fileCreate);
 
-        csvProg = (ProgressBar) findViewById(R.id.csvProgress);
+        csvProg = findViewById(R.id.csvProgress);
+        openProgress = findViewById(R.id.openProgress);
 
-        csvFileName = (TextView) findViewById(R.id.csvFileDisplay);
-        progText = (TextView) findViewById(R.id.numProgress);
+        csvFileName = findViewById(R.id.csvFileDisplay);
+        progText = findViewById(R.id.numProgress);
 
         openCSV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +113,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private void checkPermissions() {
-        // TODO add permissions dialog
+        // TODO add permissions dialog (Stretch)
         if (
                 ContextCompat.checkSelfPermission(LandingPage.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(LandingPage.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
@@ -123,7 +136,7 @@ public class LandingPage extends AppCompatActivity {
         //Get the last entry
         int curProg = loadRowPreference(getCsvURI());
 
-        String progString = "Last Edited " + Integer.toString(curProg) + "/" + Integer.toString(totalProg);
+        String progString = "Last Edited " + curProg + "/" + totalProg;
 
         //Set the progress bar
         progText.setVisibility(View.VISIBLE);
@@ -151,6 +164,8 @@ public class LandingPage extends AppCompatActivity {
 
     private void openSingleAssetPage() {
         if(csvURI != null) {
+            openProgress.setVisibility(View.VISIBLE);
+            openCSV.setEnabled(false);
             Uri singleAssetURI = csvURI;
             Uri assetImageURI = imageURI;
             String stringImageURI = null;
@@ -194,7 +209,8 @@ public class LandingPage extends AppCompatActivity {
                 try {
                     activateProgress();
                 } catch (IOException e) {
-                    ;
+                    progText.setVisibility(View.INVISIBLE);
+                    csvProg.setVisibility(View.INVISIBLE);
                 }
 
                 createImageFolder();
@@ -266,7 +282,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
 
-    private int getRow(Uri file) throws FileNotFoundException, IOException {
+    private int getRow(Uri file) throws IOException {
         Scanner csvFileScanner = new Scanner(new BufferedReader(new InputStreamReader(getContentResolver().openInputStream(file))));
         int tempRow = 0;
         while(csvFileScanner.hasNextLine()){

@@ -1,8 +1,12 @@
-//TODO add a code copyright
+/* Copyright (C) Francesco Software - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * You may note use this material for commercial or monetary purposes
+ * Proprietary and confidential
+ * Written by Francesco R.A. Marrato <unkindthrower@gmail.com>, June 2020
+ */
 //TODO organize functions
 //TODO known bug, if the previously saved row is larger than the current size it will crash (avoid any "," from being saved, will corrupt csv)
 //TODO fold and comment code
-//TODO duplicate asset names cause a bug
 package com.example.fieldassetmanagement;
 
 import android.annotation.SuppressLint;
@@ -468,9 +472,9 @@ public class SingleAssetPage extends AppCompatActivity implements
     private void setupGUIEntries() {
         // Link variable to XML ID
         // MastHead
-        mastHead = (ImageView) findViewById(R.id.CompanyMastHead);
+        mastHead = findViewById(R.id.CompanyMastHead);
         // Open in Maps Button
-        mapsButton = (ImageButton) findViewById(R.id.mapsButton);
+        mapsButton = findViewById(R.id.mapsButton);
         mapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -478,20 +482,20 @@ public class SingleAssetPage extends AppCompatActivity implements
             }
         });
         // Next and Prev Buttons
-        nextSave = (Button) findViewById(R.id.nextAsset);
-        prevSave = (Button) findViewById(R.id.prevAsset);
+        nextSave = findViewById(R.id.nextAsset);
+        prevSave = findViewById(R.id.prevAsset);
 
         // Get current GPS coordinates
-        getGPS = (Button) findViewById(R.id.getGPS);
-        progressGPS = (ProgressBar) findViewById(R.id.gpsProgress);
+        getGPS = findViewById(R.id.getGPS);
+        progressGPS = findViewById(R.id.gpsProgress);
         // Add new Asset Button
-        addAsset = (Button) findViewById(R.id.addNew);
+        addAsset = findViewById(R.id.addNew);
         // Photo Buttons
-        photoL = (Button) findViewById(R.id.photoL);
-        photoR = (Button) findViewById(R.id.photoR);
+        photoL = findViewById(R.id.photoL);
+        photoR = findViewById(R.id.photoR);
 
-        C5Ldate = (TextView) findViewById(R.id.C5Lspin);
-        C5Rdate = (TextView) findViewById(R.id.C5Rspin);
+        C5Ldate = findViewById(R.id.C5Lspin);
+        C5Rdate = findViewById(R.id.C5Rspin);
 
         if (imageURI != null) {
             setPhotoSize();
@@ -588,70 +592,70 @@ public class SingleAssetPage extends AppCompatActivity implements
 
         // Entry Headers
         // Location Services
-        longitude = (TextView) findViewById(R.id.displayLongitude);
-        latitude = (TextView) findViewById(R.id.displayLatitude);
+        longitude = findViewById(R.id.displayLongitude);
+        latitude = findViewById(R.id.displayLatitude);
         // Characteristics
-        C1Ltext = (TextView) findViewById(R.id.C1Ltext);
-        C1Rtext = (TextView) findViewById(R.id.C1Rtext);
-        C2Ltext = (TextView) findViewById(R.id.C2Ltext);
-        C2Rtext = (TextView) findViewById(R.id.C2Rtext);
-        C3Ltext = (TextView) findViewById(R.id.C3Ltext);
-        C3Rtext = (TextView) findViewById(R.id.C3Rtext);
-        C4Ltext = (TextView) findViewById(R.id.C4Ltext);
-        C4Rtext = (TextView) findViewById(R.id.C4Rtext);
-        C5Ltext = (TextView) findViewById(R.id.C5Ltext);
-        C5Rtext = (TextView) findViewById(R.id.C5Rtext);
-        C6Ltext = (TextView) findViewById(R.id.C6Ltext);
-        C6Rtext = (TextView) findViewById(R.id.C6Rtext);
-        C7Ltext = (TextView) findViewById(R.id.C7Ltext);
-        C7Rtext = (TextView) findViewById(R.id.C7Rtext);
-        C8Ltext = (TextView) findViewById(R.id.C8Ltext);
-        C8Rtext = (TextView) findViewById(R.id.C8Rtext);
-        C9Ltext = (TextView) findViewById(R.id.C9Ltext);
-        C9Rtext = (TextView) findViewById(R.id.C9Rtext);
-        C10Ltext = (TextView) findViewById(R.id.C10Ltext);
-        C10Rtext = (TextView) findViewById(R.id.C10Rtext);
-        C11Ltext = (TextView) findViewById(R.id.C11Ltext);
-        C11Rtext = (TextView) findViewById(R.id.C11Rtext);
-        C12Ltext = (TextView) findViewById(R.id.C12Ltext);
-        C13Ltext = (TextView) findViewById(R.id.C13Ltext);
-        C13Rtext = (TextView) findViewById(R.id.C13Rtext);
-        C14Ltext = (TextView) findViewById(R.id.C14Ltext);
-        C15Ltext = (TextView) findViewById(R.id.C15Ltext);
-        C15Ctext = (TextView) findViewById(R.id.C15Ctext);
-        C15Rtext = (TextView) findViewById(R.id.C15Rtext);
+        C1Ltext = findViewById(R.id.C1Ltext);
+        C1Rtext = findViewById(R.id.C1Rtext);
+        C2Ltext = findViewById(R.id.C2Ltext);
+        C2Rtext = findViewById(R.id.C2Rtext);
+        C3Ltext = findViewById(R.id.C3Ltext);
+        C3Rtext = findViewById(R.id.C3Rtext);
+        C4Ltext = findViewById(R.id.C4Ltext);
+        C4Rtext = findViewById(R.id.C4Rtext);
+        C5Ltext = findViewById(R.id.C5Ltext);
+        C5Rtext = findViewById(R.id.C5Rtext);
+        C6Ltext = findViewById(R.id.C6Ltext);
+        C6Rtext = findViewById(R.id.C6Rtext);
+        C7Ltext = findViewById(R.id.C7Ltext);
+        C7Rtext = findViewById(R.id.C7Rtext);
+        C8Ltext = findViewById(R.id.C8Ltext);
+        C8Rtext = findViewById(R.id.C8Rtext);
+        C9Ltext = findViewById(R.id.C9Ltext);
+        C9Rtext = findViewById(R.id.C9Rtext);
+        C10Ltext = findViewById(R.id.C10Ltext);
+        C10Rtext = findViewById(R.id.C10Rtext);
+        C11Ltext = findViewById(R.id.C11Ltext);
+        C11Rtext = findViewById(R.id.C11Rtext);
+        C12Ltext = findViewById(R.id.C12Ltext);
+        C13Ltext = findViewById(R.id.C13Ltext);
+        C13Rtext = findViewById(R.id.C13Rtext);
+        C14Ltext = findViewById(R.id.C14Ltext);
+        C15Ltext = findViewById(R.id.C15Ltext);
+        C15Ctext = findViewById(R.id.C15Ctext);
+        C15Rtext = findViewById(R.id.C15Rtext);
 
         // Entry Spinners
         //Header Spinner
-        AssetName = (Spinner) findViewById(R.id.AssetName);
+        AssetName = findViewById(R.id.AssetName);
         //Option Spinners
-        C1LSpin = (Spinner) findViewById(R.id.C1Lspin);
-        C1RSpin = (Spinner) findViewById(R.id.C1Rspin);
-        C2LeditText = (EditText) findViewById(R.id.C2Lspin);
-        C2ReditText = (EditText) findViewById(R.id.C2Rspin);
-        C3LSpin = (Spinner) findViewById(R.id.C3Lspin);
-        C3RSpin = (Spinner) findViewById(R.id.C3Rspin);
-        C4LSpin = (Spinner) findViewById(R.id.C4Lspin);
-        C4RSpin = (Spinner) findViewById(R.id.C4Rspin);
-        C6LSpin = (Spinner) findViewById(R.id.C6Lspin);
-        C6RSpin = (Spinner) findViewById(R.id.C6Rspin);
-        C7LSpin = (Spinner) findViewById(R.id.C7Lspin);
-        C7RSpin = (Spinner) findViewById(R.id.C7Rspin);
-        C8LSpin = (Spinner) findViewById(R.id.C8Lspin);
-        C8RSpin = (Spinner) findViewById(R.id.C8Rspin);
-        C9LSpin = (Spinner) findViewById(R.id.C9Lspin);
-        C9RSpin = (Spinner) findViewById(R.id.C9Rspin);
-        C10LSpin = (Spinner) findViewById(R.id.C10Lspin);
-        C10RSpin = (Spinner) findViewById(R.id.C10Rspin);
-        C11LSpin = (Spinner) findViewById(R.id.C11Lspin);
-        C11RSpin = (Spinner) findViewById(R.id.C11Rspin);
-        C12LSpin = (Spinner) findViewById(R.id.C12Lspin);
-        C13LSpin = (Spinner) findViewById(R.id.C13Lspin);
-        C13RSpin = (Spinner) findViewById(R.id.C13Rspin);
-        C14LeditText = (EditText) findViewById(R.id.C14Lspin);
-        C15LeditText = (EditText) findViewById(R.id.C15Lspin);
-        C15CeditText = (EditText) findViewById(R.id.C15Cspin);
-        C15ReditText = (EditText) findViewById(R.id.C15Rspin);
+        C1LSpin = findViewById(R.id.C1Lspin);
+        C1RSpin = findViewById(R.id.C1Rspin);
+        C2LeditText = findViewById(R.id.C2Lspin);
+        C2ReditText = findViewById(R.id.C2Rspin);
+        C3LSpin = findViewById(R.id.C3Lspin);
+        C3RSpin = findViewById(R.id.C3Rspin);
+        C4LSpin = findViewById(R.id.C4Lspin);
+        C4RSpin = findViewById(R.id.C4Rspin);
+        C6LSpin = findViewById(R.id.C6Lspin);
+        C6RSpin = findViewById(R.id.C6Rspin);
+        C7LSpin = findViewById(R.id.C7Lspin);
+        C7RSpin = findViewById(R.id.C7Rspin);
+        C8LSpin = findViewById(R.id.C8Lspin);
+        C8RSpin = findViewById(R.id.C8Rspin);
+        C9LSpin = findViewById(R.id.C9Lspin);
+        C9RSpin = findViewById(R.id.C9Rspin);
+        C10LSpin = findViewById(R.id.C10Lspin);
+        C10RSpin = findViewById(R.id.C10Rspin);
+        C11LSpin = findViewById(R.id.C11Lspin);
+        C11RSpin = findViewById(R.id.C11Rspin);
+        C12LSpin = findViewById(R.id.C12Lspin);
+        C13LSpin = findViewById(R.id.C13Lspin);
+        C13RSpin = findViewById(R.id.C13Rspin);
+        C14LeditText = findViewById(R.id.C14Lspin);
+        C15LeditText = findViewById(R.id.C15Lspin);
+        C15CeditText = findViewById(R.id.C15Cspin);
+        C15ReditText = findViewById(R.id.C15Rspin);
 
         // Spinner Options
         List commonList = Arrays.asList(getResources().getInteger(R.integer.remainingLife),getResources().getInteger(R.integer.materialL),getResources().getInteger(R.integer.materialR),getResources().getInteger(R.integer.shapeL),getResources().getInteger(R.integer.shapeR),
@@ -779,7 +783,7 @@ public class SingleAssetPage extends AppCompatActivity implements
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String dateString = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(dayOfMonth);
+        String dateString = year + "-" + month + "-" + dayOfMonth;
         ASYNC_PROCESS_TEXTVIEW.setText(dateString);
         ASYNC_PROCESS_TEXTVIEW = null;
     }
@@ -918,7 +922,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         return (double) tmp / factor;
     }
 
-    private List<String[]> loadCSVfromURI(Uri file) throws FileNotFoundException, IOException {
+    private List<String[]> loadCSVfromURI(Uri file) throws IOException {
 
         Scanner csvFileScanner = new Scanner(new BufferedReader(new InputStreamReader(getContentResolver().openInputStream(file))));
 
@@ -936,10 +940,7 @@ public class SingleAssetPage extends AppCompatActivity implements
 
     private boolean imageFound(Uri photoURI){
         File checkFile = new File(photoURI.getPath());
-        if(checkFile.exists()){
-            return true;
-        }
-        else return false;
+        return checkFile.exists();
     }
 
     private String formatForCSV() {
@@ -1035,7 +1036,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         Pattern validName = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]");
 
         if(assetNameAdapter.getPosition(newAssetName.trim()) == -1) {
-            if (!validName.matcher(newAssetName).find()) { 
+            if (!validName.matcher(newAssetName).find()) {
                 String[] newAssetRow = new String[curCSV.get(row).length];
                 Arrays.fill(newAssetRow, "N/A");
                 newAssetRow[getResources().getInteger(R.integer.culvertID)] = newAssetName;

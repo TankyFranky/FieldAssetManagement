@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--/* Copyright (C) Francesco Software - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * You may note use this material for commercial or monetary purposes
+ * Proprietary and confidential
+ * Written by Francesco R.A. Marrato <unkindthrower@gmail.com>, June 2020
+ */ -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
