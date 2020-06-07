@@ -23,13 +23,13 @@
         <activity android:name=".LandingPage"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/AppTheme"/>
         <activity android:name=".SingleAssetPage"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/AppTheme"/>
         <activity android:name=".SplashFieldAssetManagement"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

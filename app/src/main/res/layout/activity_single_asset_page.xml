@@ -123,10 +123,10 @@
             >
             <TableLayout
                 android:id="@+id/C1t"
+                android:background="@color/CompanyColorCharlie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp">
+                android:layout_gravity="center">
                 <TableRow
                     android:id="@+id/C1textRow"
                     android:layout_width="match_parent"
@@ -161,7 +161,10 @@
                 <TableRow
                     android:id="@+id/C1spinRow"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp">
                     <Spinner
                         android:id="@+id/C1Lspin"
                         android:layout_width="0dp"
@@ -187,10 +190,10 @@
             </TableLayout>
             <TableLayout
                 android:id="@+id/C2t"
+                android:background="@color/CompanyColorCharlie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp">
+                android:layout_gravity="center">
                 <TableRow
                     android:id="@+id/C2textRow"
                     android:layout_width="match_parent"
@@ -224,6 +227,9 @@
                 </TableRow>
                 <TableRow
                     android:id="@+id/C2spinRow"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
@@ -264,7 +270,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10dp">
+                android:background="@color/CompanyColorCharlie">
                 <TableRow
                     android:id="@+id/C3textRow"
                     android:layout_width="match_parent"
@@ -298,6 +304,9 @@
                 </TableRow>
                 <TableRow
                     android:id="@+id/C3spinRow"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <Spinner
@@ -328,7 +337,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10dp">
+                android:background="@color/CompanyColorCharlie">
                 <TableRow
                     android:id="@+id/C4textRow"
                     android:layout_width="match_parent"
@@ -362,6 +371,9 @@
                 </TableRow>
                 <TableRow
                     android:id="@+id/C4spinRow"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <Spinner
