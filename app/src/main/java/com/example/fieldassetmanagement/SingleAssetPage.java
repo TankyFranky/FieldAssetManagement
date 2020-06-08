@@ -145,7 +145,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         // Load data from selected CSV file
         try {
             curCSV = loadCSVfromURI(csvURI);   // Load 2D arrayList from File
-            Toast.makeText(this, "" + fileName + " data loaded succesfully!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "" + fileName + " data loaded succesfully!", Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e) { // Throw FileNotFoundException if no file found
             //TODO set curCSV to a blank arrayList so the program doesn't crash
             Toast.makeText(this, "File Not Found Exception: " + fileName, Toast.LENGTH_LONG).show();
@@ -323,7 +323,7 @@ public class SingleAssetPage extends AppCompatActivity implements
 
         if (row >= curCSV.size() - 1) {
             // EOF reached, do not increase row count
-            Toast.makeText(this, "Last Asset Reached " + ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Last Asset Reached " + ("\ud83d\ude04"), Toast.LENGTH_SHORT).show();
         } else {
             // EOF not yet reached, increase row count, update GUI for next Asset
             row++;
@@ -342,7 +342,7 @@ public class SingleAssetPage extends AppCompatActivity implements
 
         if (row <= 1) {
             // EOF reached, do not increase row count
-            Toast.makeText(this, "First Asset Reached " + ("\ud83d\ude04"), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "First Asset Reached " + ("\ud83d\ude04"), Toast.LENGTH_SHORT).show();
         } else {
             // EOF not yet reached, increase row count, update GUI for next Asset
             row--;
@@ -405,7 +405,7 @@ public class SingleAssetPage extends AppCompatActivity implements
             if (overWriter != null) {
                 overWriter.write(saveCSV.getBytes());
                 overWriter.close();
-                Toast.makeText(this, "Save Successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Save Successful", Toast.LENGTH_SHORT).show();
 
             }
         } catch (IOException e) {
@@ -890,7 +890,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         }
 
         catch (NumberFormatException e){
-            Toast.makeText(this, "Not valid lat/lon combination.",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Not valid lat/lon combination.",Toast.LENGTH_SHORT).show();
         }
         // Open maps, setting a pin at that location
     }
@@ -906,8 +906,6 @@ public class SingleAssetPage extends AppCompatActivity implements
 
         return curCSV.indexOf(indexRow);
     }
-
-    //TODO clean all toast messages
 
     /////////////////////////////////////////////////////////////////////
     // Support functions: No direct association to current state of GUI//
@@ -1050,11 +1048,11 @@ public class SingleAssetPage extends AppCompatActivity implements
                 assetNameAdapter.notifyDataSetChanged();
                 pushGUIEntries();
             } else {
-                Toast.makeText(this, "Invalid Name: No special characters allowed. " + ("\u274c"), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Invalid Name: No special characters allowed. " + ("\u274c"), Toast.LENGTH_SHORT).show();
             }
         }
         else {
-            Toast.makeText(this, "Invalid Name: Duplicate. " + ("\u274c"), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Invalid Name: Duplicate. " + ("\u274c"), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1108,7 +1106,7 @@ public class SingleAssetPage extends AppCompatActivity implements
             }
 
             else{
-                Toast.makeText(this, "No special characters or duplicates allowed. " + ("\u274c"), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "No special characters or duplicates allowed. " + ("\u274c"), Toast.LENGTH_SHORT).show();
                 ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_ADAPTER.getPosition(ASYNC_PREVIOUS_SPINNER_OPTION));
             }
         }

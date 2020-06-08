@@ -158,7 +158,7 @@ public class LandingPage extends AppCompatActivity {
         }
 
         else{
-            Toast.makeText(this, "No File Selected" , Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No File Selected" , Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -183,7 +183,7 @@ public class LandingPage extends AppCompatActivity {
         }
 
         else{
-            Toast.makeText(this, "No File Selected" , Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No File Selected" , Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -203,7 +203,7 @@ public class LandingPage extends AppCompatActivity {
             if(data != null){
                 csvURI = data.getData();
 
-                Toast.makeText(this, "Path: " + csvURI.getPath(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Path: " + csvURI.getPath(), Toast.LENGTH_SHORT).show();
                 csvFileName.setText(getFileName(csvURI));
 
                 try {
