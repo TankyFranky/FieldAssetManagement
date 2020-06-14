@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/fileCreate"
         android:layout_gravity="center"
-        android:layout_marginBottom="75dp"
+        android:layout_centerInParent="true"
         android:text="No path selected"
         android:textSize="18sp" />
 

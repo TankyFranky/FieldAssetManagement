@@ -7,6 +7,8 @@
 //TODO organize functions
 //TODO known bug, if the previously saved row is larger than the current size it will crash (avoid any "," from being saved, will corrupt csv)
 //TODO fold and comment code
+//TODO date is deleted upon adding
+//TODO non-saved items are being deleted upon the add option
 package com.example.fieldassetmanagement;
 
 import android.annotation.SuppressLint;
@@ -24,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -93,7 +96,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     private EditText C2LeditText, C2ReditText, C14LeditText, C15LeditText, C15CeditText, C15ReditText;
 
     // All Spinner option declarations
-    private List<String> AssetNameOptions, C1LOptions, C1ROptions, C3LOptions, C3ROptions, C4LOptions, C4ROptions, C6213Options, C13ROptions; // TODO use one option list for all spinners which would contain similar values
+    private List<String> ASYNC_PROCESS_LIST, AssetNameOptions, C1LOptions, C1ROptions, C3LOptions, C3ROptions, C4LOptions, C4ROptions, C6213Options, C13ROptions; // TODO use one option list for all spinners which would contain similar values
     private ArrayAdapter<String> ASYNC_PROCESS_ADAPTER, assetNameAdapter, C1LAdapter, C1RAdapter, C3LAdapter, C3RAdapter, C4LAdapter, C4RAdapter, C6213Adapter, C13RAdapter;
 
     ImageView mastHead;
@@ -147,7 +150,6 @@ public class SingleAssetPage extends AppCompatActivity implements
             curCSV = loadCSVfromURI(csvURI);   // Load 2D arrayList from File
             Toast.makeText(this, "" + fileName + " data loaded succesfully!", Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e) { // Throw FileNotFoundException if no file found
-            //TODO set curCSV to a blank arrayList so the program doesn't crash
             Toast.makeText(this, "File Not Found Exception: " + fileName, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             Toast.makeText(this, "I/O Exception: " + fileName, Toast.LENGTH_LONG).show();
@@ -946,7 +948,7 @@ public class SingleAssetPage extends AppCompatActivity implements
         StringBuilder formatCSVdata = new StringBuilder();
         String saveCSVrow;
         for(String[] thisRow: curCSV){
-            saveCSVrow = String.join(",",thisRow);
+            saveCSVrow = TextUtils.join(",",thisRow);
             saveCSVrow = saveCSVrow + delimeter;
             formatCSVdata.append(saveCSVrow);
         }
@@ -1031,7 +1033,7 @@ public class SingleAssetPage extends AppCompatActivity implements
     }
 
     private void createNewAsset(String newAssetName) {
-        Pattern validName = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]");
+        Pattern validName = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!]");
 
         if(assetNameAdapter.getPosition(newAssetName.trim()) == -1) {
             if (!validName.matcher(newAssetName).find()) {
@@ -1092,17 +1094,9 @@ public class SingleAssetPage extends AppCompatActivity implements
 
         if(ASYNC_PROCESS_ADAPTER !=null && ASYNC_PROCESS_SPINNER !=null) {
             if (!validName.matcher(addCategory).find() && !addCategory.isEmpty() && !addCategory.trim().isEmpty() && ASYNC_PROCESS_ADAPTER.getPosition(addCategory.trim()) == -1) {
-                // Alphabetise
-                ASYNC_PROCESS_ADAPTER.remove(getString(R.string.notAvailable));
-                ASYNC_PROCESS_ADAPTER.remove(getString(R.string.add_option));
                 ASYNC_PROCESS_ADAPTER.add(addCategory);
-                ASYNC_PROCESS_ADAPTER.sort(String.CASE_INSENSITIVE_ORDER);
-                ASYNC_PROCESS_ADAPTER.add(getString(R.string.notAvailable));
-                ASYNC_PROCESS_ADAPTER.add(getString(R.string.add_option));
                 ASYNC_PROCESS_ADAPTER.notifyDataSetChanged();
-                pushGUIEntries();
                 ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_ADAPTER.getPosition(addCategory));
-                ASYNC_PREVIOUS_SPINNER_OPTION = null;
                 pullGUIEntries();
             }
 
@@ -1111,8 +1105,7 @@ public class SingleAssetPage extends AppCompatActivity implements
                 ASYNC_PROCESS_SPINNER.setSelection(ASYNC_PROCESS_ADAPTER.getPosition(ASYNC_PREVIOUS_SPINNER_OPTION));
             }
         }
-
-        //set ASYNC_PROCESS_ADAPTER to null
+        ASYNC_PREVIOUS_SPINNER_OPTION = null;
         ASYNC_PROCESS_ADAPTER = null;
         ASYNC_PROCESS_SPINNER = null;
     }

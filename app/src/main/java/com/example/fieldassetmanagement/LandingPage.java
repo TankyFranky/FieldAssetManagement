@@ -297,6 +297,15 @@ public class LandingPage extends AppCompatActivity {
     public int loadRowPreference(Uri fileURI){
         SharedPreferences rowPreference = getSharedPreferences(SingleAssetPage.ROW_PREFERENCES, MODE_PRIVATE);
         int savedRow = rowPreference.getInt(getFileName(fileURI),1);
+
+        try {
+            if (getRow(fileURI) - 1 < savedRow) {
+                savedRow = 1;
+            }
+        } catch (IOException e) {
+            savedRow = 1;
+        }
+
         return savedRow;
     }
 
