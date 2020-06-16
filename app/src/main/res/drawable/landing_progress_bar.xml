@@ -5,7 +5,6 @@
         <shape android:shape="rectangle"
             android:tint="@color/CompanyColorDelta">
             <corners android:radius="40dp"/>
-            <size android:height="20dp" />
             <solid android:color="@color/CompanyColorAlpha" />
         </shape>
     </item>
@@ -15,7 +14,6 @@
             <shape android:shape="rectangle"
                 android:tint="@color/CompanyColorCharlie">
                 <corners android:radius="40dp"/>
-                <size android:height="20dp" />
                 <solid android:color="@color/CompanyColorCharlie" />
             </shape>
         </scale>

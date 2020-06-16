@@ -77,8 +77,7 @@
         android:layout_centerHorizontal="true"
         android:progressDrawable="@drawable/landing_progress_bar"
         android:visibility="invisible"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
-
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
     <TextView
         android:id="@+id/numProgress"
         android:layout_width="wrap_content"

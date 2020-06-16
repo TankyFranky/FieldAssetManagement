@@ -785,10 +785,12 @@ public class SingleAssetPage extends AppCompatActivity implements
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String dateString = year + "-" + month + "-" + dayOfMonth;
+        String dateString = year + "-" + (month+1) + "-" + dayOfMonth;
         ASYNC_PROCESS_TEXTVIEW.setText(dateString);
         ASYNC_PROCESS_TEXTVIEW = null;
     }
+
+
 
     @SuppressLint("MissingPermission") // This can be suppressed because the title screen checks for permissions and restricts access until granted.
     private Location getLocation() {
@@ -985,10 +987,10 @@ public class SingleAssetPage extends AppCompatActivity implements
 
         List<String> toList = new ArrayList<String> (allOptions);
 
-        if(extendable && !toList.contains(getString(R.string.add_option))){
-            if(!toList.contains(getString(R.string.notAvailable))){
-                toList.add(getString(R.string.notAvailable));
-            }
+        if(extendable){
+            toList.remove(getString(R.string.notAvailable));
+            toList.remove(getString(R.string.add_option));
+            toList.add(getString(R.string.notAvailable));
             toList.add(getString(R.string.add_option));
         }
 

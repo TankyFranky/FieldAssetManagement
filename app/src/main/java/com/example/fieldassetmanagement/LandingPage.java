@@ -148,9 +148,10 @@ public class LandingPage extends AppCompatActivity {
 
     private void exportSelected() {
         if(csvURI != null) {
+            String emailHeader = getFileName(csvURI).toString() + getString(R.string.email_header_tail);
             Intent exportIntent = new Intent(Intent.ACTION_SEND);
             exportIntent.setType("text/csv");
-            exportIntent.putExtra(Intent.EXTRA_SUBJECT, "_exported");
+            exportIntent.putExtra(Intent.EXTRA_SUBJECT, emailHeader);
             exportIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             exportIntent.putExtra(Intent.EXTRA_STREAM, getCsvURI());
             startActivity(Intent.createChooser(exportIntent,"Export from Field Asset Management."));

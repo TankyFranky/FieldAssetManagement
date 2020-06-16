@@ -4,4 +4,5 @@
     <string name="asset_name_dialog">Asset Name...</string>
     <string name="add_option">Add Option...</string>
     <string name="notAvailable">N/A</string>
+    <string name="email_header_tail">_Exported</string>
 </resources>
